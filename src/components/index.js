@@ -1,4 +1,5 @@
 export { default as Aside } from "./layout/Aside"
+export { default as MobileHeader } from "./layout/MobileHeader"
 export { default as Navbar } from "./layout/Navbar"
 export { default as Footer } from "./layout/Footer"
 

@@ -1,8 +1,131 @@
-import React from 'react'
+import { NavLink } from "react-router-dom"
+import { FaPlusCircle, FaWineBottle, FaUserEdit, FaTimes, FaClipboardList } from "react-icons/fa"
+import ponyo from '@/assets/images/ponyo.jpg'
 
-const Aside = () => {
+const Aside = ({ isOpen, toggleSidebar }) => {
+
+  const getNavLinkClass = ({ isActive }) =>
+    `flex items-center p-3 rounded-lg ${isActive
+      ? 'text-rose-800'
+      : 'text-olive-700 hover:text-rose-800 transition duration-200'
+    }`
+
+
   return (
-    <div>Aside</div>
+    <aside
+      className={
+        `fixed inset-y-0 left-0 z-50 w-64 bg-olive-50 text-gray-700 transform transition-transform duration-300 ease-in-out border-r border-olive-300 shadow-xl lg:translate-x-0 lg:static lg:inset-0 lg:z-0 lg:shadow-none 
+            ${isOpen ? 'translate-x-0' : '-translate-x-full'}`
+      }
+    >
+      <div className="p-6 text-2xl font-bold border-b border-olive-300 text-rose-800 flex justify-between items-center">
+        Pôle Admin
+        <button onClick={toggleSidebar} className="text-rose-800 lg:hidden">
+          <FaTimes size={22} />
+        </button>
+      </div>
+      <nav className="grow p-4">
+        <ul className="space-y-6">
+          <li>
+            <NavLink
+              to='/dashboard/wines/create'
+              className={getNavLinkClass}
+            >
+              <FaPlusCircle className="w-6 h-6" />
+              <span className="ml-3">Ajouter un vin</span>
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              to='/dashboard/wines'
+              end
+              className={getNavLinkClass}
+            >
+              <FaWineBottle className="w-6 h-6" />
+              <span className="ml-3">Gérer les vins</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to='/dashboard/categories/create'
+              className={getNavLinkClass}
+            >
+              <FaPlusCircle className="w-6 h-6" />
+              <span className="ml-3">Ajouter une catégorie</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to='/dashboard/categories'
+              end
+              className={getNavLinkClass}
+            >
+              <FaClipboardList className="w-6 h-6" />
+              <span className="ml-3">Gérer les catégories</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink 
+              to='/dashboard/profile'
+              className={getNavLinkClass}
+            >
+              <FaUserEdit className="w-6 h-6" />
+              <span className="ml-3">Mon Profile</span>
+            </NavLink>
+          </li>
+        </ul>
+
+        <div className="mt-10 mx-3 mb-3">
+          <div className="relative flex items-center gap-3 p-3 rounded-xl bg-linear-to-r from-red-50 to-rose-50 border border-rose-100 group hover:border-rose-200 hover:shadow-sm transition-all duration-300">
+
+            {/* Subtle background glow */}
+            <div className="absolute inset-0 rounded-xl bg-linear-to-r from-rose-100/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+            {/* Avatar */}
+            <div className="relative shrink-0">
+              <img
+                className="w-8 h-8 rounded-lg object-cover shadow-sm ring-1 ring-rose-200"
+                src={ponyo}
+                referrerPolicy="no-referrer"
+                alt='image'
+              />
+              <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-400 border-2 border-white rounded-full shadow-sm" />
+            </div>
+
+            {/* User Info */}
+            <div className="flex-1 min-w-0 relative z-10">
+              <p className="text-xs font-semibold text-gray-800 truncate leading-none mb-0.5">Elvire</p>
+              <p className="text-[10px] text-olive-400 truncate leading-none">elviredev@gmail.com</p>
+            </div>
+
+            {/* Actions — always visible but subtle */}
+            <div className="relative z-10 flex items-center gap-0.5 shrink-0">
+              <NavLink
+                to="/dashboard/profile"
+                className="w-7 h-7 flex items-center justify-center rounded-lg text-olive-400 hover:text-rose-800 hover:bg-white hover:shadow-sm transition-all duration-150"
+                title="Edit Profile"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828A2 2 0 0110 16.414H8v-2a2 2 0 01.586-1.414z" />
+                </svg>
+              </NavLink>
+
+              <button
+
+                className="w-7 h-7 flex items-center justify-center rounded-lg text-olive-400 hover:text-red-500 hover:bg-white hover:shadow-sm transition-all duration-150"
+                title="Logout"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+    </aside>
   )
 }
 

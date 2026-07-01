@@ -26,7 +26,7 @@ const Button = ({
     <button
       type={type}
       disabled={disabled || loading}
-      className={`w-full md:w-auto bg-linear-to-r from-rose-600 to-red-800 hover:from-rose-700 hover:to-red-900 text-white rounded-xl px-6 py-3 text-sm font-semibold transition duration-200 shadow-md shadow-rose-200 flex items-center justify-center gap-2 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+      className={`w-full md:w-auto bg-linear-to-r from-rose-700/90 to-red-900/90 hover:from-rose-800 hover:to-red-900 text-white rounded-xl px-6 py-3 text-sm font-semibold transition duration-200 shadow-md shadow-rose-200 flex items-center justify-center gap-2 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer ${className}`}
       {...props}
     >
       

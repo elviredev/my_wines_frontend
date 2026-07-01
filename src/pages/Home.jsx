@@ -1,5 +1,5 @@
 import hero from "@/assets/images/hero-bg.jpg"
-import { Button } from "@/components"
+import { Button, WineShowcase } from "@/components"
 import { Search } from "lucide-react"
 
 const Home = () => {
@@ -104,6 +104,7 @@ const Home = () => {
 
         </div>
       </div>
+      <WineShowcase />
     </main>
   )
 }

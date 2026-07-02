@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import defaultImage from "@/assets/images/default_image.jpg"
-import { FaCalendarAlt, FaEuroSign, FaMoneyBillAlt, FaMoneyBillWaveAlt, FaMoneyCheckAlt, FaTag, FaWineGlassAlt } from 'react-icons/fa'
+import { FaCalendarAlt, FaTag, FaWineGlassAlt } from 'react-icons/fa'
 
 const WineCard = () => {
 
@@ -48,7 +48,7 @@ const WineCard = () => {
 
           </div>
 
-          {/* Nom + Domaine + Appellation */}
+          {/* Nom + Domaine + Appellation + Note */}
           <div className="flex justify-between gap-5">
             <div className="min-w-0 flex-1">
               <h2 className="text-base font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-rose-700 transition duration-200">
@@ -61,7 +61,7 @@ const WineCard = () => {
             </div>
 
             <div className="shrink-0">
-              <span className="bg-olive-300 text-rose-800 text-sm font-bold px-2 py-1 rounded-lg">
+              <span className="hidden sm:flex bg-olive-300 text-rose-800 text-sm font-bold px-2 py-1 rounded-lg">
                 16.5
               </span>
             </div>

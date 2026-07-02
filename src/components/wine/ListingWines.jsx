@@ -16,18 +16,17 @@ const ListingWines = () => {
             {/* Header row */}
             <div className="flex items-center justify-between mt-4 mb-4">
               <div>
-                <h2 className="text-3xl font-bold text-gray-800">Le Verre & le Bouchon</h2>
-                <p className="text-lg text-gray-600">Découvrir. Déguster. Collectionner.</p>
-                <p className="text-sm text-gray-500 mt-1">
+                <h2 className="text-md sm:text-3xl font-bold text-gray-800">Le Verre & le Bouchon</h2>
+                <p className="text-sm sm:text-lg text-gray-600">Découvrir. Déguster. Collectionner.</p>
+                <p className="text-xs sm:text-sm text-gray-500 mt-1">
                   12 bouteilles dans la cave
                 </p>
               </div>
 
               {/* Per page selector */}
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="hidden sm:flex items-center gap-2 shrink-0">
                 <span className="text-sm text-gray-500 whitespace-nowrap">Show:</span>
                 <select
-
                   className="text-sm border border-gray-200 rounded-xl px-3 py-2 text-gray-700 focus:outline-none focus:border-rose-800 
                   hover:border-rose-800 transition duration-200"
                 >

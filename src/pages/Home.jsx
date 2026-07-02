@@ -1,6 +1,7 @@
 import hero from "@/assets/images/hero-bg.jpg"
-import { Button, WineShowcase } from "@/components"
+import { Button, WineShowcase, ListingWines } from "@/components"
 import { Search } from "lucide-react"
+
 
 const Home = () => {
   return (
@@ -105,6 +106,7 @@ const Home = () => {
         </div>
       </div>
       <WineShowcase />
+      <ListingWines />
     </main>
   )
 }

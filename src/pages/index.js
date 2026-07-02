@@ -1,7 +1,6 @@
 export { default as Home } from "./Home"
 export { default as Login } from "./Login"
 export { default as NotFound  } from "./NotFound"
-export { default as ListingWines  } from "./ListingWines"
 export { default as WineDetails  } from "./WineDetails"
 export { default as Dashboard  } from "./dashboard/Dashboard"
 export { default as CreateCategory  } from "./dashboard/CreateCategory"

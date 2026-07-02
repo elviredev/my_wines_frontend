@@ -50,7 +50,7 @@ const Navbar = () => {
           <NavLink to="/" className="flex items-center gap-1 group">
             <Grape className={`h-6 w-6 text-rose-800 ${logoClasses}`} />
             <span className={`text-lg font-bold text-olive-700 tracking-tight ${logoClasses}`}>
-              My Wines
+              Le Verre & le Bouchon
             </span>
           </NavLink>
 

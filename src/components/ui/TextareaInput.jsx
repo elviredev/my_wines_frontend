@@ -1,15 +1,20 @@
 
 /**
- * @param {{
- *   label?: string,
- *   name?: string,
- *   rows?: number,
- *   required?: boolean,
- *   error?: string,
- *   className?: string,
- * } & React.TextareaHTMLAttributes<HTMLTextAreaElement>} props
+ * @typedef {React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
+ *   label?: string
+ *   name?: string
+ *   rows?: number
+ *   required?: boolean
+ *   error?: string
+ *   className?: string
+ * }} TextareaInputProps
  */
-const TextareaInput = ({ label, name, rows = 3, required = false, error, className = "", ...props }) => {
+
+/** @param {TextareaInputProps} props */
+const TextareaInput = (props) => {
+
+  const { label, name, rows = 3, required = false, error, className = "", ...rest } = props
+
   return (
     <div className='mb-4'>
       {label && (
@@ -30,7 +35,7 @@ const TextareaInput = ({ label, name, rows = 3, required = false, error, classNa
         className={`w-full px-4 py-3 text-gray-700 bg-white rounded-lg border transition-all focus:outline-none focus:ring-0 focus:border-rose-700 focus:shadow-none 
           ${error ? "border-red-500" : "border-gray-200"} 
           ${className}`}
-        {...props}
+        {...rest}
       />
 
       {error && (

@@ -1,23 +1,27 @@
 
 /**
- * @param {{
- *   label?: string,
- *   name?: string,
- *   required?: boolean,
- *   error?: string,
- *   className?: string,
- * } & React.InputHTMLAttributes<HTMLInputElement>} props
+ * @typedef {React.InputHTMLAttributes<HTMLInputElement> & {
+ *   label?: string
+ *   error?: string
+ *   name?: string
+ *   required?: boolean
+ *   className?: string
+ * }} InputProps
  */
 
-const TextInput = ({
-  label,
-  name,
-  type = "text",
-  required = false,
-  error,
-  className = "",
-  ...props
-}) => {
+/** @param {InputProps} props */
+const TextInput = (props) => {
+  // Regroupement des valeurs par défaut dans la destructuration
+  const {
+    label,
+    name,
+    type = "text",
+    required = false,
+    error,
+    className = "",
+    ...rest // Transmet les attributs HTML
+  } = props
+
   return (
     <div className='mb-4'>
       {label && (
@@ -25,7 +29,7 @@ const TextInput = ({
           htmlFor={name}
           className='block text-sm font-medium text-gray-700 mb-1'
         >
-          {label} 
+          {label}
           {required && <span className="text-red-500">*</span>}
         </label>
       )}
@@ -33,11 +37,11 @@ const TextInput = ({
       <input
         id={name}
         name={name}
-        type={type}        
+        type={type}
         className={`w-full px-4 py-3 text-gray-700 bg-white rounded-lg border border-gray-200 placeholder-gray-500 transition-all focus:outline-none focus:ring-0 focus:border-rose-700 focus:shadow-none
           ${error ? "border-red-500" : "border-gray-200"} 
           ${className}`}
-        {...props}
+        {...rest}
       />
 
       {error && (

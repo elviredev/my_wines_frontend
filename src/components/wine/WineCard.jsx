@@ -91,7 +91,7 @@ const WineCard = () => {
       {/* Bottom — divider + button */}
       <div className="border-t border-gray-100 pt-4">
         <NavLink
-          to='#'
+          to="/wine/la-charnivole-2023"
           className="w-full bg-linear-to-r from-rose-700/90 to-red-900/90 hover:from-rose-800 hover:to-red-900 text-white text-center rounded-xl px-6 py-3 text-sm font-semibold transition duration-200 shadow-md shadow-rose-200 whitespace-nowrap disabled:opacity-50 cursor-pointer inline-block"
         >
           Découvrir →

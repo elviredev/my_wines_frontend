@@ -87,7 +87,6 @@ const WineFilters = () => {
 
       {/* Clear Button */}
       <Button
-        type="button"
         icon={RotateCcwIcon}
         fullWidth={true}
       >

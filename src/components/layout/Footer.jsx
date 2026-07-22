@@ -6,12 +6,12 @@ const Footer = () => {
           
           {/* Brand */}
           <div className="flex items-center gap-2">
-            <span className="text-rose-300 font-semibold tracking-wide text-sm">My Wines</span>
+            <span className="text-rose-300 font-semibold tracking-wide text-sm">Le Verre & le Bouchon</span>
           </div>
 
           {/* Copyright */}
           <p className="text-xs text-stone-400">
-            Elviredev ©  My Wines. Tous droits réservés.
+            Elviredev ©  Le Verre & le Bouchon. Tous droits réservés.
           </p>
 
           {/* Links */}

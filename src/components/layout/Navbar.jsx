@@ -1,4 +1,4 @@
-import { Grape } from 'lucide-react'
+import { Grape, LogInIcon } from 'lucide-react'
 import { FaBars, FaTimes } from 'react-icons/fa'
 import { Link, NavLink } from 'react-router-dom'
 import ponyo from '@/assets/images/ponyo.jpg'
@@ -126,8 +126,9 @@ const Navbar = () => {
 
               <NavLink
                 to="/login"
-                className="bg-linear-to-r from-rose-700 to-red-800 hover:from-rose-800 hover:to-red-900 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 shadow-sm shadow-rose-300"
+                className="self-start inline-flex items-center gap-2 rounded-xl bg-linear-to-r from-rose-700 to-red-800 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:from-rose-800 hover:to-red-900"
               >
+                <LogInIcon className="h-4 w-4" />
                 Login
               </NavLink>
             </div>

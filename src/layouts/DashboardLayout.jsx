@@ -23,7 +23,7 @@ const DashboardLayout = () => {
 
         <Aside isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-        <main className='flex-1 overflow-y-auto p-4 sm:p-8 bg-white'>
+        <main className='flex-1 overflow-y-auto p-4 sm:p-6 bg-white'>
           <Outlet />
         </main>
       </div>

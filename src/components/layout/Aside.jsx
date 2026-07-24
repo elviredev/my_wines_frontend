@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom"
 import { FaPlusCircle, FaWineBottle, FaUserEdit, FaTimes, FaClipboardList } from "react-icons/fa"
 import ponyo from '@/assets/images/ponyo.jpg'
+import { LayoutDashboard } from "lucide-react"
 
 const Aside = ({ isOpen, toggleSidebar }) => {
 
@@ -26,6 +27,17 @@ const Aside = ({ isOpen, toggleSidebar }) => {
       </div>
       <nav className="grow p-4">
         <ul className="space-y-6">
+          <li>
+            <NavLink
+              to='/dashboard'
+              end
+              className={getNavLinkClass}
+            >
+              <LayoutDashboard className="w-6 h-6" />
+              <span className="ml-3">Tableau de Bord</span>
+            </NavLink>
+          </li>
+
           <li>
             <NavLink
               to='/dashboard/wines/create'

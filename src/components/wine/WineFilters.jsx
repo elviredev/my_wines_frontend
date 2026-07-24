@@ -41,7 +41,7 @@ const WineFilters = () => {
           />
         </div>
 
-        {/* Year, Region */}
+        {/* vintage, Region */}
         <div>
           <FilterInput
             label="Année - Région"

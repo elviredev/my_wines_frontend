@@ -109,14 +109,14 @@ const Dashboard = () => {
             Tableau de bord
           </h1>
 
-          <p className="mt-2 text-stone-500">
+          <p className="mt-2 text-sm sm:text-base text-stone-500">
             Un aperçu rapide de ma cave.
           </p>
         </div>
 
         <NavLink
           to="/"
-          className="self-start inline-flex items-center gap-2 rounded-xl bg-linear-to-r from-rose-700 to-red-800 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:from-rose-800 hover:to-red-900"
+          className="self-start inline-flex items-center gap-2 rounded-xl bg-linear-to-r from-rose-700 to-red-800 px-3 sm:px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:from-rose-800 hover:to-red-900"
         >
           <ArrowLeftIcon className="h-4 w-4" />
           Accueil

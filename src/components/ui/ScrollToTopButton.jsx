@@ -11,7 +11,7 @@ import { FaChevronUp } from "react-icons/fa";
 /**
  * @param {ScrollToTopButtonProps} props
  */
-const ScrollToTopButton = ({bottom = "bottom-6", right = "right-6", className = ""}) => {
+const ScrollToTopButton = ({bottom = "bottom-4", right = "right-6", className = ""}) => {
 
    const [isVisible, setIsVisible] = useState(false);
 

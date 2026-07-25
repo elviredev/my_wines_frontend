@@ -28,7 +28,7 @@ const AppRoutes = () => {
 
           <Route path="/dashboard/wines" element={<ManageWines />} />
           <Route path="/dashboard/wines/create" element={<CreateWine />} />
-          <Route path="/dashboard/wines/:id/edit" element={<EditWine />} />
+          <Route path="/dashboard/wines/:slug/edit" element={<EditWine />} />
 
           <Route path="/dashboard/categories" element={<ManageCategories />} />
           <Route path="/dashboard/categories/create" element={<CreateCategory />} />

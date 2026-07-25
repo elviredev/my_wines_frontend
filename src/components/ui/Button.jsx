@@ -40,7 +40,7 @@ const Button = (props) => {
       className={`
         ${fullWidth ? 'w-full' : 'w-full md:w-auto'}  
 
-        rounded-xl px-6 py-3 text-sm font-semibold 
+        rounded-xl px-6 py-3 text-sm sm:text-base font-semibold 
         transition duration-200 
         shadow-md shadow-rose-200 
         flex items-center justify-center gap-2 

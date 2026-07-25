@@ -1,4 +1,5 @@
 import { Button, InfoRow } from "@/components"
+import ScrollToTopButton from "@/components/ui/ScrollToTopButton"
 import { GrapeIcon, InfoIcon, NotepadTextIcon, Pencil, Trash2 } from "lucide-react"
 
 
@@ -250,13 +251,17 @@ const WineDetails = () => {
 
               </div>
 
-            </div>
-
-            
+            </div>            
 
           </aside>
         </div>
+
+        {/* Scroll to top */}
+        <ScrollToTopButton bottom="bottom-24" />
+
       </div >
+
+      
     </div >
   )
 }

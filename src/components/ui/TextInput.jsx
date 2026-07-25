@@ -38,7 +38,7 @@ const TextInput = (props) => {
         id={name}
         name={name}
         type={type}
-        className={`w-full px-4 py-3 text-gray-700 bg-white rounded-lg border border-gray-200 placeholder-gray-500 transition-all focus:outline-none focus:ring-0 focus:border-rose-700 focus:shadow-none
+        className={`w-full px-4 py-3 text-sm text-gray-700 bg-white rounded-lg border border-gray-200 placeholder-gray-500 sm:placeholder:text-base transition-all focus:outline-none focus:ring-0 focus:border-rose-700 focus:shadow-none
           ${error ? "border-red-500" : "border-gray-200"} 
           ${className}`}
         {...rest}

@@ -5,11 +5,11 @@ import { GrapeIcon, InfoIcon, NotepadTextIcon, Pencil, Trash2 } from "lucide-rea
 
 const WineDetails = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-transparent">
       <div className="container mx-auto px-4 py-8 lg:px-10 lg:py-10 max-w-7xl">
 
         {/* ── Hero Header ─────────────────────────────────────── */}
-        <header className="relative bg-linear-to-br from-rose-900 via-red-900 to-stone-900 rounded-2xl shadow-xl mb-8 overflow-hidden">
+        <header className="relative bg-linear-to-br from-stone-950 via-[#31181d] to-stone-900 rounded-2xl shadow-xl mb-8 overflow-hidden">
 
           {/* Background decoration */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -30,7 +30,7 @@ const WineDetails = () => {
               strokeWidth={0.4}
             />
 
-            <div className="absolute -right-36 -bottom-36 h-128 w-lg rounded-full bg-radial from-white/12 via-white/4 to-transparent" />
+            <div className="absolute -right-36 -bottom-36 h-118 w-lg rounded-full bg-radial from-white/6 via-white/2 to-transparent" />
 
           </div>
 
@@ -49,13 +49,23 @@ const WineDetails = () => {
             <div className="flex items-center">
               <div className="text-white">
 
-                <span className="inline-flex w-fit items-center rounded-full bg-white/15 px-4 py-1.5 text-sm backdrop-blur">
+                <span className="inline-flex items-center gap-2 rounded-full bg-rose-900/20 backdrop-blur border border-rose-800/30 px-4 py-2 text-sm text-stone-200">
                   🍷 Blanc
                 </span>
 
                 <h1 className="mt-6 text-2xl sm:text-5xl font-black tracking-tight">
                   Menetou Salon 2023
                 </h1>
+
+
+
+                <p className="mt-4 text-sm sm:text-xl text-rose-100">
+                  Domaine du Grand Brussy
+                </p>
+
+                <p className="mt-2 text-lg text-rose-200 font-medium">
+                  AOP Menetou-Salon
+                </p>
 
                 <div className="mt-6">
                   <div className="flex justify-between text-sm mb-2">
@@ -65,27 +75,23 @@ const WineDetails = () => {
 
                   <div className="h-2 rounded-full bg-white/20 overflow-hidden">
                     <div
-                      className="h-full rounded-full bg-amber-400"
+                      className="h-full rounded-full bg-linear-to-r from-amber-500 to-yellow-300"
                       style={{ width: "80%" }}
                     />
                   </div>
                 </div>
 
-                <p className="mt-4 text-sm sm:text-xl text-rose-100">
-                  Domaine du Grand Brussy
-                </p>
-
                 {/* Badges */}
                 <div className="mt-6 flex flex-wrap gap-3">
-                  <span className="rounded-full bg-white/15 px-4 py-2">
+                  <span className="rounded-full bg-stone-900/40 backdrop-blur border border-white/10 px-4 py-2">
                     🇫🇷 Val de Loire
                   </span>
 
-                  <span className="rounded-full bg-white/15 px-4 py-2">
+                  <span className="rounded-full bg-stone-900/40 backdrop-blur border border-white/10 px-4 py-2">
                     💰 14,90 €
                   </span>
 
-                  <span className="rounded-full bg-white/15 px-4 py-2">
+                  <span className="rounded-full bg-stone-900/40 backdrop-blur border border-white/10 px-4 py-2">
                     ❤️ Favori
                   </span>
                 </div>
@@ -93,9 +99,9 @@ const WineDetails = () => {
                 {/* Boutons */}
                 <div className="mt-8 border-t border-white/10 pt-6 flex flex-wrap gap-4">
                   <Button
-                    variant="secondary"
+                    variant="notshadow"
                     icon={Pencil}
-                    className="shadow-none"
+                    className="hover:shadow-none"
                   >
                     Modifier
                   </Button>
@@ -103,7 +109,6 @@ const WineDetails = () => {
                   <Button
                     variant="outline"
                     icon={Trash2}
-                    className="shadow-none"
                   >
                     Supprimer
                   </Button>
@@ -122,10 +127,10 @@ const WineDetails = () => {
           <main className="lg:col-span-2 space-y-6">
 
             {/* Description */}
-            <section className="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
+            <section className="bg-stone-900/40 rounded-2xl shadow-xl shadow-black/20 border border-rose-900/25 overflow-hidden">
               <div className="border-l-4 border-rose-700 px-6 py-5">
-                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                  <span className="w-7 h-7 bg-rose-50 rounded-lg flex items-center justify-center">
+                <h2 className="text-xl font-bold text-stone-100 flex items-center gap-2">
+                  <span className="w-7 h-7 bg-rose-900/20 rounded-lg flex items-center justify-center">
                     <InfoIcon className="w-4 h-4 text-rose-700" />
                   </span>
                   À propos
@@ -133,49 +138,49 @@ const WineDetails = () => {
               </div>
 
               <div className="px-6 pb-6">
-                <p className="text-stone-600 leading-relaxed">Le Menetou Salon est un vin blanc du Centre Val de Loire aux arômes de fruits exotiques, de pêche, de fleurs des champs. Bouche tendre, souple et d'une grande fraîcheur.</p>
+                <p className="text-stone-300 leading-relaxed">Le Menetou Salon est un vin blanc du Centre Val de Loire aux arômes de fruits exotiques, de pêche, de fleurs des champs. Bouche tendre, souple et d'une grande fraîcheur.</p>
               </div>
             </section>
 
             {/* Caractéristiques */}
-            <section className="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
-              <div className="border-l-4 border-olive-500 px-6 py-5">
-                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                  <span className="w-7 h-7 bg-olive-100 rounded-lg flex items-center justify-center">
+            <section className="bg-stone-900/40 rounded-2xl shadow-xl shadow-black/20 border border-rose-900/25 overflow-hidden">
+              <div className="border-l-4 border-stone-500 px-6 py-5">
+                <h2 className="text-xl font-bold text-stone-100 flex items-center gap-2">
+                  <span className="w-7 h-7 bg-stone-800 rounded-lg flex items-center justify-center">
                     <NotepadTextIcon className="w-4 h-4 text-olive-600" />
                   </span>
                   Caractéristiques
                 </h2>
               </div>
 
-              <div className="grid grid-cols-2 gap-y-5 px-6 pb-6">
-                <div>
-                  <p className="text-sm text-stone-500">Domaine</p>
+              <div className="grid grid-cols-2 gap-y-6 gap-x-8 px-6 pb-6">
+                <div className="border-b border-stone-800 pb-4">
+                  <p className="text-sm text-stone-300">Domaine</p>
                   <p className="font-semibold">Domaine du Grand Brussy</p>
                 </div>
 
-                <div>
-                  <p className="text-sm text-stone-500">Appellation</p>
+                <div className="border-b border-stone-800 pb-4">
+                  <p className="text-sm text-stone-300">Appellation</p>
                   <p className="font-semibold">AOP Menetou Salon</p>
                 </div>
 
-                <div>
-                  <p className="text-sm text-stone-500">Millésime</p>
+                <div className="border-b border-stone-800 pb-4">
+                  <p className="text-sm text-stone-300">Millésime</p>
                   <p className="font-semibold">2022</p>
                 </div>
 
-                <div>
-                  <p className="text-sm text-stone-500">Pays</p>
+                <div className="border-b border-stone-800 pb-4">
+                  <p className="text-sm text-stone-300">Pays</p>
                   <p className="font-semibold">France</p>
                 </div>
 
-                <div>
-                  <p className="text-sm text-stone-500">Région</p>
+                <div className="border-b border-stone-800 pb-4">
+                  <p className="text-sm text-stone-300">Région</p>
                   <p className="font-semibold">Val de Loire</p>
                 </div>
 
-                <div>
-                  <p className="text-sm text-stone-500">Cépages</p>
+                <div className="border-b border-stone-800 pb-4">
+                  <p className="text-sm text-stone-300">Cépages</p>
                   <p className="font-semibold">
                     Sauvignon Blanc
                   </p>
@@ -184,11 +189,11 @@ const WineDetails = () => {
             </section>
 
             {/* Notes de dégustation */}
-            <section className="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
-              <div className="border-l-4 border-red-900 px-6 py-5">
-                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                  <span className="w-7 h-7 bg-red-50 rounded-lg flex items-center justify-center">
-                    <GrapeIcon className="w-4 h-4 text-red-900" />
+            <section className="bg-stone-900/40 rounded-2xl shadow-xl shadow-black/20 border border-rose-900/25 overflow-hidden">
+              <div className="border-l-4 border-amber-300/30 px-6 py-5">
+                <h2 className="text-xl font-bold text-stone-100 flex items-center gap-2">
+                  <span className="w-7 h-7 bg-amber-50 rounded-lg flex items-center justify-center">
+                    <GrapeIcon className="w-4 h-4 text-amber-900" />
                   </span>
                   Dégustation
                 </h2>
@@ -197,27 +202,27 @@ const WineDetails = () => {
               <div className="px-6 pb-6 space-y-5">
                 <div>
                   <h3 className="font-semibold mb-2">Nez</h3>
-                  <p className="text-stone-600">Friand, aux accents de fruits exotiques, de pêche, de fleurs des champs.</p>
+                  <p className="text-stone-300">Friand, aux accents de fruits exotiques, de pêche, de fleurs des champs.</p>
                 </div>
 
                 <div>
                   <h3 className="font-semibold mb-2">Bouche</h3>
-                  <p className="text-stone-600">Tendre, souple, d'une grande fraîcheur.</p>
+                  <p className="text-stone-300">Tendre, souple, d'une grande fraîcheur.</p>
                 </div>
 
                 <div>
                   <h3 className="font-semibold mb-2">Accords</h3>
 
                   <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full bg-red-50 px-3 py-1">
+                    <span className="rounded-full bg-rose-900/20 border border-rose-800/30 px-3 py-1 text-rose-200">
                       🥩 Viandes rouges
                     </span>
 
-                    <span className="rounded-full bg-red-50 px-3 py-1">
+                    <span className="rounded-full bg-rose-900/20 border border-rose-800/30 px-3 py-1 text-rose-200">
                       🧀 Fromages
                     </span>
 
-                    <span className="rounded-full bg-red-50 px-3 py-1">
+                    <span className="rounded-full bg-rose-900/20 border border-rose-800/30 px-3 py-1 text-rose-200">
                       🍫 Chocolat
                     </span>
                   </div>
@@ -231,10 +236,10 @@ const WineDetails = () => {
           <aside className="space-y-6">
 
             {/* Quick Facts */}
-            <div className="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
+            <div className="bg-stone-900/40 rounded-2xl shadow-xl shadow-black/20 border border-rose-900/25 overflow-hidden">
 
-              <div className="bg-linear-to-r from-rose-50 to-red-50 px-6 py-4">
-                <h3 className="font-bold">Informations</h3>
+              <div className="bg-linear-to-r from-rose-900/20 to-stone-900 px-6 py-4">
+                <h3 className="font-bold text-stone-100">Informations</h3>
               </div>
 
               <div className="space-y-5 p-6">
@@ -251,7 +256,7 @@ const WineDetails = () => {
 
               </div>
 
-            </div>            
+            </div>
 
           </aside>
         </div>
@@ -261,7 +266,7 @@ const WineDetails = () => {
 
       </div >
 
-      
+
     </div >
   )
 }

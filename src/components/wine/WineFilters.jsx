@@ -20,14 +20,14 @@ const WineFilters = () => {
   ]
 
   return (
-    <aside className="lg:col-span-1 bg-white rounded-2xl border border-gray-100 shadow-sm p-6 lg:h-fit lg:sticky lg:top-8">
+    <aside className="lg:col-span-1 bg-stone-900/40 backdrop-blur-xl rounded-2xl border border-rose-900/25 shadow-2xl shadow-black/20 p-6 lg:h-fit lg:sticky lg:top-8">
 
       {/* Header */}
       <div className="flex items-center gap-2 mb-6">
-        <div className="w-7 h-7 bg-rose-100 rounded-lg flex items-center justify-center">
-          <FilterIcon className="w-3.5 h-3.5 text-rose-700" />
+        <div className="w-8 h-8 rounded-lg bg-rose-900/30 flex items-center justify-center border border-rose-800/40">
+          <FilterIcon className="w-3.5 h-3.5 text-rose-300" />
         </div>
-        <h2 className="text-base font-bold text-gray-800">Filtrer les Vins</h2>
+        <h2 className="text-base font-bold text-stone-100">Filtrer les Vins</h2>
       </div>
 
       <div className="space-y-4 mb-6">
@@ -71,8 +71,8 @@ const WineFilters = () => {
 
       {/* Type de vin */}
 
-      <div className="border-t border-gray-100 pt-5 mb-5">
-        <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Type de vin</h3>
+      <div className="border-t border-stone-700/50 pt-5 mb-5">
+        <h3 className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-3">Type de vin</h3>
         <div className="space-y-2">
           {['Blanc', 'Rosé', 'Rouge', 'Champagne', 'Spiritueux', 'Autres'].map((type_vin) => (            
             <Checkbox 

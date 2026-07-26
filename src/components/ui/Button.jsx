@@ -6,7 +6,7 @@ import { buttonVariants } from "@/utils/buttonVariants"
  *   children: React.ReactNode
  *   type?: "button" | "submit" | "reset"
  *   icon?: React.ComponentType<{ className?: string }>
- *   variant?: "primary" | "secondary" | "outline" | "danger"
+ *   variant?: "primary" | "secondary" | "outline" | "danger" | "notshadow"
  *   fullWidth?: boolean
  *   className?: string
  *   loading?: boolean

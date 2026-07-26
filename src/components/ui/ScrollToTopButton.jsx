@@ -50,9 +50,9 @@ const ScrollToTopButton = ({bottom = "bottom-4", right = "right-6", className = 
          className={`
             fixed bottom-4 right-6 z-50 
             flex h-12 w-12 items-center justify-center 
-            rounded-full bg-white border border-rose-200 text-rose-700 
+            rounded-full bg-stone-900/50 backdrop-blur-xl border border-rose-900/25 text-rose-400 
             shadow-lg transition-all duration-300 
-            hover:scale-110 hover:bg-rose-800 hover:text-white hover:border-rose-800 
+            hover:scale-110 hover:bg-rose-800 hover:text-stone-100 hover:border-rose-800 
             focus:outline-none focus:ring-2 focus:ring-rose-400 focus:ring-offset-2 
             ${className} ${bottom} ${right}`
          }

@@ -23,7 +23,7 @@ const duplicated = [...wines, ...wines]
 
 const WineShowcase = () => {
   return (
-    <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden">
+    <section className="pt-14 pb-20 px-4 sm:px-6 lg:px-8 bg-linear-to-b from-transparent via-stone-950/30 to-transparent overflow-hidden">
       <style>{`
         @keyframes marquee {
           0%   { transform: translateX(0); }
@@ -49,17 +49,17 @@ const WineShowcase = () => {
         .header-animate:nth-child(3) { animation-delay: 0.4s; }
       `}</style>
 
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6">
 
         {/* Header */}
         <div className="text-center mb-10">
-          <p className="header-animate text-xs font-bold uppercase tracking-widest text-rose-700 mb-2">
+          <p className="header-animate text-xl font-bold uppercase tracking-widest text-rose-700 mb-2">
             Sélection
           </p>
-          <h2 className="header-animate text-2xl font-extrabold text-gray-800">
+          <h2 className="header-animate text-2xl font-extrabold text-stone-100">
              Quelques bouteilles de la cave de mes rêves
           </h2>
-          <p className="header-animate text-sm text-gray-400 mt-1">
+          <p className="header-animate text-sm text-stone-300 mt-1">
             Une sélection de vins que j'apprécierais particulièrement.
           </p>
         </div>
@@ -67,9 +67,9 @@ const WineShowcase = () => {
         {/* Fade edges */}
         <div className="relative">
           <div className="pointer-events-none absolute left-0 top-0 h-full w-16 z-10"
-            style={{ background: 'linear-gradient(to right, #f9fafb, transparent)' }} />
+            style={{ background: 'linear-gradient(to right, rgb(24 3 8), transparent)' }} />
           <div className="pointer-events-none absolute right-0 top-0 h-full w-16 z-10"
-            style={{ background: 'linear-gradient(to left, #f9fafb, transparent)' }} />
+            style={{ background: 'linear-gradient(to left, rgb(9 2 3), transparent)' }} />
 
           {/* Marquee */}
           <div className="overflow-hidden pt-2">
@@ -77,7 +77,7 @@ const WineShowcase = () => {
               {duplicated.map(({ src, alt }, i) => (
                 <div
                   key={`${alt}-${i}`}
-                  className="mx-4 bg-white rounded-xl border border-stone-200 shadow-sm hover:shadow-xl hover:border-rose-300 hover:bg-rose-50/30 hover:-translate-y-1 transition-all duration-300 p-3 flex items-center justify-center shrink-0"
+                  className="mx-4 bg-stone-900/40 rounded-xl border border-rose-900/45 shadow-sm hover:shadow-xl hover:border-rose-300 hover:bg-rose-50/10 hover:-translate-y-1 transition-all duration-300 p-3 flex items-center justify-center shrink-0"
                   style={{ width: '125px', height: '125px' }}
                 >
                   <img

@@ -6,6 +6,12 @@ export const buttonVariants = {
     shadow shadow-rose-50
   `,
 
+  notshadow: `
+    bg-linear-to-r from-rose-700/90 to-red-900/90
+    hover:from-rose-800 hover:to-red-900 hover:shadow hover:shadow-rose-50
+    text-white    
+  `,
+
   secondary: `
     bg-white
     text-rose-700

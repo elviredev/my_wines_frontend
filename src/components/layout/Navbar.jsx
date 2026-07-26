@@ -10,18 +10,18 @@ const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const dropdownRef = useRef(null)
 
-  const logoClasses = "transition-colors duration-200 group-hover:text-rose-900"
+  const logoClasses = "transition-colors duration-200 group-hover:text-rose-300"
   // classes css pour activer liens navbar et mobile
   const getNavLinkClass = ({ isActive }) =>
     `px-3 py-2 text-sm font-medium ${isActive
-      ? 'text-rose-900'
-      : 'text-olive-600 hover:text-rose-900 transition duration-200'
+      ? 'text-rose-300'
+      : 'text-stone-300 hover:text-rose-300 transition duration-200'
     }`
 
   const getNavLinkClassMobile = ({ isActive }) =>
     `block px-4 py-2.5 rounded-xl text-sm font-medium ${isActive
-      ? 'text-rose-900 bg-olive-100'
-      : 'text-olive-600 hover:bg-olive-100 hover:text-rose-900 transition duration-200'
+      ? 'bg-rose-900/20 text-rose-300'
+      : 'text-stone-300 hover:bg-stone-800 hover:text-rose-300 transition duration-200'
     }`
 
   // fermer la dropdown en cliquant endehors
@@ -43,13 +43,13 @@ const Navbar = () => {
 
   return (
 
-    <div className="bg-white border-b border-gray-100 sticky top-0 z-50">
+    <div className="bg-stone-950/70 backdrop-blur-xl border-b border-rose-900/20 sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="h-16 flex items-center justify-between">
           {/* Logo */}
-          <NavLink to="/" className="flex items-center gap-1 group">
-            <Grape className={`h-6 w-6 text-rose-800 ${logoClasses}`} />
-            <span className={`text-lg font-bold text-olive-700 tracking-tight ${logoClasses}`}>
+          <NavLink to="/" className="flex items-center gap-2 group">
+            <Grape className={`h-6 w-6 text-rose-400 ${logoClasses}`} />
+            <span className={`text-lg font-bold text-stone-100 tracking-tight ${logoClasses}`}>
               Le Verre & le Bouchon
             </span>
           </NavLink>
@@ -63,49 +63,46 @@ const Navbar = () => {
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center gap-2.5 pl-3 pr-1 py-1 rounded-xl hover:bg-olive-100 border border-transparent hover:border-gray-200 transition duration-200 group"
+                  className="flex items-center gap-2.5 pl-3 pr-1 py-1 rounded-xl hover:bg-stone-800/70 border border-transparent hover:border-rose-900/30 
+                  transition duration-200 group"
                 >
-                  <p className="text-sm font-semibold text-olive-600 group-hover:text-rose-900 transition hidden md:block">
+                  <p className="text-sm font-semibold text-stone-300 group-hover:text-rose-300 transition hidden md:block">
                     Hello, Elvire
                   </p>
                   <img
                     src={ponyo}
                     alt="Profil"
                     referrerPolicy="no-referrer"
-                    className="h-8 w-8 rounded-lg object-cover border-2 border-gray-100"
+                    className="h-8 w-8 rounded-lg object-cover border-2 border-stone-700"
                   />
-                  {/* <svg className={`w-3.5 h-3.5 text-gray-400 transition duration-200 ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                        </svg> */}
-
                 </button>
 
                 {/* Dropdown */}
                 {isDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-gray-100 z-50 py-2 overflow-hidden">
+                  <div className="absolute right-0 mt-2 w-56 bg-stone-900/95 backdrop-blur-xl rounded-2xl shadow-xl border border-rose-900/20 z-50 py-2 overflow-hidden">
                     {/* User info */}
-                    <div className="px-4 py-3 border-b border-gray-100">
-                      <p className="text-xs font-bold text-gray-800 truncate">Elvire</p>
-                      <p className="text-xs text-olive-400 truncate">elviredev@gmail.com</p>
+                    <div className="px-4 py-3 border-b border-stone-700/50">
+                      <p className="text-xs font-bold text-stone-100 truncate">Elvire</p>
+                      <p className="text-xs text-stone-400 truncate">elviredev@gmail.com</p>
                     </div>
 
                     <div className="py-1">
                       <Link
                         to='/dashboard/profile'
                         onClick={() => setIsDropdownOpen(false)}
-                        className="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-olive-100 hover:text-rose-900 transition"
+                        className="flex items-center gap-2.5 px-4 py-2 text-sm text-stone-300 hover:bg-stone-800 hover:text-rose-300 transition"
                       >
-                        <svg className="w-4 h-4 text-olive-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 text-rose-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
                         Gérer son Profil
                       </Link>
                     </div>
 
-                    <div className="border-t border-gray-100 pt-1">
+                    <div className="border-t border-stone-700/50 pt-1">
                       <button
                         onClick={() => setIsDropdownOpen(false)}
-                        className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-red-500 font-semibold hover:bg-red-50 transition"
+                        className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-red-400 font-semibold hover:bg-red-900/20 transition"
                       >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -138,7 +135,7 @@ const Navbar = () => {
           {/* Mobile hamburger */}
           <button
             onClick={() => setMenuMobileOpen(!menuMobileOpen)}
-            className="sm:hidden p-2 rounded-xl text-gray-500 hover:text-rose-800 hover:bg-purple-50 transition duration-200"
+            className="sm:hidden p-2 rounded-xl text-stone-400 hover:text-rose-300 hover:bg-stone-800 transition duration-200"
           >
             {menuMobileOpen ? <FaTimes className="text-lg" /> : <FaBars className="text-lg" />}
           </button>
@@ -146,20 +143,20 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {menuMobileOpen && (
-          <div className="sm:hidden border-t border-gray-100 py-3 space-y-1">
+          <div className="sm:hidden border-t border-stone-800 py-3 space-y-1">
 
             {/* User info */}
 
-            <div className="flex items-center gap-3 px-4 py-3 mb-2 bg-olive-100 rounded-xl mx-1">
+            <div className="flex items-center gap-3 px-4 py-3 mb-2 bg-stone-800 border border-stone-700 rounded-xl mx-1">
               <img
                 src={ponyo}
                 alt="Profile"
                 referrerPolicy="no-referrer"
-                className="h-10 w-10 rounded-xl object-cover border-2 border-white shadow-sm"
+                className="h-10 w-10 rounded-xl object-cover border-2 border-stone-700 shadow-sm"
               />
               <div className="min-w-0">
-                <p className="text-sm font-bold text-gray-800 truncate">Elvire</p>
-                <p className="text-xs text-olive-500 truncate">elviredev@gmail.com</p>
+                <p className="text-sm font-bold text-stone-100 truncate">Elvire</p>
+                <p className="text-xs text-stone-400 truncate">elviredev@gmail.com</p>
               </div>
             </div>
 
@@ -180,9 +177,9 @@ const Navbar = () => {
               >
                 Gérer son Profil
               </NavLink>
-              <div className="pt-2 border-t border-gray-100 mt-2">
+              <div className="pt-2 border-t border-stone-700/50 mt-2">
                 <button
-                  className="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-red-500 hover:bg-red-50 transition duration-200"
+                  className="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-red-400 hover:bg-red-900/20 transition duration-200"
                 >
                   Logout
                 </button>

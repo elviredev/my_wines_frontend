@@ -1,16 +1,22 @@
+import { Grape } from "lucide-react"
+
+
 const Footer = () => {
   return (
-    <footer className="bg-stone-950 border-t border-stone-800 mt-10">
+    <footer className="bg-transparent border-t border-rose-900/30 mt-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           
           {/* Brand */}
-          <div className="flex items-center gap-2">
-            <span className="text-rose-300 font-semibold tracking-wide text-sm">Le Verre & le Bouchon</span>
+          <div className="flex items-center gap-2 text-stone-200 hover:text-rose-300">
+            <Grape className="w-4 h-4 " />
+            <span className="font-semibold tracking-wide text-sm">              
+              Le Verre & le Bouchon              
+            </span>
           </div>
 
           {/* Copyright */}
-          <p className="text-xs text-stone-400">
+          <p className="text-xs text-stone-500">
             Elviredev ©  Le Verre & le Bouchon. Tous droits réservés.
           </p>
 

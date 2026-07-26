@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react"
 import { Button, Checkbox, SelectInput, TextareaInput, TextInput, BadgeMultiSelect, ScrollToTopButton } from "@/components"
 import { FaCloudUploadAlt, FaCamera, FaUpload, FaTimes, FaWineBottle, FaFish, FaCheese, FaWineGlass, FaChevronUp  } from "react-icons/fa"
 import { GiMeat, GiChocolateBar, GiCupcake, GiShrimp, GiCookingPot, GiCampCookingPot } from "react-icons/gi";
+import { WINE_TYPES } from "@/constants/wineTypes";
 
 
 const pairingOptions = [
@@ -150,14 +151,9 @@ const CreateWine = () => {
 
             <SelectInput
               label="Type de vin"
-              name="category_id"
+              name="wine_type"
               required={true}
-              options={[
-                { value: "rouge", label: "Rouge" },
-                { value: "blanc", label: "Blanc" },
-                { value: "rosé", label: "Rosé" },
-                { value: "champagne", label: "Champagne" },
-              ]}
+              options={WINE_TYPES}
             />
 
             <TextInput

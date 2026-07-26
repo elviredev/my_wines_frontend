@@ -27,7 +27,7 @@ const WineFilters = () => {
         <div className="w-7 h-7 bg-rose-100 rounded-lg flex items-center justify-center">
           <FilterIcon className="w-3.5 h-3.5 text-rose-700" />
         </div>
-        <h2 className="text-base font-bold text-gray-800">Filtrer Vins</h2>
+        <h2 className="text-base font-bold text-gray-800">Filtrer les Vins</h2>
       </div>
 
       <div className="space-y-4 mb-6">
@@ -50,10 +50,10 @@ const WineFilters = () => {
           />
         </div>
 
-        {/* Min Price */}
+        {/* Price */}
         <div>
           <FilterSelect
-            label="Prix minimum"
+            label="Prix"
             icon={BadgeEuroIcon}
             options={priceOptions}
           />
@@ -69,16 +69,16 @@ const WineFilters = () => {
         </div>
       </div>
 
-      {/* Category */}
+      {/* Type de vin */}
 
       <div className="border-t border-gray-100 pt-5 mb-5">
-        <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Catégorie</h3>
+        <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Type de vin</h3>
         <div className="space-y-2">
-          {['Blanc', 'Rosé', 'Rouge', 'Effervescent'].map((category) => (            
+          {['Blanc', 'Rosé', 'Rouge', 'Champagne', 'Spiritueux', 'Autres'].map((type_vin) => (            
             <Checkbox 
-              key={category}
-              label={category}
-              value={category}
+              key={type_vin}
+              label={type_vin}
+              value={type_vin}
             />
           ))}
         </div>

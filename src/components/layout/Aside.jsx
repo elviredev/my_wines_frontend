@@ -58,25 +58,7 @@ const Aside = ({ isOpen, toggleSidebar }) => {
               <span className="ml-3">Gérer les vins</span>
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to='/dashboard/categories/create'
-              className={getNavLinkClass}
-            >
-              <FaPlusCircle className="w-6 h-6" />
-              <span className="ml-3">Ajouter une catégorie</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to='/dashboard/categories'
-              end
-              className={getNavLinkClass}
-            >
-              <FaClipboardList className="w-6 h-6" />
-              <span className="ml-3">Gérer les catégories</span>
-            </NavLink>
-          </li>
+          
           <li>
             <NavLink 
               to='/dashboard/profile'

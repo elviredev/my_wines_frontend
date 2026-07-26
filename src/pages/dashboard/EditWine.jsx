@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react"
 import { Button, Checkbox, SelectInput, TextareaInput, TextInput, BadgeMultiSelect, ScrollToTopButton } from "@/components"
 import { FaCloudUploadAlt, FaCamera, FaUpload, FaTimes, FaWineBottle, FaFish, FaCheese, FaWineGlass, FaChevronUp, FaSave  } from "react-icons/fa"
 import { GiMeat, GiChocolateBar, GiCupcake, GiShrimp, GiCookingPot, GiCampCookingPot } from "react-icons/gi";
+import { WINE_TYPES } from "@/constants/wineTypes";
 
 import chateauBellevue from "@/assets/images/image-8.jpg"
 
@@ -167,14 +168,9 @@ const EditWine = () => {
 
             <SelectInput
               label="Type de vin"
-              name="category_id"
+              name="wine_type"
               required={true}
-              options={[
-                { defaultValue: "rouge", label: "Rouge" },
-                { value: "blanc", label: "Blanc" },
-                { value: "rosé", label: "Rosé" },
-                { value: "champagne", label: "Champagne" },
-              ]}
+              options={WINE_TYPES}
               
             />
 

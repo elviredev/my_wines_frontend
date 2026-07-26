@@ -23,8 +23,8 @@ const stats = [
     color: "text-yellow-400",
   },
   {
-    label: "Catégories",
-    value: 4,
+    label: "Types de vin",
+    value: 6,
     icon: Tags,
     color: "text-sky-400",
   },

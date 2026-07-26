@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom"
 import DashboardLayout from "@/layouts/DashboardLayout"
 import MainLayout from "@/layouts/MainLayout"
 
-import { Home, Login, NotFound, WineDetails, Dashboard, ManageWines, CreateWine, EditWine, Profile } from "@/pages"
+import { Home, Login, NotFound, WineDetails, Dashboard, ManageWines, CreateWine, EditWine, EditProfile } from "@/pages"
 
 
 const AppRoutes = () => {
@@ -24,7 +24,7 @@ const AppRoutes = () => {
         <Route element={<DashboardLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
 
-          <Route path="/dashboard/profile" element={<Profile />} />
+          <Route path="/dashboard/edit-profile" element={<EditProfile />} />
 
           <Route path="/dashboard/wines" element={<ManageWines />} />
           <Route path="/dashboard/wines/create" element={<CreateWine />} />

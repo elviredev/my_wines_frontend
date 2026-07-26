@@ -1,3 +1,6 @@
+import { useState } from "react"
+import { FaEye, FaEyeSlash } from "react-icons/fa"
+
 
 /**
  * @typedef {React.InputHTMLAttributes<HTMLInputElement> & {
@@ -6,6 +9,7 @@
  *   name?: string
  *   required?: boolean
  *   className?: string
+ *   labelClassName ?: string
  * }} InputProps
  */
 
@@ -19,30 +23,57 @@ const TextInput = (props) => {
     required = false,
     error,
     className = "",
+    labelClassName = "text-gray-700",
     ...rest // Transmet les attributs HTML
   } = props
 
+  const [showPassword, setShowPassword] = useState(false)
+
+  const inputType = type === "password"
+    ? (showPassword ? "text" : "password")
+    : type
+
   return (
-    <div className='mb-4'>
+    <div className='space-y-1.5'>
       {label && (
         <label
           htmlFor={name}
-          className='block text-sm font-medium text-gray-700 mb-1'
+          className={`block text-sm font-medium mb-1 ${labelClassName}`}
         >
           {label}
           {required && <span className="text-red-500">*</span>}
         </label>
       )}
 
-      <input
-        id={name}
-        name={name}
-        type={type}
-        className={`w-full px-4 py-3 text-sm text-gray-700 bg-white rounded-lg border border-gray-200 placeholder-gray-500 sm:placeholder:text-base transition-all focus:outline-none focus:ring-0 focus:border-rose-700 focus:shadow-none
+      <div className="relative">
+
+        <input
+          id={name}
+          name={name}
+          type={inputType}
+          className={`w-full px-4 py-3 text-sm text-gray-700 bg-white rounded-lg border border-gray-200 placeholder-gray-500 sm:placeholder:text-base transition-all focus:outline-none focus:ring-0 focus:border-rose-700 focus:shadow-none
+          ${type === "password" ? "pr-12" : ""}
           ${error ? "border-red-500" : "border-gray-200"} 
           ${className}`}
-        {...rest}
-      />
+          {...rest}
+        />
+
+        {type === "password" && (
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="absolute inset-y-0 right-4 flex items-center text-gray-400 hover:text-rose-600 transition"
+            aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+          >
+            {showPassword ? (
+              <FaEyeSlash className="w-5 h-5" />
+            ) : (
+              <FaEye className="w-5 h-5" />
+            )}
+          </button>
+        )}
+
+      </div>
 
       {error && (
         <p className="mt-1 text-sm text-red-600">

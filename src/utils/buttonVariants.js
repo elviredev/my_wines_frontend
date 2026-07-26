@@ -1,9 +1,9 @@
 export const buttonVariants = {
   primary: `
     bg-linear-to-r from-rose-700/90 to-red-900/90
-    hover:from-rose-800 hover:to-red-900
+    hover:from-rose-800 hover:to-red-900 hover:shadow-none
     text-white
-    shadow-md shadow-rose-200
+    shadow shadow-rose-50
   `,
 
   secondary: `

@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom"
-import { FaPlusCircle, FaWineBottle, FaUserEdit, FaTimes, FaClipboardList } from "react-icons/fa"
+import { FaPlusCircle, FaWineBottle, FaUserEdit, FaTimes } from "react-icons/fa"
+import { MdDashboard } from "react-icons/md";
 import ponyo from '@/assets/images/ponyo.jpg'
-import { LayoutDashboard } from "lucide-react"
 
 const Aside = ({ isOpen, toggleSidebar }) => {
 
@@ -33,7 +33,7 @@ const Aside = ({ isOpen, toggleSidebar }) => {
               end
               className={getNavLinkClass}
             >
-              <LayoutDashboard className="w-6 h-6" />
+              <MdDashboard className="w-6 h-6" />
               <span className="ml-3">Tableau de Bord</span>
             </NavLink>
           </li>
@@ -61,7 +61,7 @@ const Aside = ({ isOpen, toggleSidebar }) => {
           
           <li>
             <NavLink 
-              to='/dashboard/profile'
+              to='/dashboard/edit-profile'
               className={getNavLinkClass}
             >
               <FaUserEdit className="w-6 h-6" />
@@ -96,7 +96,7 @@ const Aside = ({ isOpen, toggleSidebar }) => {
             {/* Actions — always visible but subtle */}
             <div className="relative z-10 flex items-center gap-0.5 shrink-0">
               <NavLink
-                to="/dashboard/profile"
+                to="/dashboard/edit-profile"
                 className="w-7 h-7 flex items-center justify-center rounded-lg text-olive-400 hover:text-rose-800 hover:bg-white hover:shadow-sm transition-all duration-150"
                 title="Edit Profile"
               >

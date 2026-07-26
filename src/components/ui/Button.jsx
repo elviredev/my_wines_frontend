@@ -41,8 +41,7 @@ const Button = (props) => {
         ${fullWidth ? 'w-full' : 'w-full md:w-auto'}  
 
         rounded-xl px-6 py-3 text-sm sm:text-base font-semibold 
-        transition duration-200 
-        shadow-md shadow-rose-200 
+        transition duration-200          
         flex items-center justify-center gap-2 
         whitespace-nowrap cursor-pointer
         disabled:opacity-50 disabled:cursor-not-allowed  

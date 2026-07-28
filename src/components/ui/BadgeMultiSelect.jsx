@@ -38,7 +38,7 @@ const BadgeMultiSelect = ({ label, name, options, value = [], onChange, required
 
       <label
         htmlFor={name}
-        className="block text-sm font-medium text-stone-700"
+        className="block text-sm font-medium text-stone-200"
       >
         {label}
 
@@ -47,7 +47,7 @@ const BadgeMultiSelect = ({ label, name, options, value = [], onChange, required
         )}
       </label>
 
-      <div className="rounded-xl border border-stone-200 bg-stone-50 p-5">
+      <div className="rounded-xl border border-white/10 bg-stone-950/50 p-5">
         <div className="flex flex-wrap gap-3">
 
           {options.map((option) => {
@@ -63,8 +63,8 @@ const BadgeMultiSelect = ({ label, name, options, value = [], onChange, required
                 onClick={() => toggleOption(option.value)}
                 className={`inline-flex items-center gap-1 sm:gap-2 rounded-full border px-2 sm:px-3 py-2 text-xs sm:text-sm font-medium transition-all duration-200
                 ${selected
-                    ? "border-rose-600 bg-rose-600 text-white shadow-md"
-                    : "border-stone-300 bg-white text-stone-700 hover:border-rose-400 hover:bg-rose-50"
+                    ? "border-rose-600/50 bg-rose-900/40 text-rose-100 shadow-lg shadow-rose-950/30"
+                    : "border-white/10 bg-stone-900/60 text-stone-400 hover:border-rose-500/60 hover:bg-rose-900/20 hover:text-rose-200"
                   }
               `}
               >

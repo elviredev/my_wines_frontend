@@ -7,20 +7,21 @@
  *   required?: boolean
  *   error?: string
  *   className?: string
+ *   labelClassName?: string
  * }} TextareaInputProps
  */
 
 /** @param {TextareaInputProps} props */
 const TextareaInput = (props) => {
 
-  const { label, name, rows = 3, required = false, error, className = "", ...rest } = props
+  const { label, name, rows = 3, required = false, error, className = "", labelClassName = "text-gray-700", ...rest } = props
 
   return (
     <div className='mb-4'>
       {label && (
         <label
           htmlFor={name}
-          className='block text-sm font-medium text-gray-700 mb-1'
+          className={`block text-sm font-medium mb-1 ${labelClassName}`}
         >
           {label}
           {required && <span className="text-red-500">*</span>}
@@ -32,8 +33,8 @@ const TextareaInput = (props) => {
         name={name}
         required={required}
         rows={rows}
-        className={`w-full px-4 py-3 text-gray-700 bg-white rounded-lg border transition-all focus:outline-none focus:ring-0 focus:border-rose-700 focus:shadow-none 
-          ${error ? "border-red-500" : "border-gray-200"} 
+        className={`w-full px-4 py-3 text-sm text-stone-200 bg-stone-950/50 rounded-lg border border-white/10 transition-all focus:outline-none focus:ring-0 focus:border-rose-700 focus:shadow-none 
+          ${error ? "border-red-500" : "border-white/10"} 
           ${className}`}
         {...rest}
       />

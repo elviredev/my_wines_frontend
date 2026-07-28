@@ -8,6 +8,7 @@
  *   options?: {value: string | number, label: string}[]
  *   error?: string
  *   className?: string
+ *   labelClassName? : string
  * }} SelectInputProps
  */
 
@@ -22,6 +23,7 @@ const SelectInput = (props) => {
     required = false,
     error,
     className = "",
+    labelClassName = "text-gray-700",
     ...rest
   } = props
 
@@ -30,7 +32,7 @@ const SelectInput = (props) => {
       {label && (
         <label
           htmlFor={name}
-          className='block text-sm font-medium text-gray-700 mb-1'
+          className={`block text-sm font-medium mb-1 ${labelClassName}`}
         >
           {label}
           {required && <span className="text-red-500">*</span>}
@@ -41,17 +43,18 @@ const SelectInput = (props) => {
         id={name}
         name={name}
         required={required}
-        className={`w-full px-4 py-3 text-gray-700 bg-white rounded-lg border placeholder-gray-500 transition-all appearance-none focus:outline-none focus:ring-0 focus:border-rose-700 focus:shadow-none 
-          ${error ? "border-red-500" : "border-gray-200"} 
-          ${className}`}
+        className={`w-full px-4 py-3 bg-stone-950/50 rounded-lg border transition-all appearance-none focus:outline-none focus:ring-0 focus:border-rose-600 focus:shadow-none 
+          ${rest.value ? "text-sm text-stone-200" : "text-sm text-stone-500"}
+          ${error ? "border-red-500" : "border-white/10"} 
+          ${className} `}
         {...rest}
       >
-        <option value="" disabled>
+        <option value="" hidden >
           {placeholder}
         </option>
 
         {options.map((option) =>
-          <option key={option.value} value={option.value}>
+          <option key={option.value} value={option.value} className="bg-stone-900 text-stone-100">
             {option.label}
           </option>
         )}

@@ -49,7 +49,7 @@ const Navbar = () => {
           {/* Logo */}
           <NavLink to="/" className="flex items-center gap-2 group">
             <Grape className={`h-6 w-6 text-rose-400 ${logoClasses}`} />
-            <span className={`text-lg font-bold text-stone-100 tracking-tight ${logoClasses}`}>
+            <span className={`text-2xl font-serif font-semibold text-stone-100 tracking-tight ${logoClasses}`}>
               Le Verre & le Bouchon
             </span>
           </NavLink>
@@ -88,7 +88,7 @@ const Navbar = () => {
 
                     <div className="py-1">
                       <Link
-                        to='/dashboard/profile'
+                        to='/dashboard/edit-profile'
                         onClick={() => setIsDropdownOpen(false)}
                         className="flex items-center gap-2.5 px-4 py-2 text-sm text-stone-300 hover:bg-stone-800 hover:text-rose-300 transition"
                       >
@@ -171,7 +171,7 @@ const Navbar = () => {
               </NavLink>
 
               <NavLink
-                to='/dashboard/profile'
+                to='/dashboard/edit-profile'
                 onClick={() => setMenuMobileOpen(false)}
                 className={getNavLinkClassMobile}
               >

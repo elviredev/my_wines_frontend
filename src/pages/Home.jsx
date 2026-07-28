@@ -31,7 +31,7 @@ const Home = () => {
                 vins d'exception
               </span>
             </h1>
-            <p className="mt-4 text-lg text-olive-300 max-w-xl mx-auto">
+            <p className="mt-4 font-serif text-xl sm:text-2xl text-olive-300 max-w-xl mx-auto">
               Ma cave numérique pour organiser, retrouver et apprécier chaque bouteille.
             </p>
           </div>
@@ -124,7 +124,7 @@ const Home = () => {
       </div>
       <WineShowcase />
       <ListingWines />
-      <ScrollToTopButton bottom="bottom-24" />
+      <ScrollToTopButton bottom="bottom-38 sm:bottom-24" />
     </main>
   )
 }

@@ -51,7 +51,7 @@ const WineCard = () => {
     <div className="flex-1 flex flex-col">
 
       {/* Nom */}
-      <h2 className="text-xl md:text-2xl font-bold text-stone-100 group-hover:text-rose-300 transition-colors">
+      <h2 className="text-xl md:text-2xl font-semibold text-stone-100 group-hover:text-rose-300 transition-colors">
         Entre Ciel et mer
       </h2>
 

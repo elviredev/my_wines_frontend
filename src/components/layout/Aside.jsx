@@ -7,20 +7,22 @@ const Aside = ({ isOpen, toggleSidebar }) => {
 
   const getNavLinkClass = ({ isActive }) =>
     `flex items-center p-3 rounded-lg ${isActive
-      ? 'text-rose-800'
-      : 'text-olive-700 hover:text-rose-800 transition duration-200'
+      ? 'bg-rose-900/35 border border-rose-700/30 text-rose-200 shadow-lg shadow-rose-950/30'
+      : 'text-stone-400 hover:bg-white/5 hover:text-stone-100 transition duration-200'
     }`
 
 
   return (
     <aside
       className={
-        `fixed inset-y-0 left-0 z-50 w-64 bg-olive-50 text-gray-700 transform transition-transform duration-300 ease-in-out border-r border-olive-300 shadow-xl lg:translate-x-0 lg:static lg:inset-0 lg:z-0 lg:shadow-none 
+        `fixed inset-y-0 left-0 z-50 w-64 bg-linear-to-b from-[#24070d]/95 via-[#1b090f]/95 to-[#120306]/95 backdrop-blur-xl text-stone-100 
+        transform transition-transform duration-300 ease-in-out border-r border-rose-900/25 shadow-2xl shadow-black/40 
+        lg:translate-x-0 lg:static lg:inset-0 lg:z-0 lg:shadow-none 
             ${isOpen ? 'translate-x-0' : '-translate-x-full'}`
       }
     >
-      <div className="p-6 text-2xl font-bold border-b border-olive-300 text-rose-800 flex justify-between items-center">
-        Pôle Admin
+      <div className="p-6 text-sm border-b border-stone-500/30 text-stone-400 uppercase flex justify-between items-center">
+        Pôle Administration
         <button onClick={toggleSidebar} className="text-rose-800 lg:hidden">
           <FaTimes size={22} />
         </button>
@@ -65,21 +67,19 @@ const Aside = ({ isOpen, toggleSidebar }) => {
               className={getNavLinkClass}
             >
               <FaUserEdit className="w-6 h-6" />
-              <span className="ml-3">Mon Profile</span>
+              <span className="ml-3">Mon Profil</span>
             </NavLink>
           </li>
         </ul>
 
         <div className="mt-10 mx-3 mb-3">
-          <div className="relative flex items-center gap-3 p-3 rounded-xl bg-linear-to-r from-red-50 to-rose-50 border border-rose-100 group hover:border-rose-200 hover:shadow-sm transition-all duration-300">
+          <div className="relative flex items-center gap-3 p-3 rounded-xl bg-stone-900/60 border border-rose-900/20 group hover:border-rose-900/40 transition-all duration-300">
 
-            {/* Subtle background glow */}
-            <div className="absolute inset-0 rounded-xl bg-linear-to-r from-rose-100/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
+            
             {/* Avatar */}
             <div className="relative shrink-0">
               <img
-                className="w-8 h-8 rounded-lg object-cover shadow-sm ring-1 ring-rose-200"
+                className="w-8 h-8 rounded-lg object-cover shadow-sm ring-2 ring-rose-900/40"
                 src={ponyo}
                 referrerPolicy="no-referrer"
                 alt='image'
@@ -89,15 +89,15 @@ const Aside = ({ isOpen, toggleSidebar }) => {
 
             {/* User Info */}
             <div className="flex-1 min-w-0 relative z-10">
-              <p className="text-xs font-semibold text-gray-800 truncate leading-none mb-0.5">Elvire</p>
-              <p className="text-[10px] text-olive-400 truncate leading-none">elviredev@gmail.com</p>
+              <p className="text-xs font-semibold text-stone-100 truncate leading-none mb-0.5">Elvire</p>
+              <p className="text-[10px] text-stone-400 truncate leading-none">elviredev@gmail.com</p>
             </div>
 
             {/* Actions — always visible but subtle */}
             <div className="relative z-10 flex items-center gap-0.5 shrink-0">
               <NavLink
                 to="/dashboard/edit-profile"
-                className="w-7 h-7 flex items-center justify-center rounded-lg text-olive-400 hover:text-rose-800 hover:bg-white hover:shadow-sm transition-all duration-150"
+                className="w-7 h-7 flex items-center justify-center rounded-lg text-olive-400 hover:text-rose-800 hover:bg-stone-800 hover:shadow-sm transition-all duration-150"
                 title="Edit Profile"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -107,7 +107,7 @@ const Aside = ({ isOpen, toggleSidebar }) => {
 
               <button
 
-                className="w-7 h-7 flex items-center justify-center rounded-lg text-olive-400 hover:text-red-500 hover:bg-white hover:shadow-sm transition-all duration-150"
+                className="w-7 h-7 flex items-center justify-center rounded-lg text-olive-400 hover:text-red-500 hover:bg-stone-800 hover:shadow-sm transition-all duration-150"
                 title="Logout"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>

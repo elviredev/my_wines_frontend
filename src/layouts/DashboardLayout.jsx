@@ -8,7 +8,7 @@ const DashboardLayout = () => {
   const toggleSidebar = () => setSidebarOpen((prev) => !prev)
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen app-background">
       {/* Header mobile */}
       <MobileHeader toggleSidebar={toggleSidebar} />
 
@@ -23,7 +23,7 @@ const DashboardLayout = () => {
 
         <Aside isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-        <main className='flex-1 overflow-y-auto p-4 sm:p-6 bg-white'>
+        <main className='flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8'>
           <Outlet />
         </main>
       </div>

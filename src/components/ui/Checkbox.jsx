@@ -25,9 +25,9 @@ const Checkbox = (props) => {
           {...rest}
         />
 
-        <div className="w-5 h-5 rounded-md border-2 border-gray-300 bg-white flex items-center justify-center transition-all duration-200 group-hover:border-rose-600 group-has-checked:bg-rose-700 group-has-checked:border-rose-700">
+        <div className="w-5 h-5 rounded-md border-2 border-stone-300 bg-stone-200 flex items-center justify-center transition-all duration-200 group-hover:border-rose-600 group-has-checked:bg-rose-700 group-has-checked:border-rose-700">
 
-          <CheckIcon className="w-3 h-3 text-white opacity-0 scale-75 transition-all duration-200 
+          <CheckIcon className="w-3 h-3 text-stone-200 opacity-0 scale-75 transition-all duration-200 
                group-has-checked:opacity-100 group-has-checked:scale-100" />
 
         </div>

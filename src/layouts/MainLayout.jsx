@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 
 const MainLayout = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-linear-to-br from-[#180308] via-[#2b0813] to-[#090203] text-stone-100">
+    <div className="min-h-screen flex flex-col app-background text-stone-100">
 
       <Navbar />
 

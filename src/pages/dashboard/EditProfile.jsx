@@ -62,31 +62,35 @@ const EditProfile = () => {
   return (
     <div className="space-y-12">
 
-      <header className="mb-6 pb-5 border-b border-gray-300">
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
-          Modifier mon profil
+      <header className="mb-10 pb-6 items-center justify-between border-b border-white/10">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-stone-200">
+          Modifier votre profil
         </h1>
+
+        <p className="mt-2 text-stone-400">
+            Mettez à jour les informations de votre compte.
+        </p>
       </header>
 
 
-      <form className="bg-white px-4 py-3 rounded-md shadow-md space-y-8">
+      <form className="space-y-8">
 
         {/* Informations du compte */}
 
-        <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+        <div className="rounded-3xl border border-white/10 bg-stone-900/40 backdrop-blur-xl shadow-xl shadow-black/20 p-6">
 
           <div className="flex items-center gap-3 mb-6">
 
-            <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center">
-              <FaUserCog className="text-stone-600" />
+            <div className="w-10 h-10 rounded-xl bg-rose-900/25 border border-rose-700/30 flex items-center justify-center">
+              <FaUserCog className="w-5 h-5 text-rose-300" />
             </div>
 
             <div>
-              <h3 className="text-sm md:text-base font-semibold text-stone-900">
+              <h3 className="text-sm md:text-base font-semibold text-stone-200">
                 Informations du compte
               </h3>
 
-              <p className="text-xs md:text-sm text-stone-500">
+              <p className="text-xs md:text-sm text-stone-400">
                 Nom d'utilisateur, email et sécurité
               </p>
 
@@ -99,6 +103,7 @@ const EditProfile = () => {
             <TextInput
               label="Nom d'utilisateur"
               name="username"
+              labelClassName="text-stone-300"
               defaultValue="elviredev"
               required={true}
             />
@@ -107,6 +112,7 @@ const EditProfile = () => {
               type="email"
               label="Adresse e-mail"
               name="email"
+              labelClassName="text-stone-300"
               defaultValue="elviredev@gmail.com"
               required={true}
             />
@@ -116,20 +122,20 @@ const EditProfile = () => {
 
         {/* Modifier le MDP */}
 
-        <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+        <div className="rounded-3xl border border-white/10 bg-stone-900/40 backdrop-blur-xl shadow-xl shadow-black/20 p-6">
 
           <div className="flex items-center gap-3 mb-6">
 
-            <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center">
-              <FaLock className="text-rose-600" />
+            <div className="w-10 h-10 rounded-xl bg-rose-900/25 border border-rose-700/30 flex items-center justify-center">
+              <FaLock className="w-5 h-5 text-rose-600" />
             </div>
 
             <div>
-              <h3 className="text-sm md:text-base font-semibold text-stone-900">
+              <h3 className="text-sm md:text-base font-semibold text-stone-200">
                 Sécurité
               </h3>
 
-              <p className="text-xs md:text-sm text-stone-500">
+              <p className="text-xs md:text-sm text-stone-400">
                 Modifier votre mot de passe
               </p>
             </div>
@@ -141,6 +147,7 @@ const EditProfile = () => {
             <TextInput
               type="password"
               label="Mot de passe actuel"
+              labelClassName="text-stone-300"
               name="current_password"
               autoComplete="current-password"
             />
@@ -149,6 +156,7 @@ const EditProfile = () => {
               type="password"
               label="Nouveau mot de passe"
               name="password"
+              labelClassName="text-stone-300"
               autoComplete="new-password"
             />
 
@@ -156,14 +164,15 @@ const EditProfile = () => {
               type="password"
               label="Confirmer le mot de passe"
               name="password_confirmation"
+              labelClassName="text-stone-300"
               autoComplete="new-password"
             />
 
           </div>
 
-          <div className="mt-5 rounded-lg bg-amber-50 border border-amber-200 p-4">
+          <div className="mt-5 rounded-lg bg-amber-100/70 border border-amber-200 p-4">
 
-            <p className="text-sm text-amber-800">
+            <p className="text-sm text-amber-900">
               Le mot de passe doit contenir au minimum 8 caractères.
             </p>
 
@@ -176,7 +185,7 @@ const EditProfile = () => {
 
         <div className="space-y-8">
 
-          <label className="block text-sm font-medium text-gray-700">Avatar</label>
+          <label className="block text-md font-medium text-stone-200">Avatar</label>
 
           <input
             ref={fileInputRef}
@@ -186,7 +195,7 @@ const EditProfile = () => {
             className="hidden"
           />
 
-          <div className="rounded-xl border-2 border-dashed border-rose-300 hover:border-rose-500 transition bg-rose-50 p-8">
+          <div className="rounded-2xl border-2 border-dashed border-rose-700/40 hover:border-rose-500 bg-stone-950/40 transition p-4 sm:p-8">
 
             {!imageToDisplay ? (
 
@@ -195,7 +204,7 @@ const EditProfile = () => {
                 className="cursor-pointer flex flex-col items-center gap-4"
               >
 
-                <div className="w-20 h-20 rounded-full bg-white shadow flex items-center justify-center">
+                <div className="w-20 h-20 rounded-full bg-rose-900/20 border border-rose-700/40 shadow flex items-center justify-center">
 
                   <FaCamera className="text-rose-500 text-3xl" />
 
@@ -203,11 +212,11 @@ const EditProfile = () => {
 
                 <div className="text-center">
 
-                  <p className="font-semibold text-gray-800">
+                  <p className="font-semibold text-stone-200">
                     Cliquez pour ajouter une photo
                   </p>
 
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-sm text-stone-500 mt-1">
                     JPG, PNG ou WEBP
                   </p>
 
@@ -231,12 +240,13 @@ const EditProfile = () => {
                     e.stopPropagation()
                     handleRemoveImage()
                   }}
-                  className="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/90 hover:bg-white shadow-lg flex items-center justify-center text-gray-700 hover:text-red-600 transition"
+                  className="absolute -top-2 -right-1.5 sm:top-2 sm:right-3 w-10 h-10 rounded-full bg-stone-900/90 border border-white/10 hover:bg-white shadow-lg flex items-center justify-center 
+                  text-stone-300 hover:text-red-400 transition"
                 >
                   <FaTrash className="text-sm" />
                 </button>
 
-                {/* Bouton Changer la photo */}
+                {/* Bouton modifier avatar */}
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
@@ -257,14 +267,14 @@ const EditProfile = () => {
 
         {/* Zone de soumission du formulaire */}
 
-        <div className="mt-10 py-6 border-t border-stone-200 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="mt-10 py-6 border-t border-white/10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
           <div>
-            <p className="font-medium text-stone-700">
+            <p className="font-medium text-stone-200">
               Votre compte est prêt à être mis à jour.
             </p>
 
-            <p className="text-sm text-stone-500">
+            <p className="text-sm text-stone-400">
               Vérifiez les informations avant d'enregistrer vos modifications.
             </p>
           </div>

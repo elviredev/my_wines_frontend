@@ -6,6 +6,7 @@ import { GiMeat, GiChocolateBar, GiCupcake, GiShrimp, GiCookingPot, GiCampCookin
 import { WINE_TYPES } from "@/constants/wineTypes";
 
 import chateauBellevue from "@/assets/images/image-8.jpg"
+import { BadgeEuro, GlassWater, Grape, Star, Wine } from "lucide-react";
 
 
 const pairingOptions = [
@@ -82,31 +83,35 @@ const EditWine = () => {
   return (
     <div className="space-y-12">
 
-      <header className="mb-6 pb-5 border-b border-gray-300">
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
-          Modifier le vin
+      <header className="mb-10 pb-6 items-center justify-between border-b border-white/10">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-stone-200">
+          Modifier ce vin
         </h1>
+
+        <p className="mt-2 text-stone-400">
+            Mettez à jour les informations de votre bouteille.
+        </p>
       </header>
 
 
-      <form className="bg-white px-4 py-3 rounded-md shadow-md space-y-8">
+      <form className="space-y-8">
 
         {/* Infos générales */}
 
-        <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+        <div className="rounded-3xl border border-white/10 bg-stone-900/40 backdrop-blur-xl shadow-xl shadow-black/20 p-6">
 
           <div className="flex items-center gap-3 mb-6">
 
-            <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center">
-              🍷
+            <div className="w-10 h-10 rounded-xl bg-rose-900/25 border border-rose-700/30 flex items-center justify-center">
+              <Wine className="w-5 h-5 text-rose-300" />
             </div>
 
             <div>
-              <h3 className="text-sm md:text-base font-semibold text-stone-900">
+              <h3 className="text-sm md:text-base font-semibold text-stone-200">
                 Informations générales
               </h3>
 
-              <p className="text-xs md:text-sm text-stone-500">
+              <p className="text-xs md:text-sm text-stone-400">
                 Identité de la bouteille
               </p>
 
@@ -119,6 +124,7 @@ const EditWine = () => {
             <TextInput
               label="Nom du vin"
               name="name"
+              labelClassName="text-stone-300"
               defaultValue="Vieilles Vignes"
               required={true}
             />
@@ -126,6 +132,7 @@ const EditWine = () => {
             <TextInput
               label="Domaine"
               name="domain"
+              labelClassName="text-stone-300"
               defaultValue="Château Bellevue"
               required={true}
             />
@@ -134,6 +141,7 @@ const EditWine = () => {
               label="Millésime"
               type="number"
               name="vintage"
+              labelClassName="text-stone-300"
               defaultValue="2020"
               required={true}
             />
@@ -143,20 +151,20 @@ const EditWine = () => {
 
         {/* Caractéristiques */}
 
-        <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+        <div className="rounded-3xl border border-white/10 bg-stone-900/40 backdrop-blur-xl shadow-xl shadow-black/20 p-6">
 
           <div className="flex items-center gap-3 mb-6">
 
-            <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center">
-              🍇
+            <div className="w-10 h-10 rounded-xl bg-rose-900/25 border border-rose-700/30 flex items-center justify-center">
+              <Grape className="w-5 h-5 text-rose-300" />
             </div>
 
             <div>
-              <h3 className="text-sm md:text-base font-semibold text-stone-900">
+              <h3 className="text-sm md:text-base font-semibold text-stone-200">
                 Caractéristiques
               </h3>
 
-              <p className="text-xs md:text-sm text-stone-500">
+              <p className="text-xs md:text-sm text-stone-400">
                 Spécificités du vin, géographie...
               </p>
 
@@ -169,26 +177,31 @@ const EditWine = () => {
             <SelectInput
               label="Type de vin"
               name="wine_type"
+              labelClassName="text-stone-300"
               required={true}
               options={WINE_TYPES}
-              
+              placeholder="Choisir un type de vin"              
             />
 
             <TextInput
               label="Appellation"
               name="appellation"
+              labelClassName="text-stone-300"
               defaultValue="AOP Saint-Émilion"
             />
 
             <TextInput
               label="Cépage"
               name="cepage"
+              labelClassName="text-stone-300"
               defaultValue="Merlot"
             />
 
             <SelectInput
               label="Pays"
               name="country"
+              labelClassName="text-stone-300"
+              placeholder="Choisir un pays"
               options={[
                 { value: "france", label: "France" },
                 { value: "italie", label: "Italie" },
@@ -201,8 +214,9 @@ const EditWine = () => {
             <SelectInput
               label="Région"
               name="region"
+              labelClassName="text-stone-300"
               required={true}
-              
+              placeholder="Choisir une région"
               options={[
                 { defaultValue: "bordeaux", label: "Bordeaux" },
                 { value: "alsace", label: "Alsace" },
@@ -230,7 +244,7 @@ const EditWine = () => {
 
         <div className="space-y-8">
 
-          <label className="block text-sm font-medium text-gray-700">Photo de la bouteille</label>
+          <label className="block text-md font-medium text-stone-200">Photo de la bouteille</label>
 
           <input
             ref={fileInputRef}
@@ -240,7 +254,7 @@ const EditWine = () => {
             className="hidden"
           />
 
-          <div className="rounded-xl border-2 border-dashed border-rose-300 hover:border-rose-500 transition bg-rose-50 p-8">
+          <div className="rounded-2xl border-2 border-dashed border-rose-700/40 hover:border-rose-500 bg-stone-950/40 transition p-8">
 
             {!imageToDisplay ? (
 
@@ -249,7 +263,7 @@ const EditWine = () => {
                 className="cursor-pointer flex flex-col items-center gap-4"
               >
 
-                <div className="w-20 h-20 rounded-full bg-white shadow flex items-center justify-center">
+                <div className="w-20 h-20 rounded-full bg-rose-900/20 border border-rose-700/40 shadow flex items-center justify-center">
 
                   <FaCamera className="text-rose-500 text-3xl" />
 
@@ -257,11 +271,11 @@ const EditWine = () => {
 
                 <div className="text-center">
 
-                  <p className="font-semibold text-gray-800">
+                  <p className="font-semibold text-stone-200">
                     Cliquez pour ajouter une photo
                   </p>
 
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-sm text-stone-500 mt-1">
                     JPG, PNG ou WEBP
                   </p>
 
@@ -285,7 +299,8 @@ const EditWine = () => {
                     e.stopPropagation()
                     handleRemoveImage()
                   }}
-                  className="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/90 hover:bg-white shadow-lg flex items-center justify-center text-gray-700 hover:text-red-600 transition"
+                  className="absolute top-3 right-3 w-10 h-10 rounded-full bg-stone-900/90 border border-white/10 hover:bg-white shadow-lg flex items-center justify-center 
+                  text-stone-300 hover:text-red-400 transition"
                 >
                   <FaTimes className="text-sm" />
                 </button>
@@ -296,7 +311,7 @@ const EditWine = () => {
                   onClick={() => fileInputRef.current?.click()}
                   className="inline-flex items-center gap-2 px-2 sm:px-4 py-2 rounded-lg bg-rose-600 text-sm sm:text-base text-white hover:bg-rose-700 transition"
                 >
-                  <FaUpload />
+                  <FaUpload className="hidden sm:block" />
                   Modifier la photo de la bouteille
                 </button>
 
@@ -310,20 +325,20 @@ const EditWine = () => {
 
         {/* Achat */}
 
-        <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+        <div className="rounded-3xl border border-white/10 bg-stone-900/40 backdrop-blur-xl shadow-xl shadow-black/20 p-6">
 
           <div className="flex items-center gap-3 mb-6">
 
-            <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center">
-              💰
+            <div className="w-10 h-10 rounded-xl bg-rose-900/25 border border-rose-700/30 flex items-center justify-center">
+              <BadgeEuro className="w-5 h-5 text-rose-300" />
             </div>
 
             <div>
-              <h3 className="text-sm md:text-base font-semibold text-stone-900">
+              <h3 className="text-sm md:text-base font-semibold text-stone-200">
                 Achat
               </h3>
 
-              <p className="text-xs md:text-sm text-stone-500">
+              <p className="text-xs md:text-sm text-stone-400">
                 Informations sur le prix...
               </p>
 
@@ -337,6 +352,7 @@ const EditWine = () => {
               label="Prix"
               type="number"
               name="price"
+              labelClassName="text-stone-300"
               defaultValue="18.90"
               required={true}
             />
@@ -345,17 +361,20 @@ const EditWine = () => {
               label="Date d'achat"
               type="date"
               name="purchase_date"
+              labelClassName="text-stone-300"
             />
 
             <TextInput
               label="Vendeur"
               name="seller"
+              labelClassName="text-stone-300"
               defaultValue="Intermarché"
             />
 
             <Checkbox
               label="Je racheterai ce vin"
               name="buy_again"
+              className="text-stone-300"
               defaultChecked
             />
           </div>
@@ -363,20 +382,20 @@ const EditWine = () => {
 
         {/* Dégustation */}
 
-        <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+        <div className="rounded-3xl border border-white/10 bg-stone-900/40 backdrop-blur-xl shadow-xl shadow-black/20 p-6">
 
           <div className="flex items-center gap-3 mb-6">
 
-            <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center">
-              ⭐
+            <div className="w-10 h-10 rounded-xl bg-rose-900/25 border border-rose-700/30 flex items-center justify-center">
+              <Star className="w-5 h-5 text-rose-300" />
             </div>
 
             <div>
-              <h3 className="text-sm md:text-base font-semibold text-stone-900">
+              <h3 className="text-sm md:text-base font-semibold text-stone-200">
                 Dégustation
               </h3>
 
-              <p className="text-xs md:text-sm text-stone-500">
+              <p className="text-xs md:text-sm text-stone-400">
                 Mon évaluation du vin.
               </p>
 
@@ -392,17 +411,20 @@ const EditWine = () => {
               min="0"
               max="20"
               name="rating"
+              labelClassName="text-stone-300"
               defaultValue="17"
             />
 
             <Checkbox
               label="Ajouter à mes favoris"
               name="favorite"
+              className="text-stone-300"
             />
 
             <div className="md:col-span-2">
               <TextareaInput
                 label="Description"
+                labelClassName="text-stone-300"
                 rows={5}
                 name="description"
                 defaultValue="Rosé frais et fruité aux notes de pêche blanche, d'agrumes et de fruits rouges. Très agréable en été."
@@ -416,20 +438,20 @@ const EditWine = () => {
 
         {/* Notes de dégustation */}
 
-        <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+        <div className="rounded-3xl border border-white/10 bg-stone-900/40 backdrop-blur-xl shadow-xl shadow-black/20 p-6">
 
           <div className="flex items-center gap-3 mb-6">
 
-            <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center">
-              👃
+            <div className="w-10 h-10 rounded-xl bg-rose-900/25 border border-rose-700/30 flex items-center justify-center">
+              <GlassWater className="w-5 h-5 text-rose-300" />
             </div>
 
             <div>
-              <h3 className="text-sm md:text-base font-semibold text-stone-900">
+              <h3 className="text-sm md:text-base font-semibold text-stone-200">
                 Notes de dégustation
               </h3>
 
-              <p className="text-xs md:text-sm text-stone-500">
+              <p className="text-xs md:text-sm text-stone-400">
                 Le nez, la bouche, les accords.
               </p>
 
@@ -443,6 +465,7 @@ const EditWine = () => {
               label="Nez"
               rows={3}
               name="nose"
+              labelClassName="text-stone-300"
               defaultValue="Friand, aux accents de fruits exotiques, de pêche, de fleurs des champs."
             />
 
@@ -450,6 +473,7 @@ const EditWine = () => {
               label="Bouche"
               rows={3}
               name="palate"
+              labelClassName="text-stone-300"
               defaultValue="Tendre, souple, d'une grande fraîcheur."
             />
 
@@ -468,14 +492,14 @@ const EditWine = () => {
 
         {/* Zone de soumission du formulaire */}
 
-        <div className="mt-10 py-6 border-t border-stone-200 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="mt-10 py-6 border-t border-white/10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
           <div>
-            <p className="font-medium text-stone-700">
+            <p className="font-medium text-stone-200">
               Votre bouteille est prête à être mise à jour.
             </p>
 
-            <p className="text-sm text-stone-500">
+            <p className="text-sm text-stone-400">
               Vérifiez les informations avant d'enregistrer vos modifications.
             </p>
           </div>

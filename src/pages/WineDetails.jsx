@@ -1,6 +1,7 @@
 import { Button, InfoRow } from "@/components"
 import ScrollToTopButton from "@/components/ui/ScrollToTopButton"
 import { GrapeIcon, InfoIcon, NotepadTextIcon, Pencil, Trash2 } from "lucide-react"
+import { NavLink } from "react-router-dom"
 
 
 const WineDetails = () => {
@@ -53,13 +54,11 @@ const WineDetails = () => {
                   🍷 Blanc
                 </span>
 
-                <h1 className="mt-6 text-2xl sm:text-5xl font-black tracking-tight">
+                <h1 className="mt-6 text-2xl sm:text-5xl font-serif font-bold">
                   Menetou Salon 2023
                 </h1>
 
-
-
-                <p className="mt-4 text-sm sm:text-xl text-rose-100">
+                <p className="mt-4 text-xl sm:text-3xl font-serif font-semibold text-rose-100">
                   Domaine du Grand Brussy
                 </p>
 
@@ -98,13 +97,15 @@ const WineDetails = () => {
 
                 {/* Boutons */}
                 <div className="mt-8 border-t border-white/10 pt-6 flex flex-wrap gap-4">
-                  <Button
-                    variant="notshadow"
-                    icon={Pencil}
-                    className="hover:shadow-none"
+                  <NavLink
+                    to="/dashboard/wines/vieilles-vignes-2021/edit"
+                    className="rounded-xl px-6 py-3 text-sm sm:text-base font-semibold transition duration-200 flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer
+                    disabled:opacity-50 disabled:cursor-not-allowed bg-linear-to-r from-rose-700/90 to-red-900/90 hover:from-rose-800 
+                    hover:to-red-900 hover:shadow-md text-white"
                   >
+                    <Pencil className="h-4 w-4" />
                     Modifier
-                  </Button>
+                  </NavLink>
 
                   <Button
                     variant="outline"
@@ -147,7 +148,7 @@ const WineDetails = () => {
               <div className="border-l-4 border-stone-500 px-6 py-5">
                 <h2 className="text-xl font-bold text-stone-100 flex items-center gap-2">
                   <span className="w-7 h-7 bg-stone-800 rounded-lg flex items-center justify-center">
-                    <NotepadTextIcon className="w-4 h-4 text-olive-600" />
+                    <NotepadTextIcon className="w-4 h-4 text-stone-400" />
                   </span>
                   Caractéristiques
                 </h2>
@@ -214,15 +215,15 @@ const WineDetails = () => {
                   <h3 className="font-semibold mb-2">Accords</h3>
 
                   <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full bg-rose-900/20 border border-rose-800/30 px-3 py-1 text-rose-200">
+                    <span className="rounded-full bg-rose-900/20 border border-rose-800/30 px-3 py-1 text-sm sm:text-base text-rose-200">
                       🥩 Viandes rouges
                     </span>
 
-                    <span className="rounded-full bg-rose-900/20 border border-rose-800/30 px-3 py-1 text-rose-200">
+                    <span className="rounded-full bg-rose-900/20 border border-rose-800/30 px-3 py-1 text-sm sm:text-base text-rose-200">
                       🧀 Fromages
                     </span>
 
-                    <span className="rounded-full bg-rose-900/20 border border-rose-800/30 px-3 py-1 text-rose-200">
+                    <span className="rounded-full bg-rose-900/20 border border-rose-800/30 px-3 py-1 text-sm sm:text-base text-rose-200">
                       🍫 Chocolat
                     </span>
                   </div>
@@ -242,7 +243,7 @@ const WineDetails = () => {
                 <h3 className="font-bold text-stone-100">Informations</h3>
               </div>
 
-              <div className="space-y-5 p-6">
+              <div className="space-y-5 p-6 text-sm sm:text-base">
 
                 <InfoRow icon="💰" label="Prix" value="14,50 €" />
 
@@ -262,7 +263,7 @@ const WineDetails = () => {
         </div>
 
         {/* Scroll to top */}
-        <ScrollToTopButton bottom="bottom-24" />
+        <ScrollToTopButton bottom="bottom-38 sm:bottom-24" />
 
       </div >
 

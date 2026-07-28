@@ -5,7 +5,6 @@ import { Button, Checkbox, FilterInput, FilterSelect } from "@/components"
 const WineFilters = () => {
 
   const priceOptions = [
-    { value: "", label: "Tous les prix" },
     { value: 5, label: "05 € +" },
     { value: 10, label: "10 € +" },
     { value: 15, label: "15 € +" },
@@ -13,7 +12,6 @@ const WineFilters = () => {
   ]
 
   const ratingOptions = [
-    { value: "", label: "Toutes les notes" },
     { value: 5, label: "05 /20 +" },
     { value: 10, label: "10 /20 +" },
     { value: 15, label: "15 /20 +" },
@@ -27,7 +25,7 @@ const WineFilters = () => {
         <div className="w-8 h-8 rounded-lg bg-rose-900/30 flex items-center justify-center border border-rose-800/40">
           <FilterIcon className="w-3.5 h-3.5 text-rose-300" />
         </div>
-        <h2 className="text-base font-bold text-stone-100">Filtrer les Vins</h2>
+        <h2 className="text-base font-semibold text-stone-100">Filtrer les Vins</h2>
       </div>
 
       <div className="space-y-4 mb-6">
@@ -56,6 +54,8 @@ const WineFilters = () => {
             label="Prix"
             icon={BadgeEuroIcon}
             options={priceOptions}
+            labelClassName="text-stone-200"
+            placeholder="Choisir un prix"
           />
         </div>
 
@@ -65,6 +65,8 @@ const WineFilters = () => {
             label="Note minimum"
             icon={StarIcon}
             options={ratingOptions}
+            labelClassName="text-stone-200"
+            placeholder="Choisir une note"
           />
         </div>
       </div>
@@ -72,13 +74,14 @@ const WineFilters = () => {
       {/* Type de vin */}
 
       <div className="border-t border-stone-700/50 pt-5 mb-5">
-        <h3 className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-3">Type de vin</h3>
+        <h3 className="text-xs font-bold text-stone-200 uppercase tracking-wider mb-3">Type de vin</h3>
         <div className="space-y-2">
           {['Blanc', 'Rosé', 'Rouge', 'Champagne', 'Spiritueux', 'Autres'].map((type_vin) => (            
             <Checkbox 
               key={type_vin}
               label={type_vin}
               value={type_vin}
+              className="text-stone-400 text-sm sm:text-base"
             />
           ))}
         </div>

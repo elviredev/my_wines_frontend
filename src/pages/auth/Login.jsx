@@ -46,7 +46,7 @@ export default function Login() {
    };
 
    return (
-      <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-linear-to-br from-stone-950 via-stone-900 to-[#2b1619] px-6">
+      <div className="relative flex min-h-screen items-center justify-center overflow-hidden app-background px-4 sm:px-6">
 
          {/* Décoration */}
 
@@ -55,7 +55,7 @@ export default function Login() {
 
          <div className="w-full max-w-md">
 
-            <div className="rounded-3xl border border-rose-900/25 bg-stone-900/50 p-10 backdrop-blur-xl shadow-2xl shadow-black/30 ring-1 ring-white/5">
+            <div className="rounded-3xl border border-rose-900/25 bg-stone-900/50 p-6 sm:p-10 backdrop-blur-xl shadow-2xl shadow-black/30 ring-1 ring-white/5">
 
                <div className="mb-10 text-center">
 
@@ -68,7 +68,7 @@ export default function Login() {
 
                   </div>
 
-                  <h1 className="text-3xl font-bold text-stone-200">
+                  <h1 className="text-2xl sm:text-3xl font-bold text-stone-200">
                      Le verre & le Bouchon
                   </h1>
 
@@ -118,6 +118,7 @@ export default function Login() {
                      </div>
                   )}
 
+                  <div className="flex justify-end">
                   <Button
                      type="submit"
                      className="w-full"
@@ -127,6 +128,7 @@ export default function Login() {
                         ? "Connexion..."
                         : "Se connecter"}
                   </Button>
+                  </div>
 
                </form>
 

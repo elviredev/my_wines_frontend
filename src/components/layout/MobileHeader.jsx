@@ -1,6 +1,6 @@
 const MobileHeader = ({ toggleSidebar }) => {
    return (
-      <header className="h-16 flex items-center bg-white shadow-md border-b border-olive-300 lg:hidden">
+      <header className="h-16 flex items-center app-background shadow-md border-b border-stone-500/30 lg:hidden">
          <button
             onClick={toggleSidebar}
             className="p-4 text-rose-800"
@@ -9,8 +9,8 @@ const MobileHeader = ({ toggleSidebar }) => {
                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
          </button>
-         <div className="ml-4 text-xl font-semibold text-rose-800">
-            Pôle Admin
+         <div className="ml-4 text-sm uppercase text-stone-400">
+            Pôle Administration
          </div>
 
       </header>

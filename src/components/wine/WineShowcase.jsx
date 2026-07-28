@@ -56,10 +56,10 @@ const WineShowcase = () => {
           <p className="header-animate text-xl font-bold uppercase tracking-widest text-rose-700 mb-2">
             Sélection
           </p>
-          <h2 className="header-animate text-2xl font-extrabold text-stone-100">
+          <h2 className="header-animate text-3xl sm:text-4xl font-serif font-semibold text-stone-100">
              Quelques bouteilles de la cave de mes rêves
           </h2>
-          <p className="header-animate text-sm text-stone-300 mt-1">
+          <p className="header-animate font-serif text-xl text-stone-300 mt-1">
             Une sélection de vins que j'apprécierais particulièrement.
           </p>
         </div>

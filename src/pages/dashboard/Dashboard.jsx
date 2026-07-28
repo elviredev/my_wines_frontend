@@ -105,11 +105,11 @@ const Dashboard = () => {
       <header className="mb-6 sm:mb-8 pb-4 flex justify-between">
 
         <div>
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-stone-900">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-stone-200">
             Tableau de bord
           </h1>
 
-          <p className="mt-2 text-sm sm:text-base text-stone-500">
+          <p className="mt-2 text-sm sm:text-base text-stone-400">
             Un aperçu rapide de ma cave.
           </p>
         </div>
@@ -136,9 +136,9 @@ const Dashboard = () => {
 
               <div>
 
-                <p className="text-sm text-olive-200">{label}</p>
+                <p className="text-sm text-stone-300">{label}</p>
 
-                <h2 className="text-2xl font-bold text-white">{value}</h2>
+                <h2 className="text-2xl font-semibold text-stone-200">{value}</h2>
 
               </div>
 
@@ -286,7 +286,7 @@ const Dashboard = () => {
                     {title}
                   </p>
 
-                  <p className="mt-1 font-semibold text-white">
+                  <p className="mt-1  text-white">
                     {value}
                   </p>
 

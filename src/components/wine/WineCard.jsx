@@ -3,7 +3,7 @@ import defaultImage from "@/assets/images/default_image.jpg"
 import { FaCalendarAlt, FaTag, FaWineGlassAlt } from 'react-icons/fa'
 import { Star } from 'lucide-react'
 
-const WineCard = () => {
+const WineCard = ({ wine }) => {
 
   const WineTypeStyles = {
     rouge: "bg-red-900/25 border border-red-700/30 text-red-300",
@@ -11,12 +11,12 @@ const WineCard = () => {
     rosé: "bg-pink-900/25 border border-pink-700/30 text-pink-300",
     rose: "bg-pink-900/25 border border-pink-700/30 text-pink-300",
     champagne: "bg-sky-900/25 border border-sky-700/30 text-sky-300",
-    effervescent: "bg-sky-900/25 border border-sky-700/30 text-sky-300",
+    spiritueux: "bg-sky-900/25 border border-sky-700/30 text-sky-300",
     orange: "bg-orange-900/25 border border-orange-700/30 text-orange-300",
     default: "bg-stone-800 border border-stone-700 text-stone-300",
   }
 
-  const WineTypeBadge = ({ type }) => {
+  const WineTypeBadge = ({ type = "Autre" }) => {
     const style = WineTypeStyles[type?.toLowerCase()] || WineTypeStyles.default
 
     return (
@@ -33,40 +33,52 @@ const WineCard = () => {
 
     <div className="group rounded-2xl border border-rose-900/25 bg-stone-900/40 backdrop-blur-xl shadow-xl shadow-black/20 hover:shadow-2xl hover:border-rose-600/40 hover:-translate-y-1 transition-all duration-300
     p-5 flex flex-col">
-  {/* Partie haute */}
-  <div className="flex flex-col sm:flex-row gap-6">
+      {/* Partie haute */}
+      <div className="flex flex-col sm:flex-row gap-6">
 
-    {/* Image */}
-    <div className="shrink-0">
-      <div className="w-full sm:w-32 md:w-36 h-56 sm:h-44 md:h-48 shrink-0 rounded-xl overflow-hidden border border-stone-700 bg-stone-950">
-        <img
-          src={defaultImage}
-          alt=""
-          className="w-full h-full object-contain bg-stone-950 p-3"
-        />
-      </div>
-    </div>
+        {/* Image */}
+        <div className="shrink-0">
 
-    {/* Contenu */}
-    <div className="flex-1 flex flex-col">
+          <div className="w-full sm:w-32 md:w-36 h-56 sm:h-44 md:h-48 shrink-0 rounded-xl overflow-hidden border border-stone-700 bg-stone-950">
+            {wine.image ? (
+              <img
+                src={wine.image || defaultImage}
+                alt={wine.name}
+                className="w-full h-full object-contain bg-stone-950 p-3"
+                // @ts-ignore
+                onError={(e) => {e.target.src = defaultImage}}
+              />
+            ) : (
+              <img
+                src={defaultImage}
+                alt=""
+                className="w-full h-full object-contain bg-stone-950 p-3"
+              />
+            )}
 
-      {/* Nom */}
-      <h2 className="text-xl md:text-2xl font-semibold text-stone-100 group-hover:text-rose-300 transition-colors">
-        Entre Ciel et mer
-      </h2>
+          </div>
+        </div>
 
-      <p className="mt-1 text-stone-400">
-        Les Domaines Auriol
-      </p>
+        {/* Contenu */}
+        <div className="flex-1 flex flex-col">
 
-      <p className="mt-2 font-medium text-rose-300">
-        Pays d'Oc
-      </p>
+          {/* Nom */}
+          <h2 className="text-xl md:text-2xl font-semibold text-stone-100 group-hover:text-rose-300 transition-colors">
+            {wine.name}
+          </h2>
 
-      {/* Note */}
-      <div className="mt-5">
-        <span
-          className="
+          <p className="mt-1 text-stone-400">
+            {wine.domain}
+          </p>
+
+          <p className="mt-2 font-medium text-rose-300">
+            {wine.region}
+          </p>
+
+          {/* Note */}
+          <div className="mt-5">
+            <span
+              className="
             inline-flex
             items-center
             gap-2
@@ -77,66 +89,49 @@ const WineCard = () => {
             text-amber-300
             font-bold
           "
-        >
-          <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-          16.5 /20
-        </span>
+            >
+              <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+              {wine.rating} /20
+            </span>
+          </div>
+
+          {/* Description */}
+          <p className="mt-6 text-sm leading-7 text-stone-400 line-clamp-2 md:line-clamp-3">
+            {wine.description}
+          </p>
+
+          {/* Tags */}
+          <div className="mt-6 flex flex-wrap gap-2">
+
+            <span className="inline-flex items-center gap-1 rounded-full border border-stone-700 bg-stone-800 px-3 py-1 text-xs font-semibold text-stone-300">
+              <FaCalendarAlt className="text-[10px]" />
+              {wine.vintage}
+            </span>
+
+            <span className="inline-flex items-center gap-1 rounded-full border border-rose-700/30 bg-rose-900/25 px-3 py-1 text-xs font-semibold text-rose-300">
+              <FaTag className="text-[10px]" />
+              {wine.price} €
+            </span>
+
+            <WineTypeBadge type={wine.type_vin} />
+
+          </div>
+
+        </div>
+
       </div>
 
-      {/* Description */}
-      <p className="mt-6 text-sm leading-7 text-stone-400 line-clamp-2 md:line-clamp-3">
-        Robe saumon clair et brillante. Floral et épicé au nez. En bouche,
-        arômes exotiques, pamplemousse rose, et des tannins fins qui
-        équilibrent. Réelle sensation de légèreté, de par ses 10% d’alcool.
-        Rafraîchissant.
-      </p>
-
-      {/* Tags */}
-      <div className="mt-6 flex flex-wrap gap-2">
-
-        <span className="inline-flex items-center gap-1 rounded-full border border-stone-700 bg-stone-800 px-3 py-1 text-xs font-semibold text-stone-300">
-          <FaCalendarAlt className="text-[10px]" />
-          2025
-        </span>
-
-        <span className="inline-flex items-center gap-1 rounded-full border border-rose-700/30 bg-rose-900/25 px-3 py-1 text-xs font-semibold text-rose-300">
-          <FaTag className="text-[10px]" />
-          8–12 €
-        </span>
-
-        <WineTypeBadge type="Rosé" />
-
+      {/* Footer */}
+      <div className="mt-6 border-t border-stone-700/50 pt-5">
+        <NavLink
+          to={`/wine/${wine.slug}`}
+          className="block w-full rounded-xl bg-linear-to-r from-rose-700 to-red-900 py-3 text-center font-semibold text-white transition hover:from-rose-600 hover:to-red-800"
+        >
+          Découvrir →
+        </NavLink>
       </div>
 
     </div>
-
-  </div>
-
-  {/* Footer */}
-  <div className="mt-6 border-t border-stone-700/50 pt-5">
-    <NavLink
-      to="/wine/la-charnivole-2023"
-      className="
-        block
-        w-full
-        rounded-xl
-        bg-linear-to-r
-        from-rose-700
-        to-red-900
-        py-3
-        text-center
-        font-semibold
-        text-white
-        transition
-        hover:from-rose-600
-        hover:to-red-800
-      "
-    >
-      Découvrir →
-    </NavLink>
-  </div>
-
-</div>
 
 
 

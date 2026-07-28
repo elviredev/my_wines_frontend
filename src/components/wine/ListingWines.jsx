@@ -1,7 +1,46 @@
+import { useEffect, useState } from 'react'
 import { SelectInput, WineCard, WineFilters } from '@/components'
+import { getWines } from '@/api/wineService'
 
 
 const ListingWines = () => {
+
+  const [wines, setWines] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  // fetch data
+  useEffect(() => {
+    const fetchWines = async () => {
+      setLoading(true)
+      setError(null)
+
+      try {
+        const winesListing = await getWines()
+        // console.log(winesListing);
+
+        setWines(winesListing|| [])
+      } catch (err) {
+        console.log("Error:", err);
+        // @ts-ignore
+        setError("Impossible de charger la liste des vins;")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchWines()
+
+  }, [])
+
+  if (loading) {
+    return <p className="text-stone-300">Chargement des vins...</p>;
+  }
+
+  if (error) {
+    return <p className="text-red-400">{error}</p>;
+  }
+
   return (
     <section className="py-16 px-4 sm:px-6 lg:px-8 bg-transparent">
       <div className="max-w-7xl mx-auto px-0 sm:px-6">
@@ -24,7 +63,7 @@ const ListingWines = () => {
               </div>
 
               {/* Per page selector */}
-              <div className="w-30">                
+              <div className="w-30">
                 <SelectInput
                   name="wine_type"
                   labelClassName="text-stone-300"
@@ -40,8 +79,10 @@ const ListingWines = () => {
             </div>
             <div className="grid grid-cols-1 2xl:grid-cols-2 gap-6">
               {/* Wine Cards */}
-              <WineCard />
-              <WineCard />
+              {wines.map((wine) => (
+                // @ts-ignore
+                <WineCard key={wine.id} wine={wine} />
+              ))}
 
             </div>
           </main>

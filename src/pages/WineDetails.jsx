@@ -251,6 +251,8 @@ const WineDetails = () => {
 
                 <InfoRow icon="📅" label="Acheté le" value="14/02/2026" />
 
+                <InfoRow icon="🛒" label="Vendeur" value="Vinatis" />
+
                 <InfoRow icon="❤️" label="Favori" value="Oui" />
 
                 <InfoRow icon="🍷" label="Catégorie" value="Blanc" />

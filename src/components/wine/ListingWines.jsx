@@ -23,7 +23,7 @@ const ListingWines = () => {
       } catch (err) {
         console.log("Error:", err);
         // @ts-ignore
-        setError("Impossible de charger la liste des vins;")
+        setError("Impossible de charger la liste des vins")
       } finally {
         setLoading(false)
       }
@@ -38,7 +38,7 @@ const ListingWines = () => {
   }
 
   if (error) {
-    return <p className="text-red-400">{error}</p>;
+    return <p className="text-red-400 text-center">{error}</p>;
   }
 
   return (

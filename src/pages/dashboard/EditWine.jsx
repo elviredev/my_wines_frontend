@@ -377,6 +377,12 @@ const EditWine = () => {
               className="text-stone-300"
               defaultChecked
             />
+
+            <Checkbox
+              label="Bouteille disponible en cave"
+              name="is_opened"
+              className="text-stone-300"
+            />
           </div>
         </div>
 

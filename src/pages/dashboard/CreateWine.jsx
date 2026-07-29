@@ -358,6 +358,12 @@ const CreateWine = () => {
               name="buy_again"
               className="text-stone-300"
             />
+
+            <Checkbox
+              label="Bouteille disponible en cave"
+              name="is_opened"
+              className="text-stone-300"
+            />
           </div>
         </div>
 

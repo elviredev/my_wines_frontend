@@ -39,12 +39,12 @@ const Home = () => {
           {/* Search form */}
           <form
 
-            className="max-w-3xl mx-auto bg-stone-900/60 backdrop-blur-xl border border-white/10 p-3 rounded-2xl shadow-2xl shadow-black/50">
+            className="max-w-2xl mx-auto bg-stone-900/60 backdrop-blur-xl border border-white/10 p-3 rounded-2xl shadow-2xl shadow-black/50">
             <div className="flex flex-col md:flex-row items-center gap-3">
 
               {/* Keyword */}
               <div className="grow relative w-full md:w-auto">
-                <label htmlFor="keyword" className="sr-only">Nom de vin ou Mot-clé</label>
+                <label htmlFor="search" className="sr-only">Nom, appellation, domaine...</label>
                 <div className="relative border border-stone-700 bg-black/20 rounded-xl focus-within:border-rose-500 hover:border-rose-700 transition duration-200">
                   <svg className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-rose-700"
                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -52,27 +52,8 @@ const Home = () => {
                   </svg>
                   <input
                     type="text"
-                    name="keyword"
-                    placeholder="Nom de vin, mot-clé..."
-                    className="w-full pl-11 pr-3 py-3 text-sm bg-stone-950/60 text-stone-100 focus:outline-none focus:ring-0 placeholder:text-stone-500 rounded-xl"
-                    style={{ border: "none" }}
-                  />
-                </div>
-              </div>
-
-              {/* Location */}
-              <div className="grow relative w-full md:w-auto">
-                <label htmlFor="location" className="sr-only">Millésime ou Région</label>
-                <div className="relative border border-stone-700 bg-black/20 rounded-xl focus-within:border-rose-500 hover:border-rose-700 transition duration-200">
-                  <svg className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-rose-700"
-                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <input
-                    type="text"
-                    name="location"
-                    placeholder="Millésime ou région..."
+                    name="search"
+                    placeholder="Nom, appellation, domaine..."
                     className="w-full pl-11 pr-3 py-3 text-sm bg-stone-950/60 text-stone-100 focus:outline-none focus:ring-0 placeholder:text-stone-500 rounded-xl"
                     style={{ border: "none" }}
                   />

@@ -1,4 +1,4 @@
-import { MapPinIcon, RotateCcwIcon, Search, BadgeEuroIcon, StarIcon, FilterIcon } from "lucide-react"
+import { MapPinIcon, RotateCcwIcon, BadgeEuroIcon, StarIcon, FilterIcon, Calendar } from "lucide-react"
 import { Button, Checkbox, FilterInput, FilterSelect } from "@/components"
 
 
@@ -30,20 +30,22 @@ const WineFilters = () => {
 
       <div className="space-y-4 mb-6">
 
-        {/* Keyword */}
+        {/* Vintage */}
         <div>
           <FilterInput
-            label="Recherche"
-            placeholder="Nom, appellation, domaine"
-            icon={Search}
+            label="Millésime"
+            name="vintage"
+            placeholder="Année"
+            icon={Calendar}
           />
         </div>
 
-        {/* vintage, Region */}
+        {/* Région */}
         <div>
           <FilterInput
-            label="Année - Région"
-            placeholder="Année, région"
+            label="Région"
+            name="region"
+            placeholder="Région viticole"
             icon={MapPinIcon}
           />
         </div>
@@ -52,6 +54,7 @@ const WineFilters = () => {
         <div>
           <FilterSelect
             label="Prix"
+            name="price"
             icon={BadgeEuroIcon}
             options={priceOptions}
             labelClassName="text-stone-200"
@@ -63,11 +66,31 @@ const WineFilters = () => {
         <div>
           <FilterSelect
             label="Note minimum"
+            name="rating"
             icon={StarIcon}
             options={ratingOptions}
             labelClassName="text-stone-200"
             placeholder="Choisir une note"
           />
+        </div>
+      </div>
+
+      <div className="border-t border-stone-700/50 pt-5 mb-5">
+        <h3 className="text-xs font-bold text-stone-200 uppercase tracking-wider mb-3">Favoris - Disponible</h3>
+        <div className="space-y-2">
+                    
+            <Checkbox 
+              label="Mes vins préférés"
+              name="favorite"
+              className="text-stone-400 text-sm sm:text-base"
+            />
+
+            <Checkbox 
+              label="Disponible dans ma cave"
+              name="is_opened"
+              className="text-stone-400 text-sm sm:text-base"
+            />
+          
         </div>
       </div>
 
@@ -81,6 +104,7 @@ const WineFilters = () => {
               key={type_vin}
               label={type_vin}
               value={type_vin}
+              name="wine_types[]"
               className="text-stone-400 text-sm sm:text-base"
             />
           ))}

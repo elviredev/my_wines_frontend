@@ -69,7 +69,7 @@ const ListingWines = () => {
                   labelClassName="text-stone-300"
                   placeholder="Par page"
                   options={[
-                    { value: "sup-9", label: "> 9 / page" },
+                    { value: "sup-9", label: "> 8 / page" },
                     { value: "sup-18", label: "> 18 / page" },
                     { value: "sup-50", label: "> 50 / page" },
                     { value: "sup-100", label: "> 100 / page" }

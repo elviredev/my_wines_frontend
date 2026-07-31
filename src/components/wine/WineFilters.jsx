@@ -54,7 +54,7 @@ const WineFilters = () => {
         <div>
           <FilterSelect
             label="Prix"
-            name="price"
+            name="min_price"
             icon={BadgeEuroIcon}
             options={priceOptions}
             labelClassName="text-stone-200"
@@ -66,7 +66,7 @@ const WineFilters = () => {
         <div>
           <FilterSelect
             label="Note minimum"
-            name="rating"
+            name="min_rating"
             icon={StarIcon}
             options={ratingOptions}
             labelClassName="text-stone-200"
@@ -87,7 +87,7 @@ const WineFilters = () => {
 
             <Checkbox 
               label="Disponible dans ma cave"
-              name="is_opened"
+              name="available"
               className="text-stone-400 text-sm sm:text-base"
             />
           

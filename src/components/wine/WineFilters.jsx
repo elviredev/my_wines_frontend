@@ -1,21 +1,15 @@
 import { MapPinIcon, RotateCcwIcon, BadgeEuroIcon, StarIcon, FilterIcon, Calendar } from "lucide-react"
 import { Button, Checkbox, FilterInput, FilterSelect } from "@/components"
+import { WINE_REGION_OPTIONS } from "@/constants/wineRegions"
+import { WINE_PRICE_OPTIONS } from "@/constants/winePrices"
+import { WINE_RATING_OPTIONS } from "@/constants/wineRatings"
 
 
 const WineFilters = () => {
 
-  const priceOptions = [
-    { value: 5, label: "05 € +" },
-    { value: 10, label: "10 € +" },
-    { value: 15, label: "15 € +" },
-    { value: 20, label: "20 € +" },
-  ]
+  
 
-  const ratingOptions = [
-    { value: 5, label: "05 /20 +" },
-    { value: 10, label: "10 /20 +" },
-    { value: 15, label: "15 /20 +" },
-  ]
+  
 
   return (
     <aside className="lg:col-span-1 bg-stone-900/40 backdrop-blur-xl rounded-2xl border border-rose-900/25 shadow-2xl shadow-black/20 p-6 lg:h-fit lg:sticky lg:top-8">
@@ -42,21 +36,23 @@ const WineFilters = () => {
 
         {/* Région */}
         <div>
-          <FilterInput
+          <FilterSelect
             label="Région"
             name="region"
-            placeholder="Région viticole"
             icon={MapPinIcon}
+            options={WINE_REGION_OPTIONS}
+            placeholder="Région viticole"
+            labelClassName="text-stone-200"
           />
         </div>
-
+        
         {/* Price */}
         <div>
           <FilterSelect
             label="Prix"
             name="min_price"
             icon={BadgeEuroIcon}
-            options={priceOptions}
+            options={WINE_PRICE_OPTIONS}
             labelClassName="text-stone-200"
             placeholder="Choisir un prix"
           />
@@ -68,7 +64,7 @@ const WineFilters = () => {
             label="Note minimum"
             name="min_rating"
             icon={StarIcon}
-            options={ratingOptions}
+            options={WINE_RATING_OPTIONS}
             labelClassName="text-stone-200"
             placeholder="Choisir une note"
           />

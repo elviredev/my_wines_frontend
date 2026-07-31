@@ -3,8 +3,9 @@ import { useEffect, useRef, useState } from "react"
 import { Button, Checkbox, SelectInput, TextareaInput, TextInput, BadgeMultiSelect, ScrollToTopButton } from "@/components"
 import { FaCloudUploadAlt, FaCamera, FaUpload, FaTimes, FaWineBottle, FaFish, FaCheese, FaWineGlass, FaChevronUp  } from "react-icons/fa"
 import { GiMeat, GiChocolateBar, GiCupcake, GiShrimp, GiCookingPot, GiCampCookingPot } from "react-icons/gi";
-import { WINE_TYPES } from "@/constants/wineTypes";
+import { WINE_TYPE_OPTIONS } from "@/constants/wineTypes";
 import { BadgeEuro, GlassWater, Grape, Star, Wine } from "lucide-react";
+import { WINE_REGION_OPTIONS } from "@/constants/wineRegions";
 
 
 const pairingOptions = [
@@ -161,7 +162,7 @@ const CreateWine = () => {
               label="Type de vin"
               name="wine_type"
               required={true}
-              options={WINE_TYPES}
+              options={WINE_TYPE_OPTIONS}
               labelClassName="text-stone-300"
               placeholder="Choisir un type de vin"
             />
@@ -200,24 +201,7 @@ const CreateWine = () => {
               labelClassName="text-stone-300"
               placeholder="Choisir une région"
               required={true}
-              options={[
-                { value: "alsace", label: "Alsace" },
-                { value: "beaujolais", label: "Beaujolais" },
-                { value: "bordeaux", label: "Bordeaux" },
-                { value: "bourgogne", label: "Bourgogne" },
-                { value: "champagne", label: "Champagne" },
-                { value: "corse", label: "Corse" },
-                { value: "jura", label: "Jura" },
-                { value: "languedoc", label: "Languedoc" },
-                { value: "lorraine", label: "Lorraine" },
-                { value: "provence", label: "Provence" },
-                { value: "Roussillon", label: "Roussillon" },
-                { value: "savoie", label: "Savoie" },
-                { value: "sud-ouest", label: "Sud-Ouest" },
-                { value: "val-de-loire", label: "Val de Loire" },
-                { value: "vallée-du-rhône", label: "Vallée du Rhône" },
-                { value: "international", label: "International" },
-              ]}
+              options={WINE_REGION_OPTIONS}
             />
 
           </div>

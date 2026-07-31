@@ -1,0 +1,18 @@
+export const WINE_REGION_OPTIONS = [
+  { label: 'Alsace', value: 'Alsace' },
+  { label: 'Beaujolais', value: 'Beaujolais' },
+  { label: 'Bordeaux', value: 'Bordeaux' },
+  { label: 'Bourgogne', value: 'Bourgogne' },
+  { label: 'Champagne', value: 'Champagne' },
+  { label: 'Corse', value: 'Corse' },
+  { label: 'Jura', value: 'Jura' },
+  { label: 'Languedoc', value: 'Languedoc' },
+  { label: 'Lyonnais', value: 'Lyonnais' },
+  { label: 'Lorraine', value: 'Lorraine' },
+  { label: 'Provence', value: 'Provence' },
+  { label: 'Roussillon', value: 'Roussillon' },
+  { label: 'Savoie', value: 'Savoie' },
+  { label: 'Sud-Ouest', value: 'Sud-Ouest' },
+  { label: 'Val de Loire', value: 'Val de Loire' },
+  { label: 'Vallée du Rhône', value: 'Vallée du Rhône' },
+];

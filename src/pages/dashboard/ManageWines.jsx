@@ -1,22 +1,57 @@
-import { Heart, Star } from "lucide-react"
+import { SortableHeader } from "@/components"
+import { Heart, Search, Star } from "lucide-react"
+import { useState } from "react"
 import { FaEdit, FaTrash } from "react-icons/fa"
 import { NavLink } from "react-router-dom"
 
 
-
 const ManageWines = () => {
+
+  const [sortBy, setSortBy] = useState("name");
+  const [direction, setDirection] = useState("asc");
+
+  const handleSort = (column) => {
+    if (column === sortBy) {
+      setDirection((d) => (d === "asc" ? "desc" : "asc"));
+    } else {
+      setSortBy(column);
+      setDirection("asc");
+    }
+  };
 
   return (
     <div className="space-y-12">
 
-      <header className="mb-8 rounded-2xl border border-white/10 bg-stone-900/40 backdrop-blur-xl p-6">
-        <h1 className="text-3xl font-bold text-stone-200">
-          Gérer les vins
-        </h1>
+      <header className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between rounded-2xl border border-white/10 bg-stone-900/40 backdrop-blur-xl p-6">
 
-        <p className="mt-2 text-stone-400">
-          Consultez, modifiez ou supprimez les bouteilles de votre cave.
-        </p>
+        <div className="flex-1">
+          <h1 className="text-3xl font-bold text-stone-200">
+            Gérer les vins
+          </h1>
+
+          <p className="mt-2 text-stone-400">
+            Consultez, modifiez ou supprimez les bouteilles de votre cave.
+          </p>
+        </div>
+
+
+        {/* Search form */}
+        <form className="w-full lg:w-95">
+          <div className="relative">
+
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-rose-600" />
+
+            <input
+              type="search"
+              name="search"
+              placeholder="Rechercher un vin..."
+              className="w-full pl-11 pr-4 py-3 text-sm border border-stone-700 bg-stone-950/70 text-stone-100 focus:outline-none focus:border-rose-500 
+                  placeholder:text-stone-500 rounded-xl transition"
+              style={{ border: "none" }}
+            />
+          </div>
+        </form>
+
       </header>
 
       {/* Desktop */}
@@ -30,35 +65,84 @@ const ManageWines = () => {
             <tr>
               <th className="w-20 px-4 py-3"></th>
 
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-stone-400">
-                Vin
+              <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-stone-400">
+                <SortableHeader
+                  label="Vin"
+                  column="name"
+                  sortBy={sortBy}
+                  direction={direction}
+                  onSort={handleSort}                  
+                  align="left"
+                />
               </th>
 
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-stone-400">
-                Type
+              <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-stone-400">
+                <SortableHeader
+                  label="Type"
+                  column="wine_type"
+                  sortBy={sortBy}
+                  direction={direction}
+                  onSort={handleSort}                  
+                  align="left"
+                />
               </th>
 
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-stone-400">
-                Région
+              <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-stone-400">
+                <SortableHeader
+                  label="Région"
+                  column="region"
+                  sortBy={sortBy}
+                  direction={direction}
+                  onSort={handleSort}                  
+                  align="left"
+                />
               </th>
 
-              <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-stone-400">
-                Millésime
+              <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-stone-400">
+                <SortableHeader
+                  label="Millésime"
+                  column="vintage"
+                  sortBy={sortBy}
+                  direction={direction}
+                  onSort={handleSort}                  
+                  align="center"
+                />
               </th>
 
-              <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-stone-400">
-                Note
+              <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-stone-400">
+                <SortableHeader
+                  label="Note"
+                  column="rating"
+                  sortBy={sortBy}
+                  direction={direction}
+                  onSort={handleSort}
+                  align="center"
+                />
               </th>
 
-              <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-stone-400">
-                Prix
+              <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-stone-400">
+                <SortableHeader
+                  label="Prix"
+                  column="price"
+                  sortBy={sortBy}
+                  direction={direction}
+                  onSort={handleSort}
+                  align="center"
+                />
               </th>
 
-              <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-stone-400">
-                Favori
+              <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-stone-400">
+                <SortableHeader
+                  label="Favoris"
+                  column="favorite"
+                  sortBy={sortBy}
+                  direction={direction}
+                  onSort={handleSort}
+                  align="center"
+                />
               </th>
 
-              <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-stone-400">
+              <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-stone-400">
                 Actions
               </th>
             </tr>
@@ -74,7 +158,7 @@ const ManageWines = () => {
                 />
               </td>
 
-              <td className="px-4 py-3">
+              <td className="text-left px-4 py-3">
                 <p className="font-semibold text-stone-200">
                   Château Bellevue
                 </p>
@@ -84,13 +168,13 @@ const ManageWines = () => {
                 </p>
               </td>
 
-              <td className="px-4 py-3">
+              <td className="text-left px-4 py-3">
                 <span className="rounded-full bg-rose-900/30 border border-rose-700/30 text-rose-200 px-3 py-1 text-xs font-medium">
                   Rouge
                 </span>
               </td>
 
-              <td className="px-4 py-3 text-stone-300">
+              <td className="text-left px-4 py-3 text-stone-300">
                 Bordeaux
               </td>
 
@@ -227,7 +311,7 @@ const ManageWines = () => {
           </div>
 
           {/* Boutons */}
-          <div className="mt-5 flex justify-end gap-3 border-t border-stone-200 pt-4">
+          <div className="mt-5 flex justify-end gap-3 border-t border-white/20 pt-4">
 
             <NavLink
               to="/dashboard/wines/vieilles-vignes-2021/edit"

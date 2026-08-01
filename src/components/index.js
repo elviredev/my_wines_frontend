@@ -15,6 +15,7 @@ export { default as FilterInput } from "./ui/FilterInput"
 export { default as FilterSelect } from "./ui/FilterSelect"
 export { default as Checkbox } from "./ui/Checkbox"
 export { default as ScrollToTopButton } from "./ui/ScrollToTopButton"
+export { default as SortableHeader } from "./ui/SortableHeader"
 
 export { default as WineCard } from "./wine/WineCard"
 export { default as WineFilters } from "./wine/WineFilters"

@@ -267,6 +267,33 @@
                 "Fromage",
                 "Dessert"
             ]
+        },
+        {
+            "id": 11,
+            "name": "Viré Clessé",
+            "appellation": "AOP Viré-clessé",
+            "slug": "vire-clesse-2023",
+            "domain": "Domaine Chailloux",
+            "cepage": "Chardonnay",
+            "region": "Bourgogne",
+            "country": "France",
+            "vintage": "2023",
+            "image": "http://localhost:5173/images/image-11.jpg",
+            "type_vin": "Blanc",
+            "rating": 15,
+            "liked": true,
+            "price": 16,
+            "seller": "Vinatis",
+            "purchase_date": "2026-03-10",
+            "description": "Le Viré-Clessé 2023 du Domaine Chailloux est un vin blanc sec issu exclusivement du cépage Chardonnay, cépage emblématique de la Bourgogne. La jeunesse de ce millésime 2023 lui confère une fraîcheur éclatante et un fruité charmant, où s’expriment des arômes de fleurs blanches, d’agrumes et parfois une discrète note de miel ou de fruits à chair blanche.",
+            "nose": "Arômes de fleurs blanches, d’agrumes et parfois une discrète note de miel ou de fruits à chair blanche.",
+            "palate": "Fraîcheur, minéralité.",
+            "pairings": [
+                "Poissons grillés",
+                "Fruits de mer",
+                "Fromage de chèvre",
+                "Volaille"
+            ]
         }
     ]
 }

@@ -1,10 +1,16 @@
 // @ts-nocheck
 import { useState } from "react";
 import { Wine } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 import { TextInput, Checkbox, Button } from "@/components";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Login() {
+
+   const { login } = useAuth()
+   const navigate = useNavigate()
+
    const [form, setForm] = useState({
       email: "",
       password: "",
@@ -30,15 +36,42 @@ export default function Login() {
       setErrors({});
 
       try {
-         // appel API ici
+         // appel API via AuthContext
+         await login(
+            form.email,
+            form.password,
+            form.remember
+         )
 
-         console.log(form);
+         // vider le formulaire
+         setForm({
+            email: "",
+            password: "",
+            remember: false
+         })
+
+         // rediriger vers le dashboard
+         navigate("/dashboard", { replace: true })
 
       } catch (error) {
 
-         setErrors({
-            general: "Adresse e-mail ou mot de passe incorrect."
-         });
+         if (error.response?.status === 422) {
+
+            setErrors(error.response.data.errors)
+
+         } else if (error.response?.status === 401) {
+
+            setErrors({
+               general: "Adresse e-mail ou mot de passe incorrect.",
+            });
+
+         } else {
+            setErrors({
+
+               general: "Une erreur est survenue. Veuillez réessayer."
+               
+            });
+         }
 
       } finally {
          setLoading(false);
@@ -119,15 +152,15 @@ export default function Login() {
                   )}
 
                   <div className="flex justify-end">
-                  <Button
-                     type="submit"
-                     className="w-full"
-                     disabled={loading}
-                  >
-                     {loading
-                        ? "Connexion..."
-                        : "Se connecter"}
-                  </Button>
+                     <Button
+                        type="submit"
+                        className="w-full"
+                        disabled={loading}
+                     >
+                        {loading
+                           ? "Connexion..."
+                           : "Se connecter"}
+                     </Button>
                   </div>
 
                </form>

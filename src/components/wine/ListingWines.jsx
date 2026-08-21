@@ -6,6 +6,12 @@ import { getWines } from '@/api/wineService'
 const ListingWines = () => {
 
   const [wines, setWines] = useState([])
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    lastPage: 1,
+    perPage: 9,
+    total: 0,
+  })
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -19,7 +25,14 @@ const ListingWines = () => {
         const winesListing = await getWines()
         // console.log(winesListing);
 
-        setWines(winesListing|| [])
+        setWines(winesListing.data || [])
+
+        setPagination({
+          currentPage: winesListing.current_page,
+          lastPage: winesListing.last_page,
+          perPage: winesListing.per_page,
+          total: winesListing.total,
+        })
       } catch (err) {
         console.log("Error:", err);
         // @ts-ignore
@@ -58,7 +71,10 @@ const ListingWines = () => {
                 <h2 className="text-2xl sm:text-5xl font-serif font-bold text-stone-100 tracking-tight">Le Verre & le Bouchon</h2>
                 <p className="text-sm sm:text-lg text-stone-300">Découvrir. Déguster. Collectionner.</p>
                 <p className="text-xs sm:text-sm text-stone-400 mt-2">
-                  <span className="font-semibold text-rose-600">12</span> bouteilles dans la cave
+                  <span className="font-semibold text-rose-600">
+                    {pagination?.total ?? 0}
+                  </span>{" "}
+                  bouteilles dans la cave
                 </p>
               </div>
 

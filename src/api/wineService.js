@@ -1,6 +1,8 @@
 import api from "./axios";
 
-export const getWines = async () => {
-    const { data } = await api.get('/wines')
+export const getWines = async (params = {}) => {
+    const { data } = await api.get('/wines', {
+        params
+    })
     return data
 }

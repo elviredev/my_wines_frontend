@@ -3,7 +3,6 @@
 import { Grape, LogInIcon } from 'lucide-react'
 import { FaBars, FaTimes } from 'react-icons/fa'
 import { Link, NavLink } from 'react-router-dom'
-import ponyo from '@/assets/images/ponyo.jpg'
 import { useEffect, useState, useRef } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { getImageUrl } from '@/utils/image'

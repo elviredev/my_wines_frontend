@@ -5,9 +5,10 @@ import { useEffect, useRef, useState } from "react"
 import api from "@/api/axios"
 import { useAuth } from "@/contexts/AuthContext"
 
-import ponyo from "@/assets/images/ponyo.jpg"
 import { FaCamera, FaLock, FaSave, FaTrash, FaUpload, FaUserCog } from "react-icons/fa"
 import { getImageUrl } from "@/utils/image"
+
+import { notifySuccess, notifyError } from "@/utils/notifications" 
 
 
 const EditProfile = () => {
@@ -33,8 +34,6 @@ const EditProfile = () => {
     password_confirmation: ""
   })
   const [savingPassword, setSavingPassword] = useState(false)
-  const [passwordError, setPasswordError] = useState(null)
-  const [passwordSuccess, setPasswordSuccess] = useState(null)
 
   // Etat pour désactiver le bouton pendant l'enregistrement
   const [saving, setSaving] = useState(false)
@@ -131,6 +130,7 @@ const EditProfile = () => {
         console.error("Erreur lors du chargement du profi :", error)
 
         setError("Impossible de charger votre profil.")
+        notifyError("Impossible de charger votre profil.")
 
       } finally {
         setLoading(false)
@@ -184,7 +184,7 @@ const EditProfile = () => {
           fileInputRef.current.value = ""
         }
 
-        console.log("Profil mis à jour :", response.data)
+        notifySuccess("Votre profil a été mis à jour avec succès.")
 
       } else {
         // Sans nouvelle image : PUT JSON classique
@@ -203,7 +203,7 @@ const EditProfile = () => {
           email: updatedProfile.email
         })
 
-        console.log("Profil mis à jour :", response.data)
+        notifySuccess("Votre profil a été mis à jour avec succès.")
       }
 
     } catch (error) {
@@ -211,10 +211,15 @@ const EditProfile = () => {
       console.error("Erreur lors de la mise à jour du profil :", error)
 
       if (error.response?.status === 422) {
-        console.error("Erreurs de validation :", error.response.data.errors)
-      }
 
-      setError("Impossible de mettre à jour votre profil.")
+        console.error("Erreurs de validation :", error.response.data.errors)
+        notifyError("Les informations saisies sont invalides.")
+
+      } else {
+
+        notifyError("Impossible de mettre à jour votre profil.")
+
+      }
 
     } finally {
 
@@ -230,14 +235,12 @@ const EditProfile = () => {
     e.preventDefault()
 
     setSavingPassword(true)
-    setPasswordError(null)
-    setPasswordSuccess(null)
 
     try {
 
       await api.put("/profile/password", passwordData)
 
-      setPasswordSuccess("Votre mot de passe a été modifié avec succès.")
+      notifySuccess("Votre mot de passe a été modifié avec succès.")
 
       // Vider les champs après succès
       setPasswordData({
@@ -254,11 +257,11 @@ const EditProfile = () => {
 
         console.error("Erreurs de validation : ", error.response.data.errors)
 
-        setPasswordError(error.response.data.message || "Les informations saisies sont invalides.")
+        notifyError(error.response.data.message || "Les informations saisies sont invalides.")
 
       } else {
 
-        setPasswordError("Impossible de modifier votre mot de passe.")
+        notifyError("Impossible de modifier votre mot de passe.")
 
       }
 
@@ -515,23 +518,7 @@ const EditProfile = () => {
             </p>
 
           </div>
-
-          {passwordError && (
-            <div className="mt-5 rounded-lg bg-red-900/30 border border-red-500/30 p-4">
-              <p className="text-sm text-red-300">
-                {passwordError}
-              </p>
-            </div>
-          )}
-
-          {passwordSuccess && (
-            <div className="mt-5 rounded-lg bg-green-900/30 border border-green-500/30 p-4">
-              <p className="text-sm text-green-300">
-                {passwordSuccess}
-              </p>
-            </div>
-          )}
-
+          
           {/* Zone de soumission du formulaire     */}
           <div className="mt-10 py-6 border-t border-white/10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 

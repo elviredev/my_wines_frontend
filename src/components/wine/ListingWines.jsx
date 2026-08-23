@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import { SelectInput, WineCard, WineFilters } from '@/components'
+import { Loading, SelectInput, WineCard, WineFilters } from '@/components'
 import { getWines } from '@/api/wineService'
 
 
-const ListingWines = () => {
+const ListingWines = ({ search }) => {
 
   const [wines, setWines] = useState([])
+
   const [pagination, setPagination] = useState({
     currentPage: 1,
     lastPage: 1,
@@ -16,42 +17,82 @@ const ListingWines = () => {
   const [error, setError] = useState(null)
 
   // fetch data
+  const fetchWines = async (params = {}) => {
+    setLoading(true)
+    setError(null)
+
+    try {
+
+      const winesListing = await getWines(params)
+      // console.log(winesListing);
+
+      setWines(winesListing.data || [])
+
+      setPagination({
+        currentPage: winesListing.meta.current_page,
+        lastPage: winesListing.meta.last_page,
+        perPage: winesListing.meta.per_page,
+        total: winesListing.meta.total,
+      })
+
+    } catch (err) {
+
+      console.log("Erreur lors du chargement des vins :", err);
+      // @ts-ignore
+      setError("Impossible de charger la liste des vins")
+
+    } finally {
+
+      setLoading(false)
+
+    }
+  }
+
   useEffect(() => {
-    const fetchWines = async () => {
-      setLoading(true)
-      setError(null)
+    const params = {}
 
-      try {
-        const winesListing = await getWines()
-        // console.log(winesListing);
-
-        setWines(winesListing.data || [])
-
-        setPagination({
-          currentPage: winesListing.current_page,
-          lastPage: winesListing.last_page,
-          perPage: winesListing.per_page,
-          total: winesListing.total,
-        })
-      } catch (err) {
-        console.log("Error:", err);
-        // @ts-ignore
-        setError("Impossible de charger la liste des vins")
-      } finally {
-        setLoading(false)
-      }
+    if(search) {
+      params.search = search
     }
 
-    fetchWines()
+    fetchWines(params)
+  }, [search])
 
-  }, [])
 
   if (loading) {
-    return <p className="text-stone-300">Chargement des vins...</p>;
+    return <Loading text="Chargement des vins..." />
   }
 
   if (error) {
-    return <p className="text-red-400 text-center">{error}</p>;
+    return (
+      <div className="flex flex-col items-center justify-center py-20 text-center">
+        <p className="text-red-400">
+          {error}
+        </p>
+
+        <button
+          type="button"
+          onClick={fetchWines}
+          className="mt-4 rounded-xl bg-rose-700 px-5 py-2.5 font-semibold text-white transition hover:bg-rose-600"
+        >
+          Réessayer
+        </button>
+      </div>
+    )
+  }
+
+  if (wines.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 text-center">
+        <p className="text-xl font-semibold text-stone-200">
+          Aucun vin dans la cave
+        </p>
+
+        <p className="mt-2 text-stone-400">
+          Votre cave ne contient actuellement aucun vin.
+        </p>
+      </div>
+    )
   }
 
   return (
@@ -67,6 +108,7 @@ const ListingWines = () => {
           <main className="lg:col-span-3">
             {/* Header row */}
             <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-0 rounded-2xl border border-rose-900/30 bg-stone-900/30 backdrop-blur-xl p-6">
+
               <div>
                 <h2 className="text-2xl sm:text-5xl font-serif font-bold text-stone-100 tracking-tight">Le Verre & le Bouchon</h2>
                 <p className="text-sm sm:text-lg text-stone-300">Découvrir. Déguster. Collectionner.</p>
@@ -92,7 +134,9 @@ const ListingWines = () => {
                   ]}
                 />
               </div>
-            </div>
+
+            </div>              
+
             <div className="grid grid-cols-1 2xl:grid-cols-2 gap-6">
               {/* Wine Cards */}
               {wines.map((wine) => (
@@ -101,6 +145,8 @@ const ListingWines = () => {
               ))}
 
             </div>
+
+
           </main>
 
         </div>

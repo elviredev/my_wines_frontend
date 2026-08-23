@@ -1,9 +1,15 @@
 import hero from "@/assets/images/hero-bg.jpg"
 import { Button, WineShowcase, ListingWines, ScrollToTopButton } from "@/components"
 import { Search } from "lucide-react"
+import { useState } from "react"
+import useDebounce from "@/hooks/useDebounce" 
 
 
 const Home = () => {
+
+  const [search, setSearch] = useState("")
+  const debouncedSearch = useDebounce(search.trim(), 600)
+
   return (
     <main>
       <div className="relative bg-gray-900 overflow-hidden h-auto md:h-125 flex items-center">
@@ -38,8 +44,8 @@ const Home = () => {
 
           {/* Search form */}
           <form
-
-            className="max-w-2xl mx-auto bg-stone-900/60 backdrop-blur-xl border border-white/10 p-3 rounded-2xl shadow-2xl shadow-black/50">
+            className="max-w-2xl mx-auto bg-stone-900/60 backdrop-blur-xl border border-white/10 p-3 rounded-2xl shadow-2xl shadow-black/50"
+          >
             <div className="flex flex-col md:flex-row items-center gap-3">
 
               {/* Keyword */}
@@ -52,7 +58,10 @@ const Home = () => {
                   </svg>
                   <input
                     type="text"
+                    id="search"
                     name="search"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
                     placeholder="Nom, appellation, domaine..."
                     className="w-full pl-11 pr-3 py-3 text-sm bg-stone-950/60 text-stone-100 focus:outline-none focus:ring-0 placeholder:text-stone-500 rounded-xl"
                     style={{ border: "none" }}
@@ -104,7 +113,10 @@ const Home = () => {
 
       </div>
       <WineShowcase />
-      <ListingWines />
+      <ListingWines 
+        // @ts-ignore
+        search={debouncedSearch} 
+      />
       <ScrollToTopButton bottom="bottom-38 sm:bottom-24" />
     </main>
   )

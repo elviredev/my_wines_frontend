@@ -1,6 +1,5 @@
 import hero from "@/assets/images/hero-bg.jpg"
-import { Button, WineShowcase, ListingWines, ScrollToTopButton } from "@/components"
-import { Search } from "lucide-react"
+import { WineShowcase, ListingWines, ScrollToTopButton } from "@/components"
 import { useState } from "react"
 import useDebounce from "@/hooks/useDebounce" 
 
@@ -68,15 +67,6 @@ const Home = () => {
                   />
                 </div>
               </div>
-
-              {/* Button */}
-              <Button
-                type="submit"
-                icon={Search}
-                variant="notshadow"
-              >
-                Rechercher un vin
-              </Button>
             </div>
           </form>
 

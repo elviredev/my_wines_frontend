@@ -5,11 +5,34 @@ import { WINE_PRICE_OPTIONS } from "@/constants/winePrices"
 import { WINE_RATING_OPTIONS } from "@/constants/wineRatings"
 
 
-const WineFilters = () => {
 
-  
 
-  
+const WineFilters = ({ filters, onFiltersChange }) => {
+
+
+  const handleWineTypeChange = (type, checked) => {
+    const wineTypes = checked
+      ? [...filters.wine_types, type]
+      : filters.wine_types.filter((item) => item !== type)
+
+    onFiltersChange({
+      ...filters,
+      wine_types: wineTypes,
+    })
+  }
+
+  const resetFilters = () => {
+    onFiltersChange({
+      vintage: '',
+      region: '',
+      min_price: '',
+      min_rating: '',
+      favorite: false,
+      available: false,
+      wine_types: [],
+    })
+  }
+
 
   return (
     <aside className="lg:col-span-1 bg-stone-900/40 backdrop-blur-xl rounded-2xl border border-rose-900/25 shadow-2xl shadow-black/20 p-6 lg:h-fit lg:sticky lg:top-8">
@@ -29,8 +52,18 @@ const WineFilters = () => {
           <FilterInput
             label="Millésime"
             name="vintage"
+            type="number"
+            min="1900"
+            max={new Date().getFullYear()}
             placeholder="Année"
             icon={Calendar}
+            value={filters.vintage}
+            onChange={(e) => {
+              onFiltersChange({
+                ...filters,
+                vintage: e.target.value
+              })
+            }}
           />
         </div>
 
@@ -43,9 +76,16 @@ const WineFilters = () => {
             options={WINE_REGION_OPTIONS}
             placeholder="Région viticole"
             labelClassName="text-stone-200"
+            value={filters.region}
+            onChange={(e) =>
+              onFiltersChange({
+                ...filters,
+                region: e.target.value,
+              })
+            }
           />
         </div>
-        
+
         {/* Price */}
         <div>
           <FilterSelect
@@ -55,6 +95,13 @@ const WineFilters = () => {
             options={WINE_PRICE_OPTIONS}
             labelClassName="text-stone-200"
             placeholder="Choisir un prix"
+            value={filters.min_price}
+            onChange={(e) =>
+              onFiltersChange({
+                ...filters,
+                min_price: e.target.value,
+              })
+            }
           />
         </div>
 
@@ -67,6 +114,13 @@ const WineFilters = () => {
             options={WINE_RATING_OPTIONS}
             labelClassName="text-stone-200"
             placeholder="Choisir une note"
+            value={filters.min_rating}
+            onChange={(e) =>
+              onFiltersChange({
+                ...filters,
+                min_rating: e.target.value,
+              })
+            }
           />
         </div>
       </div>
@@ -74,19 +128,33 @@ const WineFilters = () => {
       <div className="border-t border-stone-700/50 pt-5 mb-5">
         <h3 className="text-xs font-bold text-stone-200 uppercase tracking-wider mb-3">Favoris - Disponible</h3>
         <div className="space-y-2">
-                    
-            <Checkbox 
-              label="Mes vins préférés"
-              name="favorite"
-              className="text-stone-400 text-sm sm:text-base"
-            />
 
-            <Checkbox 
-              label="Disponible dans ma cave"
-              name="available"
-              className="text-stone-400 text-sm sm:text-base"
-            />
-          
+          <Checkbox
+            label="Mes vins préférés"
+            name="favorite"
+            className="text-stone-400 text-sm sm:text-base"
+            checked={filters.favorite}
+            onChange={(e) =>
+              onFiltersChange({
+                ...filters,
+                favorite: e.target.checked,
+              })
+            }
+          />
+
+          <Checkbox
+            label="Disponible dans ma cave"
+            name="available"
+            className="text-stone-400 text-sm sm:text-base"
+            checked={filters.available}
+            onChange={(e) =>
+              onFiltersChange({
+                ...filters,
+                available: e.target.checked,
+              })
+            }
+          />
+
         </div>
       </div>
 
@@ -95,13 +163,15 @@ const WineFilters = () => {
       <div className="border-t border-stone-700/50 pt-5 mb-5">
         <h3 className="text-xs font-bold text-stone-200 uppercase tracking-wider mb-3">Type de vin</h3>
         <div className="space-y-2">
-          {['Blanc', 'Rosé', 'Rouge', 'Champagne', 'Spiritueux', 'Autres'].map((type_vin) => (            
-            <Checkbox 
+          {['Blanc', 'Rosé', 'Rouge', 'Champagne', 'Spiritueux', 'Autre'].map((type_vin) => (
+            <Checkbox
               key={type_vin}
               label={type_vin}
               value={type_vin}
               name="wine_types[]"
               className="text-stone-400 text-sm sm:text-base"
+              checked={filters.wine_types.includes(type_vin)}
+              onChange={(e) => handleWineTypeChange(type_vin, e.target.checked)}
             />
           ))}
         </div>
@@ -112,6 +182,8 @@ const WineFilters = () => {
       <Button
         icon={RotateCcwIcon}
         fullWidth={true}
+        type="button"
+        onClick={resetFilters}
       >
         Réinitialiser les filtres
       </Button>

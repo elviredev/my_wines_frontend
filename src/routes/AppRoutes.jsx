@@ -22,7 +22,7 @@ const AppRoutes = () => {
         {/* Site public */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/wine/:slug" element={<WineDetails />} />
+          <Route path="/wines/:slug" element={<WineDetails />} />
         </Route>
 
         {/* Dashboard protégé */}

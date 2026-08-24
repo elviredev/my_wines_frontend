@@ -10,7 +10,7 @@ const WineCard = ({ wine }) => {
     blanc: "bg-yellow-900/25 border border-yellow-700/30 text-yellow-300",
     rosé: "bg-pink-900/25 border border-pink-700/30 text-pink-300",
     rose: "bg-pink-900/25 border border-pink-700/30 text-pink-300",
-    champagne: "bg-sky-900/25 border border-sky-700/30 text-sky-300",
+    champagne: "bg-purple-900/25 border border-purple-700/30 text-purple-300",
     spiritueux: "bg-sky-900/25 border border-sky-700/30 text-sky-300",
     orange: "bg-orange-900/25 border border-orange-700/30 text-orange-300",
     default: "bg-stone-800 border border-stone-700 text-stone-300",
@@ -72,31 +72,39 @@ const WineCard = ({ wine }) => {
             </h2>
 
             {/* Domaine */}
-            <p className="mt-1 text-stone-400">
-              {wine.domain}
-            </p>
+            {wine.domain && (
+              <p className="mt-1 text-stone-400">
+                {wine.domain}
+              </p>
+            )}
 
             {/* Région */}
-            <p className="mt-2 font-medium text-rose-300">
-              {wine.region}
-            </p>
+            {wine.region && (
+              <p className="mt-2 font-medium text-rose-300">
+                {wine.region}
+              </p>
+            )}
 
             {/* Note */}
-            <div className="mt-5">
-              <span className="inline-flex items-center gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-2 text-amber-300 font-bold">
-                <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                {wine.rating} /20
-              </span>
-            </div>
+            {wine.rating !== null && (
+              <div className="mt-5">
+                <span className="inline-flex items-center gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-2 text-amber-300 font-bold">
+                  <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+                  {Number(wine.rating)} /20
+                </span>
+              </div>
+            )}
 
           </div>
 
         </div>
 
         {/* Description */}
-        <p className="mt-6 text-sm leading-7 text-stone-400 line-clamp-2 md:line-clamp-3">
-          {wine.description}
-        </p>
+        {wine.description && (
+          <p className="mt-6 text-sm leading-7 text-stone-400 line-clamp-2 md:line-clamp-3">
+            {wine.description}
+          </p>
+        )}
 
         {/* Tags */}
         <div className="mt-6 flex flex-wrap gap-2">
@@ -106,10 +114,12 @@ const WineCard = ({ wine }) => {
             {wine.vintage}
           </span>
 
-          <span className="inline-flex items-center gap-1 rounded-full border border-rose-700/30 bg-rose-900/25 px-3 py-1 text-xs font-semibold text-rose-300">
-            <FaTag className="text-[10px]" />
-            {wine.price} €
-          </span>
+          {wine.price !== null && (
+            <span className="inline-flex items-center gap-1 rounded-full border border-rose-700/30 bg-rose-900/25 px-3 py-1 text-xs font-semibold text-rose-300">
+              <FaTag className="text-[10px]" />
+              {wine.price.replace(".", ",")} €
+            </span>
+          )}
 
           <WineTypeBadge type={wine.wine_type} />
 
@@ -121,7 +131,7 @@ const WineCard = ({ wine }) => {
       <div className="mt-6 pt-5 border-t border-stone-700/50">
 
         <NavLink
-          to={`/wine/${wine.slug}`}
+          to={`/wines/${wine.slug}`}
           className="block w-full rounded-xl bg-linear-to-r from-rose-700 to-red-900 py-3 text-center font-semibold text-white transition hover:from-rose-600 hover:to-red-800"
         >
           Découvrir →

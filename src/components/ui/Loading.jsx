@@ -1,6 +1,6 @@
 
 const Loading = ({ text = "Chargement..." }) => {
-  console.log("Loading reçu :", text)
+  
   return (
     <div className="flex justify-center items-center py-20">
       <div className="flex items-center gap-3 text-stone-300">

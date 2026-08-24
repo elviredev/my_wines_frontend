@@ -1,10 +1,112 @@
-import { Button, InfoRow } from "@/components"
+//@ts-nocheck
+import { useState, useEffect } from "react"
+import { getWine } from "@/api/wineService"
+import { useAuth } from "@/contexts/AuthContext"
+
+import { Button, InfoRow, Loading } from "@/components"
 import ScrollToTopButton from "@/components/ui/ScrollToTopButton"
 import { GrapeIcon, InfoIcon, NotepadTextIcon, Pencil, Trash2 } from "lucide-react"
-import { NavLink } from "react-router-dom"
+import { NavLink, useParams } from "react-router-dom"
+import { FaWineGlassAlt } from "react-icons/fa"
 
+const WineTypeStyles = {
+  rouge: "bg-red-900/25 border border-red-700/30 text-red-300",
+  blanc: "bg-yellow-900/25 border border-yellow-700/30 text-yellow-300",
+  rosé: "bg-pink-900/25 border border-pink-700/30 text-pink-300",
+  rose: "bg-pink-900/25 border border-pink-700/30 text-pink-300",
+  champagne: "bg-purple-900/25 border border-purple-700/30 text-purple-300",
+  spiritueux: "bg-sky-900/25 border border-sky-700/30 text-sky-300",
+  orange: "bg-orange-900/25 border border-orange-700/30 text-orange-300",
+  default: "bg-stone-800 border border-stone-700 text-stone-300",
+}
+
+const WineTypeBadge = ({ type = "Autre" }) => {
+  const style = WineTypeStyles[type?.toLowerCase()] || WineTypeStyles.default
+
+  return (
+    <span
+      className={`inline-flex items-center gap-1 px-4 py-2 text-sm font-semibold rounded-full ${style}`}
+    >
+      🍷 {type}
+    </span>
+  )
+}
 
 const WineDetails = () => {
+
+  const { isAuthenticated } = useAuth()
+
+  const { slug } = useParams()
+
+  const [wine, setWine] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchWine = async () => {
+
+      try {
+
+        setLoading(true)
+        setError(null)
+
+        const data = await getWine(slug)
+
+        setWine(data.data)
+
+      } catch (error) {
+
+        console.error("Erreur lors du chargement du vin :", error);
+
+
+        if (error.response?.status === 404) {
+          setError("Ce vin n'existe pas ou n'est plus disponible.");
+        } else {
+          setError("Impossible de charger ce vin. Veuillez réessayer.");
+        }
+
+      } finally {
+
+        setLoading(false)
+
+      }
+    }
+
+    fetchWine()
+
+  }, [slug])
+
+  // Chargement
+  if (loading) {
+    return (
+      <Loading text="Chargement du vin..." />
+    )
+  }
+
+  // Erreur
+  if (error) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+
+        <p className="text-rose-400">
+          {error}
+        </p>
+
+        <NavLink
+          to="/"
+          className="rounded-xl border border-rose-900/30 px-5 py-3 text-sm font-semibold text-stone-300 transition hover:bg-rose-900/20"
+        >
+          Retour aux vins
+        </NavLink>
+
+      </div>
+    )
+  }
+
+  if (!wine) {
+    return null
+  }
+
   return (
     <div className="min-h-screen bg-transparent">
       <div className="container mx-auto px-4 py-8 lg:px-10 lg:py-10 max-w-7xl">
@@ -39,81 +141,102 @@ const WineDetails = () => {
           <div className="relative grid md:grid-cols-[320px_1fr] items-center gap-16 px-8 py-8">
             {/* Bouteille */}
             <div className="flex justify-center">
-              <img
-                src="/images/menetou-salon.webp"
-                alt=""
-                className="h-50 sm:h-80 w-auto drop-shadow-2xl"
-              />
+              {wine.image ? (
+                <img
+                  src={wine.image}
+                  alt={wine.name}
+                  className="h-50 sm:h-80 w-auto drop-shadow-2xl"
+                />
+              ) : (
+                <div className="flex h-50 sm:h-80 items-center justify-center text-stone-500">
+                  Aucune image
+                </div>
+              )}
+
             </div>
 
             {/* Infos */}
             <div className="flex items-center">
               <div className="text-white">
 
-                <span className="inline-flex items-center gap-2 rounded-full bg-rose-900/20 backdrop-blur border border-rose-800/30 px-4 py-2 text-sm text-stone-200">
-                  🍷 Blanc
-                </span>
+                <WineTypeBadge type={wine.wine_type} />
 
                 <h1 className="mt-6 text-2xl sm:text-5xl font-serif font-bold">
-                  Menetou Salon 2023
+                  {wine.name} {wine.vintage}
                 </h1>
 
-                <p className="mt-4 text-xl sm:text-3xl font-serif font-semibold text-rose-100">
-                  Domaine du Grand Brussy
-                </p>
+                {wine.domain && (
+                  <p className="mt-4 text-xl sm:text-3xl font-serif font-semibold text-rose-100">
+                    {wine.domain}
+                  </p>
+                )}
 
                 <p className="mt-2 text-lg text-rose-200 font-medium">
-                  AOP Menetou-Salon
+                  {wine.appellation}
                 </p>
 
-                <div className="mt-6">
-                  <div className="flex justify-between text-sm mb-2">
-                    <span>Ma note</span>
-                    <span className="font-bold text-white">16 / 20</span>
-                  </div>
+                {wine.rating !== null && (
+                  <div className="mt-6">
 
-                  <div className="h-2 rounded-full bg-white/20 overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-linear-to-r from-amber-500 to-yellow-300"
-                      style={{ width: "80%" }}
-                    />
+                    <div className="flex justify-between text-sm mb-2">
+                      <span>Ma note</span>
+                      <span className="font-bold text-white">{Number(wine.rating)} / 20</span>
+                    </div>
+
+                    <div className="h-2 rounded-full bg-white/20 overflow-hidden">
+                      <div
+                        className="h-full rounded-full bg-linear-to-r from-amber-500 to-yellow-300"
+                        style={{ width: `${(Number(wine.rating) / 20) * 100}%` }}
+                      />
+                    </div>
+
                   </div>
-                </div>
+                )}
+
 
                 {/* Badges */}
                 <div className="mt-6 flex flex-wrap gap-3">
-                  <span className="rounded-full bg-stone-900/40 backdrop-blur border border-white/10 px-4 py-2">
-                    🇫🇷 Val de Loire
-                  </span>
+                  {wine.region && (
+                    <span className="rounded-full bg-stone-900/40 backdrop-blur border border-white/10 px-4 py-2">
+                      📌 {wine.region}
+                    </span>
+                  )}
 
-                  <span className="rounded-full bg-stone-900/40 backdrop-blur border border-white/10 px-4 py-2">
-                    💰 14,90 €
-                  </span>
+                  {wine.price !== null && (
+                    <span className="rounded-full bg-stone-900/40 backdrop-blur border border-white/10 px-4 py-2">
+                      💰 {wine.price.replace(".", ",")} €
+                    </span>
+                  )}
 
-                  <span className="rounded-full bg-stone-900/40 backdrop-blur border border-white/10 px-4 py-2">
-                    ❤️ Favori
-                  </span>
+                  {wine.favorite && (
+                    <span className="rounded-full bg-stone-900/40 backdrop-blur border border-white/10 px-4 py-2">
+                      ❤️ Favori
+                    </span>
+                  )}
                 </div>
 
                 {/* Boutons */}
-                <div className="mt-8 border-t border-white/10 pt-6 flex flex-wrap gap-4">
-                  <NavLink
-                    to="/dashboard/wines/vieilles-vignes-2021/edit"
-                    className="rounded-xl px-6 py-3 text-sm sm:text-base font-semibold transition duration-200 flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer
+                {isAuthenticated && (
+                  <div className="mt-8 border-t border-white/10 pt-6 flex flex-wrap gap-4">
+                    <NavLink
+                      to={`/dashboard/wines/${wine.slug}/edit`}
+                      className="rounded-xl px-6 py-3 text-sm sm:text-base font-semibold transition duration-200 flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer
                     disabled:opacity-50 disabled:cursor-not-allowed bg-linear-to-r from-rose-700/90 to-red-900/90 hover:from-rose-800 
                     hover:to-red-900 hover:shadow-md text-white"
-                  >
-                    <Pencil className="h-4 w-4" />
-                    Modifier
-                  </NavLink>
+                    >
+                      <Pencil className="h-4 w-4" />
+                      Modifier
+                    </NavLink>
 
-                  <Button
-                    variant="outline"
-                    icon={Trash2}
-                  >
-                    Supprimer
-                  </Button>
-                </div>
+                    <Button
+                      variant="outline"
+                      icon={Trash2}
+                    >
+                      Supprimer
+                    </Button>
+                  </div>
+
+                )}
 
               </div>
             </div>
@@ -139,7 +262,9 @@ const WineDetails = () => {
               </div>
 
               <div className="px-6 pb-6">
-                <p className="text-stone-300 leading-relaxed">Le Menetou Salon est un vin blanc du Centre Val de Loire aux arômes de fruits exotiques, de pêche, de fleurs des champs. Bouche tendre, souple et d'une grande fraîcheur.</p>
+                <p className="text-stone-300 leading-relaxed">
+                  {wine.description || "Aucune description"}
+                </p>
               </div>
             </section>
 
@@ -157,34 +282,32 @@ const WineDetails = () => {
               <div className="grid grid-cols-2 gap-y-6 gap-x-8 px-6 pb-6">
                 <div className="border-b border-stone-800 pb-4">
                   <p className="text-sm text-stone-300">Domaine</p>
-                  <p className="font-semibold">Domaine du Grand Brussy</p>
+                  <p className="font-semibold">{wine.domain || "-"}</p>
                 </div>
 
                 <div className="border-b border-stone-800 pb-4">
                   <p className="text-sm text-stone-300">Appellation</p>
-                  <p className="font-semibold">AOP Menetou Salon</p>
+                  <p className="font-semibold">{wine.appellation || "-"}</p>
                 </div>
 
                 <div className="border-b border-stone-800 pb-4">
                   <p className="text-sm text-stone-300">Millésime</p>
-                  <p className="font-semibold">2022</p>
+                  <p className="font-semibold">{wine.vintage || "-"}</p>
                 </div>
 
                 <div className="border-b border-stone-800 pb-4">
                   <p className="text-sm text-stone-300">Pays</p>
-                  <p className="font-semibold">France</p>
+                  <p className="font-semibold">{wine.country || "-"}</p>
                 </div>
 
                 <div className="border-b border-stone-800 pb-4">
                   <p className="text-sm text-stone-300">Région</p>
-                  <p className="font-semibold">Val de Loire</p>
+                  <p className="font-semibold">{wine.region || "-"}</p>
                 </div>
 
                 <div className="border-b border-stone-800 pb-4">
                   <p className="text-sm text-stone-300">Cépages</p>
-                  <p className="font-semibold">
-                    Sauvignon Blanc
-                  </p>
+                  <p className="font-semibold">{wine.grape || "-"}</p>
                 </div>
               </div>
             </section>
@@ -203,29 +326,34 @@ const WineDetails = () => {
               <div className="px-6 pb-6 space-y-5">
                 <div>
                   <h3 className="font-semibold mb-2">Nez</h3>
-                  <p className="text-stone-300">Friand, aux accents de fruits exotiques, de pêche, de fleurs des champs.</p>
+                  <p className="text-stone-300">{wine.nose || "-"}</p>
                 </div>
 
                 <div>
                   <h3 className="font-semibold mb-2">Bouche</h3>
-                  <p className="text-stone-300">Tendre, souple, d'une grande fraîcheur.</p>
+                  <p className="text-stone-300">{wine.palate || "-"}</p>
                 </div>
 
                 <div>
                   <h3 className="font-semibold mb-2">Accords</h3>
 
                   <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full bg-rose-900/20 border border-rose-800/30 px-3 py-1 text-sm sm:text-base text-rose-200">
-                      🥩 Viandes rouges
-                    </span>
+                    {wine.pairings?.length > 0 ? (
 
-                    <span className="rounded-full bg-rose-900/20 border border-rose-800/30 px-3 py-1 text-sm sm:text-base text-rose-200">
-                      🧀 Fromages
-                    </span>
+                      wine.pairings.map((pairing, index) => (
+                        <span
+                          key={index}
+                          className="rounded-full bg-rose-900/20 border border-rose-800/30 px-3 py-1 text-sm sm:text-base text-rose-200"
+                        >
+                          {pairing}
+                        </span>
+                      ))
 
-                    <span className="rounded-full bg-rose-900/20 border border-rose-800/30 px-3 py-1 text-sm sm:text-base text-rose-200">
-                      🍫 Chocolat
-                    </span>
+                    ) : (
+                      <span className="text-stone-500">
+                        Aucun accord renseigné.
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -245,17 +373,17 @@ const WineDetails = () => {
 
               <div className="space-y-5 p-6 text-sm sm:text-base">
 
-                <InfoRow icon="💰" label="Prix" value="14,50 €" />
+                <InfoRow icon="💰" label="Prix" value={wine.price !== null ? `${wine.price.replace(".", ",")} €` : "-"} />
 
-                <InfoRow icon="⭐" label="Note" value="16 / 20" />
+                <InfoRow icon="⭐" label="Note" value={wine.rating !== null ? `${Number(wine.rating)} / 20` : "-"} />
 
-                <InfoRow icon="📅" label="Acheté le" value="14/02/2026" />
+                <InfoRow icon="📅" label="Acheté le" value={wine.purchase_date ? new Date(wine.purchase_date).toLocaleDateString("fr-FR") : "-"} />
 
-                <InfoRow icon="🛒" label="Vendeur" value="Vinatis" />
+                <InfoRow icon="🛒" label="Vendeur" value={wine.seller || "-"} />
 
-                <InfoRow icon="❤️" label="Favori" value="Oui" />
+                <InfoRow icon="❤️" label="Favori" value={wine.favorite ? "Oui" : "Non"} />
 
-                <InfoRow icon="🍷" label="Catégorie" value="Blanc" />
+                <InfoRow icon="🍷" label="Catégorie" value={wine.wine_type || "-"} />
 
               </div>
 

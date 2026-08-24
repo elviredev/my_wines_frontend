@@ -14,5 +14,5 @@ export const WINE_REGION_OPTIONS = [
   { label: 'Savoie', value: 'Savoie' },
   { label: 'Sud-Ouest', value: 'Sud-Ouest' },
   { label: 'Val de Loire', value: 'Val de Loire' },
-  { label: 'Vallée du Rhône', value: 'Vallée du Rhône' },
+  { label: 'Vallée du Rhône', value: 'Vallée du Rhone' },
 ];

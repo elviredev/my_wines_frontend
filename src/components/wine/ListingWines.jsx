@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Loading, SelectInput, WineCard, WineFilters } from '@/components'
+import { Button, Loading, SelectInput, WineCard, WineFilters } from '@/components'
 import { getWines } from '@/api/wineService'
 import useDebounce from '@/hooks/useDebounce'
+import { ChevronDown } from 'lucide-react'
 
 
 
@@ -24,7 +25,7 @@ const ListingWines = ({ search }) => {
   const [pagination, setPagination] = useState({
     currentPage: 1,
     lastPage: 1,
-    perPage: 9,
+    perPage: 8,
     total: 0,
   })
 
@@ -32,7 +33,7 @@ const ListingWines = ({ search }) => {
   const [error, setError] = useState(null)
 
   // checker si filtres actifs
-  const hasFilters = 
+  const hasFilters =
     debouncedVintage ||
     filters.region ||
     filters.min_price ||
@@ -42,7 +43,7 @@ const ListingWines = ({ search }) => {
     filters.wine_types.length > 0
 
   // fetch data
-  const fetchWines = async (params = {}) => {
+  const fetchWines = async (params = {}, append = false) => {
     setLoading(true)
     setError(null)
 
@@ -51,7 +52,19 @@ const ListingWines = ({ search }) => {
       const winesListing = await getWines(params)
       // console.log(winesListing);
 
-      setWines(winesListing.data || [])
+      const newWines = winesListing.data || []
+
+      if (append) {
+        // ajouter les nouveaux vins à ceux déja affichés
+        // @ts-ignore
+        setWines((prev) => [
+          ...prev,
+          ...newWines
+        ])
+      } else {
+        // nouvelle recherche / nouveau filtre
+        setWines(newWines)
+      }
 
       setPagination({
         currentPage: winesListing.meta.current_page,
@@ -73,7 +86,7 @@ const ListingWines = ({ search }) => {
     }
   }
 
-  useEffect(() => {
+  const buildParams = (page = pagination.currentPage) => {
     const params = {}
 
     if (search) {
@@ -108,8 +121,37 @@ const ListingWines = ({ search }) => {
       params.wine_types = filters.wine_types
     }
 
+    // pagination
+    params.page = page
+    params.per_page = pagination.perPage
+
+    return params
+
+  }
+
+  useEffect(() => {
+    const params = buildParams(1)
+
     fetchWines(params)
-  }, [search, debouncedVintage, filters.available, filters.favorite, filters.min_price, filters.min_rating, filters.region, filters.wine_types])
+  }, [
+      search, debouncedVintage, filters.available,
+      filters.favorite, filters.min_price,
+      filters.min_rating, filters.region, filters.wine_types,
+      pagination.perPage
+    ]
+  )
+
+  const handleLoadMore = async () => {
+    const nextPage = pagination.currentPage + 1
+    
+    if(nextPage > pagination.lastPage) {
+      return
+    }
+
+    const params = buildParams(nextPage)
+
+    await fetchWines(params, true)
+  }
 
 
   if (loading) {
@@ -144,9 +186,15 @@ const ListingWines = ({ search }) => {
           {/* wine filters  */}
           <WineFilters
             filters={filters}
-            onFiltersChange={setFilters}
-          />
+            onFiltersChange={(newFilters) => {
+              setFilters(newFilters)
 
+              setPagination((prev) => ({
+                ...prev,
+                currentPage: 1,
+              }))
+            }}
+          />
 
           <main className="lg:col-span-3">
             {/* Header row */}
@@ -166,15 +214,23 @@ const ListingWines = ({ search }) => {
               {/* Per page selector */}
               <div className="w-30">
                 <SelectInput
-                  name="wine_type"
+                  name="per_page"
+                  value={pagination.perPage}
                   labelClassName="text-stone-300"
                   placeholder="Par page"
                   options={[
-                    { value: "sup-9", label: "> 8 / page" },
-                    { value: "sup-18", label: "> 18 / page" },
-                    { value: "sup-50", label: "> 50 / page" },
-                    { value: "sup-100", label: "> 100 / page" }
+                    { value: 8, label: "8 / page" },
+                    { value: 18, label: "18 / page" },
+                    { value: 50, label: "50 / page" },
+                    { value: 100, label: "100 / page" }
                   ]}
+                  onChange={(e) => {
+                    setPagination((prev) => ({
+                      ...prev,
+                      perPage: Number(e.target.value),
+                      currentPage: 1
+                    }))
+                  }}
                 />
               </div>
 
@@ -201,6 +257,20 @@ const ListingWines = ({ search }) => {
                   // @ts-ignore
                   <WineCard key={wine.id} wine={wine} />
                 ))}
+              </div>
+            )}
+
+            {/* Charger plus */}
+            {pagination.currentPage < pagination.lastPage && (
+              <div className="mt-10 flex justify-center">
+                <Button
+                  type="button"
+                  icon={ChevronDown}
+                  onClick={handleLoadMore}
+                  variant="notshadow"
+                >
+                  Charger plus de vins
+                </Button>
               </div>
             )}
 

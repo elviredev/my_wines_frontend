@@ -25,7 +25,7 @@ const SortableHeader = (props) => {
     sortBy,
     direction,
     onSort,
-    align = "justify-start",
+    align = "left",
     ...rest
   } = props
 

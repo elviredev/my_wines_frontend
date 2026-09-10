@@ -14,3 +14,14 @@ export const getWine = async (slug) => {
 
     return data
 }
+
+// Créer un vin
+export const createWine = async (formData) => {
+    const { data } = await api.post('/wines', formData, {
+        headers: {
+            "Content-Type": "multipart/form-data"
+        }
+    })
+
+    return data
+}

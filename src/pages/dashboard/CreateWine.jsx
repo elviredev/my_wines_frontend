@@ -1,32 +1,30 @@
 // @ts-nocheck
 import { useEffect, useRef, useState } from "react"
 import { Button, Checkbox, SelectInput, TextareaInput, TextInput, BadgeMultiSelect, ScrollToTopButton } from "@/components"
-import { FaCloudUploadAlt, FaCamera, FaUpload, FaTimes, FaWineBottle, FaFish, FaCheese, FaWineGlass, FaChevronUp  } from "react-icons/fa"
+import { FaCloudUploadAlt, FaCamera, FaUpload, FaTimes, FaWineBottle, FaFish, FaCheese, FaWineGlass, FaChevronUp } from "react-icons/fa"
 import { GiMeat, GiChocolateBar, GiCupcake, GiShrimp, GiCookingPot, GiCampCookingPot } from "react-icons/gi";
-import { WINE_TYPE_OPTIONS } from "@/constants/wineTypes";
 import { BadgeEuro, GlassWater, Grape, Star, Wine } from "lucide-react";
+import { WINE_TYPE_OPTIONS } from "@/constants/wineTypes";
 import { WINE_REGION_OPTIONS } from "@/constants/wineRegions";
+import { WINE_PAIRING_OPTIONS } from "@/constants/winePairingOptions";
+import { WINE_COUNTRY_OPTIONS } from "@/constants/wineCountries";
+import { useNavigate } from "react-router-dom";
+import { createWine } from "@/api/wineService";
+import { notifyError, notifySuccess } from "@/utils/notifications";
 
-
-const pairingOptions = [
-  { value: "viande-rouge", label: "Viande rouge", icon: GiMeat },
-  { value: "fromage", label: "Fromage", icon: FaCheese },
-  { value: "poisson", label: "Poisson", icon: FaFish },
-  { value: "fruits-de-mer", label: "Fruits de mer", icon: GiShrimp },
-  { value: "dessert", label: "Dessert", icon: GiCupcake },
-  { value: "chocolat", label: "Chocolat", icon: GiChocolateBar },
-  { value: "aperitif", label: "Apéritif", icon: FaWineGlass },
-  { value: "cuisine-italienne", label: "Cuisine italienne", icon: GiCookingPot },
-  { value: "cuisine-asiatique", label: "Cuisine asiatique", icon: GiCampCookingPot },
-];
 
 
 const CreateWine = () => {
 
   const [pairings, setPairings] = useState([]);
   const [image, setImage] = useState(null)
-  const [previewUrl, setPreviewUrl] = useState(null)  
+  const [previewUrl, setPreviewUrl] = useState(null)
   const fileInputRef = useRef(null)
+
+  // éviter les doubles clics
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const navigate = useNavigate()
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0]
@@ -62,8 +60,78 @@ const CreateWine = () => {
         URL.revokeObjectURL(previewUrl);
       }
     };
-  }, [previewUrl])  
-  
+  }, [previewUrl])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    if (isSubmitting) return
+    setIsSubmitting(true)
+
+    try {
+
+      const formData = new FormData(e.currentTarget)
+
+      // Les checkboxes non cochées ne sont pas envoyées dans FormData. 
+      // On ajoute donc explicitement 0 dans ce cas.
+      if (!formData.has("buy_again")) {
+        formData.append("buy_again", "0")
+      }
+
+      if (!formData.has("favorite")) {
+        formData.append("favorite", "0")
+
+      }
+
+      if (!formData.has("available")) {
+        formData.append("available", "0")
+      }
+
+      // BadgeMultiSelect utilise un état React et non un input HTML.
+      // On ajoute donc directement le tableau pour Laravel.
+      pairings.forEach((pairing) => {
+        formData.append("pairings[]", pairing)
+      })
+
+      // L'input fichier n'a pas de name="image"
+      // donc on ajoute l'image manuellement
+      if (image) {
+        formData.append("image", image)
+      }
+
+      await createWine(formData)
+
+      notifySuccess("Le vin a été ajouté avec succès.")
+
+      navigate("/dashboard/wines")
+
+    } catch (error) {
+
+      console.error("Erreur lors de la création du vin :", error)
+
+      if (error.response?.status === 422) {
+        const errors = error.response.data.errors
+
+        const firstError = errors
+          ? Object.values(errors)[0]?.[0]
+          : null
+
+        notifyError(firstError || "Veuillez vérifier les informations saisies.")
+
+      } else {
+
+        notifyError("Une erreur est survenue lors de l'ajout du vin.")
+
+      }
+
+    } finally {
+
+      setIsSubmitting(false)
+
+    }
+
+  }
+
   return (
     <div className="space-y-12">
 
@@ -73,12 +141,15 @@ const CreateWine = () => {
         </h1>
 
         <p className="mt-2 text-stone-400">
-            Complétez les informations de votre bouteille.
+          Complétez les informations de votre bouteille.
         </p>
       </header>
 
 
-      <form className="space-y-8">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-8"
+      >
 
         {/* Infos générales */}
 
@@ -172,11 +243,12 @@ const CreateWine = () => {
               name="appellation"
               labelClassName="text-stone-300"
               placeholder="AOP Côtes du Rhône"
+              required={true}
             />
 
             <TextInput
               label="Cépage"
-              name="cepage"
+              name="grape"
               labelClassName="text-stone-300"
               placeholder="Grenache, Syrah"
             />
@@ -186,13 +258,9 @@ const CreateWine = () => {
               name="country"
               labelClassName="text-stone-300"
               placeholder="Choisir un pays"
-              options={[
-                { value: "france", label: "France" },
-                { value: "italie", label: "Italie" },
-                { value: "espagne", label: "Espagne" },
-                { value: "chili", label: "Chili" },
-                { value: "autre", label: "Autres" },
-              ]}
+              options={WINE_COUNTRY_OPTIONS}
+              defaultValue="France"
+              required={true}
             />
 
             <SelectInput
@@ -200,7 +268,6 @@ const CreateWine = () => {
               name="region"
               labelClassName="text-stone-300"
               placeholder="Choisir une région"
-              required={true}
               options={WINE_REGION_OPTIONS}
             />
 
@@ -318,9 +385,10 @@ const CreateWine = () => {
               label="Prix"
               type="number"
               name="price"
+              step="0.01"
+              min="0"
               labelClassName="text-stone-300"
               placeholder="12.50"
-              required={true}
             />
 
             <TextInput
@@ -340,12 +408,14 @@ const CreateWine = () => {
             <Checkbox
               label="Je racheterai ce vin"
               name="buy_again"
+              value="1"
               className="text-stone-300"
             />
 
             <Checkbox
               label="Bouteille disponible en cave"
-              name="is_opened"
+              name="available"
+              value="1"
               className="text-stone-300"
             />
           </div>
@@ -388,6 +458,7 @@ const CreateWine = () => {
             <Checkbox
               label="Ajouter à mes favoris"
               name="favorite"
+              value="1"
               className="text-stone-300"
             />
 
@@ -451,7 +522,7 @@ const CreateWine = () => {
           <BadgeMultiSelect
             label="Accords mets & vins"
             name="pairings"
-            options={pairingOptions}
+            options={WINE_PAIRING_OPTIONS}
             value={pairings}
             onChange={setPairings}
           />
@@ -474,15 +545,16 @@ const CreateWine = () => {
           <Button
             type="submit"
             icon={FaWineBottle}
+            disabled={isSubmitting}
             className="px-8 py-3"
           >
-            Ajouter ce vin
+            {isSubmitting ? "Enregistement" : "Ajouter ce vin"}
           </Button>
 
         </div>
 
       </form>
-      
+
       {/* Scroll to top */}
       <ScrollToTopButton />
 

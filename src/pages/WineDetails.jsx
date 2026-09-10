@@ -9,6 +9,8 @@ import { GrapeIcon, InfoIcon, NotepadTextIcon, Pencil, Trash2 } from "lucide-rea
 import { NavLink, useParams } from "react-router-dom"
 import { FaWineGlassAlt } from "react-icons/fa"
 
+import { WINE_PAIRING_OPTIONS } from "@/constants/winePairingOptions";
+
 const WineTypeStyles = {
   rouge: "bg-red-900/25 border border-red-700/30 text-red-300",
   blanc: "bg-yellow-900/25 border border-yellow-700/30 text-yellow-300",
@@ -30,6 +32,11 @@ const WineTypeBadge = ({ type = "Autre" }) => {
       🍷 {type}
     </span>
   )
+}
+
+// Récupérer les labels des accords pour les afficher
+const getPairingLabel = (value) => {
+  return WINE_PAIRING_OPTIONS.find((option) => option.value === value)?.label ?? value
 }
 
 const WineDetails = () => {
@@ -297,7 +304,7 @@ const WineDetails = () => {
 
                 <div className="border-b border-stone-800 pb-4">
                   <p className="text-sm text-stone-300">Pays</p>
-                  <p className="font-semibold">{wine.country || "-"}</p>
+                  <p className="font-semibold">{wine.country ?? "France"}</p>
                 </div>
 
                 <div className="border-b border-stone-800 pb-4">
@@ -345,7 +352,7 @@ const WineDetails = () => {
                           key={index}
                           className="rounded-full bg-rose-900/20 border border-rose-800/30 px-3 py-1 text-sm sm:text-base text-rose-200"
                         >
-                          {pairing}
+                          {getPairingLabel(pairing)}
                         </span>
                       ))
 
@@ -379,11 +386,15 @@ const WineDetails = () => {
 
                 <InfoRow icon="📅" label="Acheté le" value={wine.purchase_date ? new Date(wine.purchase_date).toLocaleDateString("fr-FR") : "-"} />
 
-                <InfoRow icon="🛒" label="Vendeur" value={wine.seller || "-"} />
+                <InfoRow icon="🏪" label="Vendeur" value={wine.seller || "-"} />
+
+                <InfoRow icon="🍷" label="Catégorie" value={wine.wine_type || "-"} />
 
                 <InfoRow icon="❤️" label="Favori" value={wine.favorite ? "Oui" : "Non"} />
 
-                <InfoRow icon="🍷" label="Catégorie" value={wine.wine_type || "-"} />
+                <InfoRow icon="✔️" label="Disponible" value={wine.available ? "Oui" : "Non"} />
+
+                <InfoRow icon="🛒" label="A racheter" value={wine.buy_again ? "Oui" : "Non"} />
 
               </div>
 

@@ -15,8 +15,8 @@ const ManageWines = () => {
 
   const [search, setSearch] = useState("")
 
-  const [sortBy, setSortBy] = useState("name");
-  const [direction, setDirection] = useState("asc");
+  const [sortBy, setSortBy] = useState(null);
+  const [direction, setDirection] = useState(null);
 
   const [pagination, setPagination] = useState({
     currentPage: 1,
@@ -33,9 +33,11 @@ const ManageWines = () => {
       setLoading(true)
       setError(null)
 
-      const sort = sortBy === "favorite"
-        ? "favorite"
-        : `${currentSortBy}_${currentDirection}`
+      const sort = currentSortBy && currentDirection
+        ? currentSortBy === "favorite"
+          ? "favorite"
+          : `${currentSortBy}_${currentDirection}`
+        : undefined
 
       const response = await getWines({
         search: search || undefined,

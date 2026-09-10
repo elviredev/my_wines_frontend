@@ -6,8 +6,8 @@ import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react"
  *   className?: string,
  *   label: string,
  *   column: string,
- *   sortBy: string,
- *   direction: string,
+ *   sortBy: string | null,
+ *   direction: string | null,
  *   onSort: (column: string) => void,
  *   align?: "left" | "center" | "right",
  * }} SortableHeaderProps

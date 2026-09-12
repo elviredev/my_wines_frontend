@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { useEffect, useRef, useState } from "react"
-import { Button, Checkbox, SelectInput, TextareaInput, TextInput, BadgeMultiSelect, ScrollToTopButton } from "@/components"
+import { useNavigate } from "react-router-dom";
+import { Button, Checkbox, SelectInput, TextareaInput, TextInput, BadgeMultiSelect, ScrollToTopButton, DateInput } from "@/components"
 import { FaCloudUploadAlt, FaCamera, FaUpload, FaTimes, FaWineBottle, FaFish, FaCheese, FaWineGlass, FaChevronUp } from "react-icons/fa"
 import { GiMeat, GiChocolateBar, GiCupcake, GiShrimp, GiCookingPot, GiCampCookingPot } from "react-icons/gi";
 import { BadgeEuro, GlassWater, Grape, Star, Wine } from "lucide-react";
@@ -8,7 +9,6 @@ import { WINE_TYPE_OPTIONS } from "@/constants/wineTypes";
 import { WINE_REGION_OPTIONS } from "@/constants/wineRegions";
 import { WINE_PAIRING_OPTIONS } from "@/constants/winePairingOptions";
 import { WINE_COUNTRY_OPTIONS } from "@/constants/wineCountries";
-import { useNavigate } from "react-router-dom";
 import { createWine } from "@/api/wineService";
 import { notifyError, notifySuccess } from "@/utils/notifications";
 
@@ -391,12 +391,18 @@ const CreateWine = () => {
               placeholder="12.50"
             />
 
-            <TextInput
+            <DateInput 
+              label="Date d'achat"
+              name="purchase_date"
+              labelClassName="text-stone-300"
+            />
+
+            {/* <TextInput
               label="Date d'achat"
               type="date"
               name="purchase_date"
               labelClassName="text-stone-300"
-            />
+            /> */}
 
             <TextInput
               label="Vendeur"

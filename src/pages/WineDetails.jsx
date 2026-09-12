@@ -59,7 +59,7 @@ const WineDetails = () => {
 
         const data = await getWine(slug)
 
-        setWine(data.data)
+        setWine(data)
 
       } catch (error) {
 

@@ -51,7 +51,7 @@ const TextInput = (props) => {
           id={name}
           name={name}
           type={inputType}
-          className={`w-full px-4 py-3 text-sm text-stone-200 bg-stone-950/50 rounded-lg border border-white/10 placeholder:text-stone-500 sm:placeholder:text-base transition-all focus:outline-none focus:ring-0 focus:border-rose-600 focus:shadow-none
+          className={`w-full px-4 py-3 text-sm text-stone-300 bg-stone-950/50 rounded-lg border border-white/10 placeholder:text-stone-500 sm:placeholder:text-base transition-all focus:outline-none focus:ring-0 focus:border-rose-600 focus:shadow-none
           ${type === "password" ? "pr-12" : ""}
           ${error ? "border-red-500" : "border-white/10"} 
           ${className}`}

@@ -1,3 +1,4 @@
+import { useState } from "react"
 
 /**
  * @typedef {React.SelectHTMLAttributes<HTMLSelectElement> & {
@@ -12,6 +13,7 @@
  * }} SelectInputProps
  */
 
+
 /** @param {SelectInputProps} props */
 const SelectInput = (props) => {
 
@@ -24,8 +26,18 @@ const SelectInput = (props) => {
     error,
     className = "",
     labelClassName = "text-gray-700",
+    defaultValue,
     ...rest
   } = props
+
+  const [hasValue, setHasValue] = useState(
+    defaultValue !== undefined && defaultValue !== ""
+  )
+
+  const handleChange = (e) => {
+    setHasValue(e.target.value !== "")
+    rest.onChange?.(e)
+  }
 
   return (
     <div className='mb-4'>
@@ -43,8 +55,10 @@ const SelectInput = (props) => {
         id={name}
         name={name}
         required={required}
-        className={`w-full px-4 py-3 bg-stone-950/50 rounded-lg border transition-all appearance-none focus:outline-none focus:ring-0 focus:border-rose-600 focus:shadow-none 
-          ${rest.value ? "text-sm text-stone-200" : "text-sm text-stone-500"}
+        defaultValue={defaultValue}
+        onChange={handleChange}
+        className={`w-full px-4 py-3 bg-stone-950/50 rounded-lg border transition-all appearance-none focus:outline-none focus:ring-0 focus:border-rose-600 focus:shadow-none text-sm
+          ${hasValue ? "text-stone-300" : "text-stone-500"}
           ${error ? "border-red-500" : "border-white/10"} 
           ${className} `}
         {...rest}

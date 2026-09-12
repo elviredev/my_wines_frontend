@@ -12,16 +12,21 @@ export const getWines = async (params = {}) => {
 export const getWine = async (slug) => {
     const { data } = await api.get(`/wines/${slug}`)
 
-    return data
+    return data.data
 }
 
 // Créer un vin
 export const createWine = async (formData) => {
-    const { data } = await api.post('/wines', formData, {
-        headers: {
-            "Content-Type": "multipart/form-data"
-        }
-    })
+    const { data } = await api.post('/wines', formData)
+
+    return data
+}
+
+// Modifier un vin
+export const updateWine = async (slug, formData) => {
+    formData.append("_method", "PATCH")
+
+    const { data } = await api.post(`/wines/${slug}`, formData)
 
     return data
 }

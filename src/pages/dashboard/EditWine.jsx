@@ -1,44 +1,42 @@
 // @ts-nocheck
 import { useEffect, useRef, useState } from "react"
-import { Button, Checkbox, SelectInput, TextareaInput, TextInput, BadgeMultiSelect, ScrollToTopButton } from "@/components"
-import { FaCloudUploadAlt, FaCamera, FaUpload, FaTimes, FaWineBottle, FaFish, FaCheese, FaWineGlass, FaChevronUp, FaSave  } from "react-icons/fa"
+import { data, useNavigate, useParams } from "react-router-dom";
+import { Button, Checkbox, SelectInput, TextareaInput, TextInput, BadgeMultiSelect, ScrollToTopButton, Loading, DateInput } from "@/components"
+import { FaCloudUploadAlt, FaCamera, FaUpload, FaTimes, FaWineBottle, FaFish, FaCheese, FaWineGlass, FaChevronUp, FaSave } from "react-icons/fa"
 import { GiMeat, GiChocolateBar, GiCupcake, GiShrimp, GiCookingPot, GiCampCookingPot } from "react-icons/gi";
-import { WINE_TYPE_OPTIONS } from "@/constants/wineTypes";
-
-import chateauBellevue from "@/assets/images/image-8.jpg"
 import { BadgeEuro, GlassWater, Grape, Star, Wine } from "lucide-react";
+import { WINE_TYPE_OPTIONS } from "@/constants/wineTypes";
 import { WINE_REGION_OPTIONS } from "@/constants/wineRegions";
+import { WINE_PAIRING_OPTIONS } from "@/constants/winePairingOptions";
+import { WINE_COUNTRY_OPTIONS } from "@/constants/wineCountries";
+import { notifyError, notifySuccess } from "@/utils/notifications";
+import { getWine, updateWine } from "@/api/wineService";
 
-
-const pairingOptions = [
-  { value: "viande-rouge", label: "Viande rouge", icon: GiMeat },
-  { value: "fromage", label: "Fromage", icon: FaCheese },
-  { value: "poisson", label: "Poisson", icon: FaFish },
-  { value: "fruits-de-mer", label: "Fruits de mer", icon: GiShrimp },
-  { value: "dessert", label: "Dessert", icon: GiCupcake },
-  { value: "chocolat", label: "Chocolat", icon: GiChocolateBar },
-  { value: "aperitif", label: "Apéritif", icon: FaWineGlass },
-  { value: "cuisine-italienne", label: "Cuisine italienne", icon: GiCookingPot },
-  { value: "cuisine-asiatique", label: "Cuisine asiatique", icon: GiCampCookingPot },
-];
 
 
 const EditWine = () => {
 
-  const [pairings, setPairings] = useState([
-    "fromage",
-    "viande-rouge",
-    "chocolat"
-  ]);
+  const { slug } = useParams()
+  const navigate = useNavigate()
+
+  const [wine, setWine] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [pairings, setPairings] = useState([]);
+
+  // Rendre les checkbox contrôlées pour la modification
+  const [available, setAvailable] = useState(false)
+  const [favorite, setFavorite] = useState(false)
+  const [buyAgain, setBuyAgain] = useState(false)
+
   // Nouvelle image choisie
   const [image, setImage] = useState(null)
   // Prévisualisation
-  const [previewUrl, setPreviewUrl] = useState(null)  
+  const [previewUrl, setPreviewUrl] = useState(null)
+
   const fileInputRef = useRef(null)
 
-  // image déja enregistrée venant de l'api
-  const currentImage = chateauBellevue
-  
+  const currentImage = wine?.image ?? null
 
   // Quand l'utilisateur choisit une nouvelle photo
   const handleImageChange = (e) => {
@@ -76,11 +74,115 @@ const EditWine = () => {
         URL.revokeObjectURL(previewUrl);
       }
     };
-  }, [previewUrl])  
+  }, [previewUrl])
+
+  // Récupérer le vin quand le composant est chargé
+  useEffect(() => {
+
+    const fetchWine = async () => {
+      try {
+
+        setLoading(true)
+
+        const data = await getWine(slug)
+
+        setWine(data)
+        setPairings(data.pairings ?? [])
+        setAvailable(data.available)
+        setFavorite(data.favorite)
+        setBuyAgain(data.buy_again)
+
+      } catch (error) {
+
+        console.error(error)
+        notifyError("Impossible de récupérer ce vin : ", error)
+
+        navigate("/dashboard/wines")
+
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchWine()
+
+  }, [slug])
+
+  // Soumission du formulaire
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    if (!wine) return
+
+    try {
+
+      setSaving(true)
+
+      const formData = new FormData(e.currentTarget)
+
+      // Forcer les valeurs des checkbox
+      formData.set("available", available ? "1" : "0")
+      formData.set("favorite", favorite ? "1" : "0")
+      formData.set("buy_again", buyAgain ? "1" : "0")
+
+      formData.delete("pairings")
+      pairings.forEach((pairing) => {
+        formData.append("pairings[]", pairing)
+      })
+
+
+      if (image) {
+        formData.append("image", image)
+      }
+
+
+
+      await updateWine(wine.slug, formData)
+
+      notifySuccess("Le vin a bien été modifié.")
+
+      navigate("/dashboard/wines")
+
+    } catch (error) {
+
+      console.error("Une erreur est survenue lors de la modification du vin :", error)
+
+      if (error.response?.status === 422) {
+        const errors = error.response.data.errors
+
+        const firstError = errors
+          ? Object.values(errors)[0]?.[0]
+          : null
+
+        notifyError(firstError || "Veuillez vérifier les informations saisies.")
+
+      } else {
+
+        notifyError("Une erreur est survenue lors de l'ajout du vin.")
+
+      }
+
+    } finally {
+
+      setSaving(false)
+
+    }
+  }
 
   // Image à afficher dans le template
   const imageToDisplay = previewUrl || currentImage
-  
+
+  // Chargement
+  if (loading) {
+    return (
+      <Loading text="Chargement du vin..." />
+    )
+  }
+
+  if (!wine) {
+    return null
+  }
+
   return (
     <div className="space-y-12">
 
@@ -90,12 +192,15 @@ const EditWine = () => {
         </h1>
 
         <p className="mt-2 text-stone-400">
-            Mettez à jour les informations de votre bouteille.
+          Mettez à jour les informations de votre bouteille.
         </p>
       </header>
 
 
-      <form className="space-y-8">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-8"
+      >
 
         {/* Infos générales */}
 
@@ -126,7 +231,7 @@ const EditWine = () => {
               label="Nom du vin"
               name="name"
               labelClassName="text-stone-300"
-              defaultValue="Vieilles Vignes"
+              defaultValue={wine.name}
               required={true}
             />
 
@@ -134,7 +239,7 @@ const EditWine = () => {
               label="Domaine"
               name="domain"
               labelClassName="text-stone-300"
-              defaultValue="Château Bellevue"
+              defaultValue={wine.domain}
               required={true}
             />
 
@@ -143,7 +248,7 @@ const EditWine = () => {
               type="number"
               name="vintage"
               labelClassName="text-stone-300"
-              defaultValue="2020"
+              defaultValue={wine.vintage}
               required={true}
             />
 
@@ -181,21 +286,23 @@ const EditWine = () => {
               labelClassName="text-stone-300"
               required={true}
               options={WINE_TYPE_OPTIONS}
-              placeholder="Choisir un type de vin"              
+              placeholder="Choisir un type de vin"
+              defaultValue={wine.wine_type}
             />
 
             <TextInput
               label="Appellation"
               name="appellation"
               labelClassName="text-stone-300"
-              defaultValue="AOP Saint-Émilion"
+              defaultValue={wine.appellation}
+              required={true}
             />
 
             <TextInput
               label="Cépage"
-              name="cepage"
+              name="grape"
               labelClassName="text-stone-300"
-              defaultValue="Merlot"
+              defaultValue={wine.grape}
             />
 
             <SelectInput
@@ -203,22 +310,18 @@ const EditWine = () => {
               name="country"
               labelClassName="text-stone-300"
               placeholder="Choisir un pays"
-              options={[
-                { value: "france", label: "France" },
-                { value: "italie", label: "Italie" },
-                { value: "espagne", label: "Espagne" },
-                { value: "chili", label: "Chili" },
-                { value: "autre", label: "Autres" },
-              ]}
+              options={WINE_COUNTRY_OPTIONS}
+              defaultValue={wine.country}
+              required={true}
             />
 
             <SelectInput
               label="Région"
               name="region"
               labelClassName="text-stone-300"
-              required={true}
               placeholder="Choisir une région"
               options={WINE_REGION_OPTIONS}
+              defaultValue={wine.region}
             />
 
           </div>
@@ -336,36 +439,42 @@ const EditWine = () => {
               label="Prix"
               type="number"
               name="price"
+              step="0.01"
+              min="0"
               labelClassName="text-stone-300"
-              defaultValue="18.90"
-              required={true}
+              defaultValue={wine.price}
             />
 
-            <TextInput
+            <DateInput
               label="Date d'achat"
-              type="date"
               name="purchase_date"
               labelClassName="text-stone-300"
+              defaultValue={wine.purchase_date}
             />
 
             <TextInput
               label="Vendeur"
               name="seller"
               labelClassName="text-stone-300"
-              defaultValue="Intermarché"
+              defaultValue={wine.seller}
             />
 
             <Checkbox
               label="Je racheterai ce vin"
               name="buy_again"
               className="text-stone-300"
-              defaultChecked
+              value="1"
+              checked={buyAgain}
+              onChange={(e) => setBuyAgain(e.target.checked)}
             />
 
             <Checkbox
               label="Bouteille disponible en cave"
-              name="is_opened"
+              name="available"
+              value="1"
+              checked={available}
               className="text-stone-300"
+              onChange={(e) => setAvailable(e.target.checked)}
             />
           </div>
         </div>
@@ -400,14 +509,18 @@ const EditWine = () => {
               type="number"
               min="0"
               max="20"
+              step="0.5"
               name="rating"
               labelClassName="text-stone-300"
-              defaultValue="17"
+              defaultValue={wine.rating !== null ? Number(wine.rating) : ""}
             />
 
             <Checkbox
               label="Ajouter à mes favoris"
               name="favorite"
+              value="1"
+              checked={favorite}
+              onChange={(e) => setFavorite(e.target.checked)}
               className="text-stone-300"
             />
 
@@ -417,7 +530,7 @@ const EditWine = () => {
                 labelClassName="text-stone-300"
                 rows={5}
                 name="description"
-                defaultValue="Rosé frais et fruité aux notes de pêche blanche, d'agrumes et de fruits rouges. Très agréable en été."
+                defaultValue={wine.description}
               />
             </div>
 
@@ -456,7 +569,7 @@ const EditWine = () => {
               rows={3}
               name="nose"
               labelClassName="text-stone-300"
-              defaultValue="Friand, aux accents de fruits exotiques, de pêche, de fleurs des champs."
+              defaultValue={wine.nose}
             />
 
             <TextareaInput
@@ -464,7 +577,7 @@ const EditWine = () => {
               rows={3}
               name="palate"
               labelClassName="text-stone-300"
-              defaultValue="Tendre, souple, d'une grande fraîcheur."
+              defaultValue={wine.palate}
             />
 
           </div>
@@ -474,7 +587,7 @@ const EditWine = () => {
           <BadgeMultiSelect
             label="Accords mets & vins"
             name="pairings"
-            options={pairingOptions}
+            options={WINE_PAIRING_OPTIONS}
             value={pairings}
             onChange={setPairings}
           />
@@ -498,14 +611,15 @@ const EditWine = () => {
             type="submit"
             icon={FaSave}
             className="px-8 py-3"
+            disabled={saving}
           >
-            Enregistrer les modifications
+            {saving ? "Enregistrement..." : "Enregistrer les modifications"}
           </Button>
 
         </div>
 
       </form>
-      
+
       {/* Scroll to top */}
       <ScrollToTopButton />
 

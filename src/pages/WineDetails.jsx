@@ -1,15 +1,17 @@
 //@ts-nocheck
 import { useState, useEffect } from "react"
-import { getWine } from "@/api/wineService"
+import { Navigate, useNavigate } from "react-router-dom"
+import { getWine, deleteWine } from "@/api/wineService"
 import { useAuth } from "@/contexts/AuthContext"
 
-import { Button, InfoRow, Loading } from "@/components"
+import { Button, InfoRow, Loading, ConfirmModal } from "@/components"
 import ScrollToTopButton from "@/components/ui/ScrollToTopButton"
 import { GrapeIcon, InfoIcon, NotepadTextIcon, Pencil, Trash2 } from "lucide-react"
 import { NavLink, useParams } from "react-router-dom"
 import { FaWineGlassAlt } from "react-icons/fa"
 
 import { WINE_PAIRING_OPTIONS } from "@/constants/winePairingOptions";
+import { notifySuccess, notifyError } from "@/utils/notifications"
 
 const WineTypeStyles = {
   rouge: "bg-red-900/25 border border-red-700/30 text-red-300",
@@ -45,8 +47,12 @@ const WineDetails = () => {
 
   const { slug } = useParams()
 
+  const navigate = useNavigate()
+
   const [wine, setWine] = useState(null)
+  const [wineToDelete, setWineToDelete] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [deleting, setDeleting] = useState(false)
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -82,6 +88,36 @@ const WineDetails = () => {
     fetchWine()
 
   }, [slug])
+
+  // Supprimer le vin
+  const handleDelete = async () => {
+
+    if (!wineToDelete) return
+
+    setDeleting(true)
+
+    try {
+      // attend que Laravel confirme la suppression avant de modifier l'interface
+      await deleteWine(wineToDelete.slug)
+      // ferme la modale
+      setWineToDelete(null)
+
+      notifySuccess("Le vin a bien été supprimé.")
+
+      navigate("/dashboard/wines")
+
+    } catch (error) {
+
+      notifyError("Une erreur est survenue lors de la suppression du vin.")
+
+    } finally {
+
+      setDeleting(false)
+      setWineToDelete(null)
+
+    }
+
+  }
 
   // Chargement
   if (loading) {
@@ -236,8 +272,11 @@ const WineDetails = () => {
                     </NavLink>
 
                     <Button
+                      type="button"
+                      onClick={() => setWineToDelete(wine)}
                       variant="outline"
                       icon={Trash2}
+                      autoWidth
                     >
                       Supprimer
                     </Button>
@@ -405,6 +444,17 @@ const WineDetails = () => {
 
         {/* Scroll to top */}
         <ScrollToTopButton bottom="bottom-38 sm:bottom-24" />
+
+        <ConfirmModal
+          isOpen={wineToDelete !== null}
+          onClose={() => setWineToDelete(null)}
+          onConfirm={handleDelete}
+          title="Supprimer ce vin ?"
+          message={`Voulez-vous vraiment supprimer « ${wineToDelete?.name} » ?`}
+          cancelText="Annuler"
+          confirmText="Supprimer"
+          loading={deleting}
+        />
 
       </div >
 

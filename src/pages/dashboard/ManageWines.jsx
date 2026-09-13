@@ -1,16 +1,19 @@
 //@ts-nocheck
-import { Loading, SortableHeader } from "@/components"
+import { ConfirmModal, Loading, SortableHeader } from "@/components"
 import { Heart, Search, Star } from "lucide-react"
 import { useEffect, useState } from "react"
 import { FaEdit, FaTrash } from "react-icons/fa"
 import { NavLink } from "react-router-dom"
-import { getWines } from "@/api/wineService"
+import { getWines, deleteWine } from "@/api/wineService"
+import { notifyError, notifySuccess } from "@/utils/notifications"
 
 
 const ManageWines = () => {
 
   const [wines, setWines] = useState([])
+  const [wineToDelete, setWineToDelete] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [deleting, setDeleting] = useState(false)
   const [error, setError] = useState(null)
 
   const [search, setSearch] = useState("")
@@ -82,7 +85,7 @@ const ManageWines = () => {
 
   // Gérer le tri des colonnes
   const handleSort = (column) => {
-    
+
     const newDirection =
       column === sortBy
         ? direction === "asc"
@@ -114,6 +117,36 @@ const ManageWines = () => {
     }
 
     fetchWines(page)
+
+  }
+
+  // Supprimer un vin
+  const handleDelete = async () => {
+
+    if (!wineToDelete) return
+
+    setDeleting(true)
+
+    try {
+      // attend que Laravel confirme la suppression avant de modifier l'interface
+      await deleteWine(wineToDelete.slug)
+      // ferme la modale
+      setWineToDelete(null)
+
+      notifySuccess("Le vin a bien été supprimé.")
+      // rafraîchit la liste pour que le vin disparaisse
+      fetchWines()
+
+    } catch (error) {
+
+      notifyError("Une erreur est survenue lors de la suppression du vin.")
+
+    } finally {
+
+      setDeleting(false)
+      setWineToDelete(null)
+
+    }
 
   }
 
@@ -258,17 +291,6 @@ const ManageWines = () => {
                     />
                   </th>
 
-                  {/* <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-stone-400">
-                    <SortableHeader
-                      label="Favoris"
-                      column="favorite"
-                      sortBy={sortBy}
-                      direction={direction}
-                      onSort={handleSort}
-                      align="center"
-                    />
-                  </th> */}
-                  
                   {/* Favoris : pas de tri */}
                   <th className="px-4 py-3">
                     <span className="flex w-full items-center justify-center text-xs font-semibold uppercase tracking-wider text-stone-400">
@@ -383,7 +405,10 @@ const ManageWines = () => {
                           <FaEdit className="ml-1" />
                         </NavLink>
 
-                        <button className="flex h-9 w-9 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-red-300 hover:bg-red-500/20 transition">
+                        <button
+                          type="button"
+                          onClick={() => setWineToDelete(wine)}
+                          className="flex h-9 w-9 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/10 text-red-300 hover:bg-red-500/20 transition">
                           <FaTrash />
                         </button>
 
@@ -517,6 +542,8 @@ const ManageWines = () => {
                   </NavLink>
 
                   <button
+                    type="button"
+                    onClick={() => setWineToDelete(wine)}
                     className="flex items-center gap-2 rounded-xl border border-red-500/20 px-4 py-2.5 text-sm font-medium text-red-300 transition hover:bg-red-500/20"
                   >
                     <FaTrash />
@@ -565,6 +592,17 @@ const ManageWines = () => {
         </>
 
       )}
+
+      <ConfirmModal
+        isOpen={wineToDelete !== null}
+        onClose={() => setWineToDelete(null)}
+        onConfirm={handleDelete}
+        title="Supprimer ce vin ?"
+        message={`Voulez-vous vraiment supprimer « ${wineToDelete?.name} » ?`}
+        cancelText="Annuler"
+        confirmText="Supprimer"
+        loading={deleting}
+      />
 
     </div>
   )

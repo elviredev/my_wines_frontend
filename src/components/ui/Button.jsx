@@ -8,6 +8,7 @@ import { buttonVariants } from "@/utils/buttonVariants"
  *   icon?: React.ComponentType<{ className?: string }>
  *   variant?: "primary" | "secondary" | "outline" | "danger" | "notshadow"
  *   fullWidth?: boolean
+ *   autoWidth?: boolean 
  *   className?: string
  *   loading?: boolean
  *   loadingText?: string
@@ -25,6 +26,7 @@ const Button = (props) => {
     type = "button",
     icon: Icon,
     fullWidth = false,
+    autoWidth = false,
     variant = "primary",
     className = "",
     loading = false,
@@ -38,7 +40,12 @@ const Button = (props) => {
       type={type}
       disabled={disabled || loading}
       className={`
-        ${fullWidth ? 'w-full' : 'w-full md:w-auto'}  
+        ${autoWidth 
+          ? 'w-auto'
+          : fullWidth
+            ? 'w-full'
+            : 'w-full md:w-auto'
+        }  
 
         rounded-xl px-6 py-3 text-sm sm:text-base font-semibold 
         transition duration-200          

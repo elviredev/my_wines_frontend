@@ -16,7 +16,7 @@ export const buttonVariants = {
     bg-white
     text-rose-700
     hover:bg-rose-50
-    shadow-md shadow-rose-200
+    shadow-md
   `,
 
   outline: `
@@ -31,6 +31,6 @@ export const buttonVariants = {
     bg-red-600
     text-white
     hover:bg-red-700
-    shadow-md shadow-red-200
+    shadow-md
   `,
 }

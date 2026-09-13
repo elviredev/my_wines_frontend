@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { useEffect, useRef, useState } from "react"
 import { data, useNavigate, useParams } from "react-router-dom";
-import { Button, Checkbox, SelectInput, TextareaInput, TextInput, BadgeMultiSelect, ScrollToTopButton, Loading, DateInput } from "@/components"
+import { Button, Checkbox, SelectInput, TextareaInput, TextInput, BadgeMultiSelect, ScrollToTopButton, Loading, DateInput, ConfirmModal } from "@/components"
 import { FaCloudUploadAlt, FaCamera, FaUpload, FaTimes, FaWineBottle, FaFish, FaCheese, FaWineGlass, FaChevronUp, FaSave } from "react-icons/fa"
 import { GiMeat, GiChocolateBar, GiCupcake, GiShrimp, GiCookingPot, GiCampCookingPot } from "react-icons/gi";
 import { BadgeEuro, GlassWater, Grape, Star, Wine } from "lucide-react";
@@ -10,7 +10,7 @@ import { WINE_REGION_OPTIONS } from "@/constants/wineRegions";
 import { WINE_PAIRING_OPTIONS } from "@/constants/winePairingOptions";
 import { WINE_COUNTRY_OPTIONS } from "@/constants/wineCountries";
 import { notifyError, notifySuccess } from "@/utils/notifications";
-import { getWine, updateWine } from "@/api/wineService";
+import { getWine, updateWine, deleteWineImage } from "@/api/wineService";
 
 
 
@@ -33,9 +33,12 @@ const EditWine = () => {
   const [image, setImage] = useState(null)
   // Prévisualisation
   const [previewUrl, setPreviewUrl] = useState(null)
+  // Modale de confirmation pour supprimer l'image enregistrée
+  const [isDeleteImageModaleOpen, setIsDeleteImageModaleOpen] = useState(false)
+  // État pendant l'appel API de suppression
+  const [deletingImage, setDeletingImage] = useState(false)
 
   const fileInputRef = useRef(null)
-
   const currentImage = wine?.image ?? null
 
   // Quand l'utilisateur choisit une nouvelle photo
@@ -65,6 +68,43 @@ const EditWine = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = ""
     }
+  }
+
+  // supprimer l'image enregistrée en bdd
+  const handleDeleteImage = async () => {
+
+    if(!wine?.slug) return
+
+    try {
+      // suppression en cours
+      setDeletingImage(true)
+
+      // appel Laravel
+      await deleteWineImage(wine.slug)
+
+      // retirer l'image de l'état local
+      setWine((currentWine) => ({
+        ...currentWine,
+        image: null
+      }))
+
+      // fermer la modale
+      setIsDeleteImageModaleOpen(false)
+
+      notifySuccess("La photo du vin a bien été supprimée")
+
+    } catch (error) {
+
+      console.error("Erreur lors de la suppression de l'image :", error)
+
+      notifyError("Impossible de supprimer la photo du vin.")
+
+    } finally {
+
+      setDeletingImage(false)
+
+    }
+
   }
 
   // Nettoyage de l'URL de prévisualisation
@@ -135,8 +175,6 @@ const EditWine = () => {
         formData.append("image", image)
       }
 
-
-
       await updateWine(wine.slug, formData)
 
       notifySuccess("Le vin a bien été modifié.")
@@ -185,7 +223,7 @@ const EditWine = () => {
 
   return (
     <div className="space-y-12">
-
+      
       <header className="mb-10 pb-6 items-center justify-between border-b border-white/10">
         <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-stone-200">
           Modifier ce vin
@@ -196,6 +234,7 @@ const EditWine = () => {
         </p>
       </header>
 
+      
 
       <form
         onSubmit={handleSubmit}
@@ -380,7 +419,10 @@ const EditWine = () => {
                 />
 
                 {/* Bouton Supprimer */}
-                <button
+                {previewUrl ? (
+                  // une nouvelle image vient d'être sélectionnée :
+                  // on supprime uniquement la prévisualisation locale
+                  <button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation()
@@ -391,6 +433,20 @@ const EditWine = () => {
                 >
                   <FaTimes className="text-sm" />
                 </button>
+                ) : (
+                  // image déja enregistrée :
+                  // on demande confirmation avant de supprimer via l'API
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setIsDeleteImageModaleOpen(true)
+                    }}
+                    className="absolute top-3 right-3 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-stone-900/90 text-stone-300 shadow-lg transition hover:bg-white hover:text-red-400"
+                  >
+                    <FaTimes className="text-sm" />
+                  </button>
+                )}
 
                 {/* Bouton Changer la photo */}
                 <button
@@ -622,8 +678,21 @@ const EditWine = () => {
 
       {/* Scroll to top */}
       <ScrollToTopButton />
+      
+      {/* Modale de suppression */}
+      <ConfirmModal 
+        isOpen={isDeleteImageModaleOpen}
+        onClose={() => setIsDeleteImageModaleOpen(false)}
+        onConfirm={handleDeleteImage}
+        title="Supprimer la photo"
+        message="Êtes-vous sûr de vouloir supprimer la photo de ce vin ?"
+        confirmText="Supprimer"
+        cancelText="Annuler"
+        loading={deletingImage}
+      />
 
     </div>
+
   )
 }
 

@@ -30,3 +30,8 @@ export const updateWine = async (slug, formData) => {
 
     return data
 }
+
+// Supprimer l'image d'un vin sans supprimer le vin
+export const deleteWineImage = async (slug) => {
+    return await api.delete(`/wines/${slug}/image`)
+}

@@ -250,7 +250,8 @@ const CreateWine = () => {
               label="Cépage"
               name="grape"
               labelClassName="text-stone-300"
-              placeholder="Grenache, Syrah"
+              placeholder="Merlot, Pinot ou 80% Merlot, 20% Pinot"
+              className="placeholder:text-xs!"
             />
 
             <SelectInput
@@ -396,13 +397,6 @@ const CreateWine = () => {
               name="purchase_date"
               labelClassName="text-stone-300"
             />
-
-            {/* <TextInput
-              label="Date d'achat"
-              type="date"
-              name="purchase_date"
-              labelClassName="text-stone-300"
-            /> */}
 
             <TextInput
               label="Vendeur"

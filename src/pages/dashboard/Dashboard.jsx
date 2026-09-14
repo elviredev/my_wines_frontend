@@ -1,104 +1,182 @@
+//@ts-nocheck
+import { useEffect, useState } from "react"
 import { NavLink } from "react-router-dom"
 import { ArrowLeftIcon, Wine, Heart, Star, Tags, MapPinned, Euro, Trophy, Calendar, Grape } from "lucide-react"
-import { ResponsiveContainer, PieChart, Pie, Label } from "recharts"
+import { ResponsiveContainer, PieChart, Pie, Label, Sector } from "recharts"
+import { getDashboard } from "@/api/dashboardService"
+import { notifyError } from "@/utils/notifications"
+import { Loading } from "@/components"
 
 
-const stats = [
-  {
-    label: "Vins",
-    value: 62,
-    icon: Wine,
-    color: "text-rose-300"
-  },
-  {
-    label: "Favoris",
-    value: 14,
-    icon: Heart,
-    color: "text-rose-700",
-  },
-  {
-    label: "Note moyenne",
-    value: "14.8 /20",
-    icon: Star,
-    color: "text-yellow-400",
-  },
-  {
-    label: "Types de vin",
-    value: 6,
-    icon: Tags,
-    color: "text-sky-400",
-  },
-  {
-    label: "Régions",
-    value: 12,
-    icon: MapPinned,
-    color: "text-emerald-400",
-  },
-  {
-    label: "Valeur",
-    value: "1245 €",
-    icon: Euro,
-    color: "text-lime-400",
-  },
-]
-
-const chartData = [
-  { name: "Rouge", value: 12, fill: "#7F1D1D" },
-  { name: "Blanc", value: 24, fill: "#E7D7A8" },
-  { name: "Rosé", value: 18, fill: "#F4A8C5" },
-  { name: "Champagne", value: 8, fill: "#D4AF37" },
-]
-
-const totalWines = chartData.reduce(
-  (total, item) => total + item.value,
-  0
-)
-
-const infos = [
-  {
-    icon: Trophy,
-    title: "Meilleur vin",
-    value: "Clos Saint-Martin 2020"
-  },
-  {
-    icon: Grape,
-    title: "Cépage principal",
-    value: "Pinot Noir",
-  },
-  {
-    icon: MapPinned,
-    title: "Région favorite",
-    value: "Bourgogne",
-  },
-  {
-    icon: Calendar,
-    title: "Millésime le plus ancien",
-    value: "1998",
-  },
-  {
-    icon: Heart,
-    title: "Favoris",
-    value: "14 bouteilles",
-  },
-  {
-    icon: Euro,
-    title: "Prix moyen",
-    value: "20,08 €",
-  },
-  {
-    icon: Wine,
-    title: "Vin le plus cher",
-    value: "Château Margaux",
-  },
-  {
-    icon: Star,
-    title: "Dernier ajout",
-    value: "Sancerre 2023",
-  },
-]
-
+const wineTypeColors = {
+  Rouge: "#7F1D1D",
+  Blanc: "#E7D7A8",
+  Rosé: "#F4A8C5",
+  Champagne: "#D4AF37"
+}
 
 const Dashboard = () => {
+
+  const [dashboard, setDashboard] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+
+    const fetchDashboard = async () => {
+
+      try {
+
+        setLoading(true)
+        setError(null)
+
+        const data = await getDashboard()
+
+        setDashboard(data)
+
+      } catch (error) {
+
+        console.error("Erreur lors du chargement du tableau de bord.", error)
+
+        // @ts-ignore
+        setError("Impossible de charger le tableau de bord.")
+
+        notifyError("Impossible de charger le tableau de bord.")
+
+      } finally {
+
+        setLoading(false)
+
+      }
+    }
+
+    fetchDashboard()
+
+  }, [])
+
+  // Chargement
+  if (loading) {
+    return (
+      <Loading text="Chargement du tableau de bord..." />
+    )
+  }
+
+  // Erreur
+  if (error || !dashboard) {
+    return (
+      <div className="flex min-h-100 items-center justify-center">
+        <p className="text-red-600">
+          {error ?? "Impossible de charger le tableau de bord."}
+        </p>
+      </div>
+    )
+  }
+
+  // Extraction des données de l'API
+  const { stats, distribution, infos } = dashboard
+
+  const WineSector = (props) => {
+    const { index, ...rest } = props
+
+    return (
+      <Sector
+        {...rest}
+        fill={wineTypeColors[distribution[index]?.name] ?? "#78716C"}
+      />
+    )
+  }
+
+  // Données d'affichage des statistiques
+  const statCards = [
+    {
+      label: "Vins",
+      value: stats.wines,
+      icon: Wine,
+      color: "text-rose-300"
+    },
+    {
+      label: "Favoris",
+      value: stats.favorites,
+      icon: Heart,
+      color: "text-rose-700",
+    },
+    {
+      label: "Note moyenne",
+      value: stats.average_rating !== null
+        ? `${stats.average_rating} /20`
+        : "—",
+      icon: Star,
+      color: "text-yellow-400",
+    },
+    {
+      label: "Types de vin",
+      value: stats.wine_types,
+      icon: Tags,
+      color: "text-sky-400",
+    },
+    {
+      label: "Régions",
+      value: stats.regions,
+      icon: MapPinned,
+      color: "text-emerald-400",
+    },
+    {
+      label: "Valeur",
+      value: `${stats.value} €`,
+      icon: Euro,
+      color: "text-lime-400",
+    },
+  ]
+
+  // Données d'affichage des informations
+  const infoCards = [
+    {
+      icon: Trophy,
+      title: "Meilleur vin",
+      value: infos.best_wine
+    },
+    {
+      icon: Grape,
+      title: "Cépage principal",
+      value: infos.main_grape,
+    },
+    {
+      icon: MapPinned,
+      title: "Région favorite",
+      value: infos.favorite_region,
+    },
+    {
+      icon: Calendar,
+      title: "Millésime le plus ancien",
+      value: infos.oldest_vintage,
+    },
+    {
+      icon: Heart,
+      title: "Favoris",
+      value: infos.favorites !== null
+        ? `${infos.favorites} bouteilles`
+        : "—",
+    },
+    {
+      icon: Euro,
+      title: "Prix moyen",
+      value: infos.average_price !== null
+        ? `${infos.average_price} €`
+        : "—",
+    },
+    {
+      icon: Wine,
+      title: "Vin le plus cher",
+      value: infos.most_expensive_wine,
+    },
+    {
+      icon: Star,
+      title: "Dernier ajout",
+      value: infos.last_added,
+    },
+  ]
+
+
   return (
     <div className="space-y-10">
 
@@ -128,7 +206,7 @@ const Dashboard = () => {
 
       <section className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
 
-        {stats.map(({ label, value, icon: Icon, color }) => (
+        {statCards.map(({ label, value, icon: Icon, color }) => (
 
           <div key={label} className="rounded-3xl bg-linear-to-br from-rose-900 to-rose-950 shadow-sm p-6">
 
@@ -181,7 +259,7 @@ const Dashboard = () => {
                 <PieChart>
 
                   <Pie
-                    data={chartData}
+                    data={distribution}
                     dataKey="value"
                     nameKey="name"
                     cx="50%"
@@ -190,7 +268,9 @@ const Dashboard = () => {
                     outerRadius={122}
                     paddingAngle={3}
                     strokeWidth={0}
+                    shape={WineSector}
                   >
+
                     <Label
                       position="center"
                       content={() => (
@@ -205,7 +285,7 @@ const Dashboard = () => {
                             dy="-0.2em"
                             className="fill-white text-4xl sm:text-5xl font-bold"
                           >
-                            {totalWines}
+                            {stats.wines}
                           </tspan>
 
                           <tspan
@@ -227,7 +307,7 @@ const Dashboard = () => {
 
             <div className="mt-6 w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-              {chartData.map(({ name, value, fill }) => (
+              {distribution.map(({ name, value }) => (
 
                 <div
                   key={name}
@@ -238,7 +318,7 @@ const Dashboard = () => {
 
                     <span
                       className="h-3 w-3 rounded-full"
-                      style={{ backgroundColor: fill }}
+                      style={{ backgroundColor: wineTypeColors[name] ?? "#78716C" }}
                     />
 
                     <span className="text-xs sm:text-sm text-white">{name}</span>
@@ -261,13 +341,13 @@ const Dashboard = () => {
 
         {/* Informations */}
 
-        <div className="rounded-3xl border border-white/10 bg-linear-to-br from-olive-700 via-olive-800 to-stone-900 p-8">
+        <div className="rounded-3xl border border-white/10 bg-linear-to-br from-olive-700 via-olive-800 to-stone-900 p-8 h-full">
 
           <h2 className="mb-8 text-xl font-semibold text-white">Quelques informations</h2>
 
-          <div className="grid gap-5 grid-cols-1 xl:grid-cols-2">
+          <div className="grid gap-6 grid-cols-1 xl:grid-cols-2">
 
-            {infos.map(({ icon: Icon, title, value }) => (
+            {infoCards.map(({ icon: Icon, title, value }) => (
 
               <div
                 key={title}
@@ -287,7 +367,7 @@ const Dashboard = () => {
                   </p>
 
                   <p className="mt-1  text-white">
-                    {value}
+                    {value ?? "—"}
                   </p>
 
                 </div>
@@ -300,7 +380,7 @@ const Dashboard = () => {
 
           </div>
 
-        </div>        
+        </div>
 
       </section>
 

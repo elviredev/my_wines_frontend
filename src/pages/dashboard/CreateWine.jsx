@@ -452,6 +452,7 @@ const CreateWine = () => {
               labelClassName="text-stone-300"
               type="number"
               min="0"
+              step="0.5"
               max="20"
             />
 

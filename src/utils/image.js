@@ -8,5 +8,8 @@ export const getImageUrl = (path) => {
         return path
     }
 
-    return `${import.meta.env.VITE_BASE_URL}${path}`
+    // Retirer /api pour obtenir le domaine de base
+    const baseUrl = import.meta.env.VITE_API_URL.replace(/\/api\/?$/, "")
+
+    return `${baseUrl}${path.startsWith("/") ? path : `/${path}`}`
 }

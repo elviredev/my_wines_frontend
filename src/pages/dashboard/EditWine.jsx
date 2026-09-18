@@ -73,7 +73,7 @@ const EditWine = () => {
   // supprimer l'image enregistrée en bdd
   const handleDeleteImage = async () => {
 
-    if(!wine?.slug) return
+    if (!wine?.slug) return
 
     try {
       // suppression en cours
@@ -166,9 +166,8 @@ const EditWine = () => {
       formData.set("buy_again", buyAgain ? "1" : "0")
 
       formData.delete("pairings")
-      pairings.forEach((pairing) => {
-        formData.append("pairings[]", pairing)
-      })
+
+      formData.append("pairings", JSON.stringify(pairings))
 
 
       if (image) {
@@ -223,7 +222,7 @@ const EditWine = () => {
 
   return (
     <div className="space-y-12">
-      
+
       <header className="mb-10 pb-6 items-center justify-between border-b border-white/10">
         <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-stone-200">
           Modifier ce vin
@@ -234,7 +233,7 @@ const EditWine = () => {
         </p>
       </header>
 
-      
+
 
       <form
         onSubmit={handleSubmit}
@@ -423,16 +422,16 @@ const EditWine = () => {
                   // une nouvelle image vient d'être sélectionnée :
                   // on supprime uniquement la prévisualisation locale
                   <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    handleRemoveImage()
-                  }}
-                  className="absolute top-3 right-3 w-10 h-10 rounded-full bg-stone-900/90 border border-white/10 hover:bg-white shadow-lg flex items-center justify-center 
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleRemoveImage()
+                    }}
+                    className="absolute top-3 right-3 w-10 h-10 rounded-full bg-stone-900/90 border border-white/10 hover:bg-white shadow-lg flex items-center justify-center 
                   text-stone-300 hover:text-red-400 transition"
-                >
-                  <FaTimes className="text-sm" />
-                </button>
+                  >
+                    <FaTimes className="text-sm" />
+                  </button>
                 ) : (
                   // image déja enregistrée :
                   // on demande confirmation avant de supprimer via l'API
@@ -678,9 +677,9 @@ const EditWine = () => {
 
       {/* Scroll to top */}
       <ScrollToTopButton />
-      
+
       {/* Modale de suppression */}
-      <ConfirmModal 
+      <ConfirmModal
         isOpen={isDeleteImageModaleOpen}
         onClose={() => setIsDeleteImageModaleOpen(false)}
         onConfirm={handleDeleteImage}
